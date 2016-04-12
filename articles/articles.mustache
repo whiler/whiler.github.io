@@ -1,0 +1,14 @@
+<header>
+	<h2 title="but I am glad I have had my flight">I leave no trace of wings in the air</h2>
+</header>
+{{#articles}}
+	<section>
+		<header>
+			<h3><a href="#!{{ path }}">{{ title }}</a></h3>
+		</header>
+		{{#summary}}
+			<summary>{{ summary }}</summary>
+		{{/summary}}
+		<time>{{ time }}</time>
+	</section>
+{{/articles}}

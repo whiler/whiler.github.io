@@ -1,0 +1,49 @@
+body {
+	font-size: 1.125rem;
+	color: rgba(64, 64, 64, 1);
+}
+
+article {
+	max-width: 60rem;
+	min-width: 20rem;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+a {
+	text-decoration: none;
+	color: rgba(64, 64, 64, 1);
+}
+
+a:hover, a:focus, a:active {
+	color: rgba(0, 155, 223, 1);
+}
+
+footer {
+	height: 2em;
+	line-height: 2em;
+	text-align: center;
+}
+
+hr {
+	color: rgba(118, 125, 132, 0.5);
+}
+
+article > .loading {
+	width: 100%;
+	text-align: center;
+}
+
+article.list section + section {
+	margin-top: 0.5rem;
+}
+
+article.list section h3 {
+	margin: 0;
+}
+
+article.list section time {
+	display: block;
+	text-align: right;
+	font-size: 1.0rem;
+}

@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# version: 038CE59E-E70A-4D62-A9E3-A6B16634A0AD
+# version: c3a34fba-0257-11e6-8eb3-600308a1b9d6
 
 CACHE:
 /index.html
@@ -9,6 +9,7 @@ CACHE:
 /articles/blog.md
 /articles/bypass.md
 /articles/gpg.md
+/articles/heart.md
 /articles/mix-sources.md
 /articles/QQ2009.sis.md
 /articles/theory-of-six-degrees-contacts.md

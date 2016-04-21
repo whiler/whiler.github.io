@@ -1,3 +1,4 @@
+uuid: 4c1e43e2-7400-44e9-921b-1d7932e95623
 title: My GPG public key
 summary: My GPG public key information.
 date: 2015-08-29

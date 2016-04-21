@@ -1,3 +1,7 @@
+title: About me
+summary: 一只嘴巴，两个鼻孔，四只眼睛，六块腹肌，拥有22对全球唯一的常染色体以及1对XY性染色体。
+date: 2016-02-28
+
 ## about me ##
 
 ![me](/static/image/500.png)

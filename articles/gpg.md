@@ -1,3 +1,7 @@
+title: My GPG public key
+summary: My GPG public key information.
+date: 2015-08-29
+
 ## GNU Privacy Guard ##
 
 ### Key ID ###

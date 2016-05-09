@@ -15,7 +15,7 @@ date: 2015-08-29
 
 ### Public Key in ASCII ###
 
-```text
+```
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 Comment: GPGTools - https://gpgtools.org
 

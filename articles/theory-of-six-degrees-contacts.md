@@ -12,7 +12,7 @@ date: 2014-09-17
 3. 递归检查好友的好友，同时排除上一个好友
 
 ### 实现 ###
-```python
+```
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #

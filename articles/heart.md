@@ -10,7 +10,7 @@ date: 2016-04-14
 这样就只剩下简单的几何代数运算了。
 
 代码：
-```python
+```
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #

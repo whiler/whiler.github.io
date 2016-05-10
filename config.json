@@ -1,0 +1,33 @@
+{
+    "name": "trace",
+    "domain": "blog.whiler.me",
+    "statics": ["blog.whiler.me"],
+    "default": "default.json",
+    "template": "template",
+    "plugins": {
+        "pug.plugins.Disqus": {
+            "channel": "traced"
+        },
+        "pug.plugins.GoogleAnalytics": {
+            "TrackerID": "UA-74531835-1"
+        }
+    },
+    "builder": {
+        "handlers": {
+            "pug.handlers.MarkdownHandler": {
+                "extensions": [
+                    "markdown.extensions.meta",
+                    "markdown.extensions.fenced_code"
+                ],
+                "exts": ["md", "markdown"],
+                "suffix": "html",
+                "template": "article.jinja2"
+            }
+        },
+        "aggregators": {
+            "index.html": "index.jinja2",
+			"feed.xml": "feed.jinja2",
+			"sitemap.xml": "sitemap.jinja2"
+        }
+    }
+}

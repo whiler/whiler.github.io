@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+	<channel>
+		<title>{{ head.title }}</title>
+		<link>{{ link('') }}</link>
+		<description>I leave no trace of wings in the air, but I am glad I have had my flight.</description>
+		{% for section in body.article.sections %}
+		<item>
+			<title>{{ section.title|join('') }}</title>
+			<link>{{ link(section.path|join('')) }}</link>
+			<description>{{ section.summary|join('') }}</description>
+		</item>
+		{% endfor %}
+	</channel>
+</rss>

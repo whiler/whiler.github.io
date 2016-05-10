@@ -1,49 +1,56 @@
 body {
-	font-size: 1.125rem;
-	color: rgba(64, 64, 64, 1);
+    font-size: 1.125rem;
+    color: rgba(64, 64, 64, 1);
 }
 
-article {
-	max-width: 60rem;
-	min-width: 20rem;
-	margin-left: auto;
-	margin-right: auto;
+article, aside {
+    width: 75vw;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 a {
-	text-decoration: none;
-	color: rgba(64, 64, 64, 1);
+    text-decoration: none;
+    color: rgba(64, 64, 64, 1);
 }
 
 a:hover, a:focus, a:active {
-	color: rgba(0, 155, 223, 1);
+    color: rgba(0, 155, 223, 1);
+}
+
+a:hover, a:focus {
+    text-decoration: underline;
 }
 
 footer {
-	height: 2em;
-	line-height: 2em;
-	text-align: center;
+    height: 3em;
+    line-height: 3em;
+    text-align: center;
 }
 
-hr {
-	color: rgba(118, 125, 132, 0.5);
+article pre {
+    background: #eee none repeat scroll 0 0;
+    white-space: pre-wrap;
+    padding: 0.8em;
 }
 
-article > .loading {
-	width: 100%;
-	text-align: center;
+article code {
+    font-family: "Consolas", "Lucida Console", monospace;
 }
 
-article.list section + section {
-	margin-top: 0.5rem;
+article section header h3 {
+    display: inline-block;
+    margin: 1em 0 0.5em 0;
 }
 
-article.list section h3 {
+article section header time {
+    font-size: medium;
+}
+
+article section p {
 	margin: 0;
 }
 
-article.list section time {
-	display: block;
+article > p:last-of-type {
 	text-align: right;
-	font-size: 1.0rem;
 }

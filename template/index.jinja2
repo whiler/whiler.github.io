@@ -1,0 +1,18 @@
+{% extends "base.jinja2" %}
+
+{% macro index(sections) %}
+    {% for section in sections %}
+<section>
+    <header>
+        <h3><a href="{{ section.path|join('') }}">{{ section.title|join('') }}</a></h3>
+        <time datetime="{{ section.date|join('') }}">{{ section.date|join('') }}</time>
+    </header>
+    <p>{{ section.summary|join('') }}</p>
+</section>
+    {% endfor %}
+{% endmacro %}
+
+{% block article %}
+            <h2 title="but I am glad I have had my flight">I leave no trace of wings in the air</h2>
+{{ index(body.article.sections)|indent(width=12, indentfirst=True) }}
+{% endblock %}

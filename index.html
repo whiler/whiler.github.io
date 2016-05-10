@@ -1,21 +1,81 @@
 <!doctype html>
-<html manifest="/main.appcache">
-	<head>
-		<meta charset="utf-8"/>
-		<meta name="fragment" content="!"/>
-		<title>trace</title>
-		<link rel="icon" sizes="any" href="/static/image/common/favicon.svg"/>
-		<link rel="stylesheet" href="/static/style/main.css"/>
-		<link rel="stylesheet" href="/static/style/common/github-markdown.css"/>
-		<link rel="stylesheet" href="/static/style/common/highlight.min.css"/>
-		<link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml"/>
-	</head>
-	<body>
-		<article>
-			<noscript>Sorry, i need script support to display this page.</noscript>
-			<div class="loading">loading...</div>
-		</article>
-		<footer>whiler.me since 2016</footer>
-		<script data-main="/static/script/main" src="/static/script/common/require.js"></script>
-	</body>
+<html lang="cmn">
+    <head>
+        <title>trace</title>
+        <meta charset="utf-8"/>
+        <link href="/static/style/main.css" rel="stylesheet"/>
+        <link href="/static/image/favicon.svg" rel="icon"/>
+        <link href="/feed.xml" type="application/rss+xml" rel="alternate"/>
+    </head>
+    <body>
+        <article>
+            <h2 title="but I am glad I have had my flight">I leave no trace of wings in the air</h2>
+            <section>
+                <header>
+                    <h3><a href="articles/heart.html">绘制心形图案</a></h3>
+                    <time datetime="2016-04-14">2016-04-14</time>
+                </header>
+                <p>半夜没事瞎折腾，想到绘制心形图案消磨时间。</p>
+            </section>
+            <section>
+                <header>
+                    <h3><a href="articles/bypass.html">绕开网络封锁访问敏感域名</a></h3>
+                    <time datetime="2016-04-11">2016-04-11</time>
+                </header>
+                <p>用域名列表、dnsmasq 、 pdnsd 、 iptables 和 ipset 配合 shadowsocks-libev 精确到域名解决 TCP 连接封锁、DNS 劫持、DNS 请求 UDP 丢包的问题，绕过网络封锁。</p>
+            </section>
+            <section>
+                <header>
+                    <h3><a href="articles/blog.html">关于这个博客</a></h3>
+                    <time datetime="2016-03-04">2016-03-04</time>
+                </header>
+                <p>闷头写代码到深夜，灵感闪现，迅速解决困扰了很久的问题，想要欢呼一下，发现已经是深夜了，作罢。</p>
+            </section>
+            <section>
+                <header>
+                    <h3><a href="articles/about.html">About me</a></h3>
+                    <time datetime="2016-02-28">2016-02-28</time>
+                </header>
+                <p>一只嘴巴，两个鼻孔，四只眼睛，六块腹肌，拥有22对全球唯一的常染色体以及1对XY性染色体。</p>
+            </section>
+            <section>
+                <header>
+                    <h3><a href="articles/gpg.html">My GPG public key</a></h3>
+                    <time datetime="2015-08-29">2015-08-29</time>
+                </header>
+                <p>My GPG public key information.</p>
+            </section>
+            <section>
+                <header>
+                    <h3><a href="articles/theory-of-six-degrees-contacts.html">六度分割理论</a></h3>
+                    <time datetime="2014-09-17">2014-09-17</time>
+                </header>
+                <p>一次求职笔试，考到了六度分隔理论，判断两个人之间是否存在可能的联系。</p>
+            </section>
+            <section>
+                <header>
+                    <h3><a href="articles/mix-sources.html">多数据源混合输出</a></h3>
+                    <time datetime="2012-07-15">2012-07-15</time>
+                </header>
+                <p>拥有相同数据格式的数据源按照数量混合分页输出。</p>
+            </section>
+            <section>
+                <header>
+                    <h3><a href="articles/QQ2009.sis.html">手机QQ2009聊天记录分析及提取</a></h3>
+                    <time datetime="2009-10-14">2009-10-14</time>
+                </header>
+                <p>Symbian Series 60 3rd QQ mobile chat log parse and extract.</p>
+            </section>
+        </article>
+        <footer>SINCE 2016</footer>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+            
+            ga('create', 'UA-74531835-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+    </body>
 </html>

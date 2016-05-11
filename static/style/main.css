@@ -1,6 +1,6 @@
 body {
     font-size: 1.125rem;
-    color: rgba(64, 64, 64, 1);
+    color: #404040;
 }
 
 article, aside {
@@ -9,13 +9,23 @@ article, aside {
     margin-right: auto;
 }
 
+@media only screen and (max-width: 60em) {
+    body {
+        font-size: 1.0rem;
+    }
+
+    article, aside {
+        width: 95vw;
+    }
+}
+
 a {
     text-decoration: none;
-    color: rgba(64, 64, 64, 1);
+    color: #404040;
 }
 
 a:hover, a:focus, a:active {
-    color: rgba(0, 155, 223, 1);
+    color: #009BDF;
 }
 
 a:hover, a:focus {

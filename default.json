@@ -6,11 +6,11 @@
         "metas": [
             {"charset": "utf-8"}
         ],
-		"links": [
-			{"rel": "stylesheet", "href": "/static/style/main.css"},
-			{"rel": "icon", "href": "/static/image/favicon.svg"},
-			{"rel": "alternate", "href": "/feed.xml", "type": "application/rss+xml"}
-		]
+        "links": [
+            {"rel": "stylesheet", "href": "/static/style/main.css"},
+            {"rel": "icon", "href": "/static/image/favicon.svg"},
+            {"rel": "alternate", "href": "/feed.xml", "type": "application/rss+xml"}
+        ]
     },
     "body": {
         "attributes": {},

@@ -26,8 +26,8 @@
         },
         "aggregators": {
             "index.html": "index.jinja2",
-			"feed.xml": "feed.jinja2",
-			"sitemap.xml": "sitemap.jinja2"
+            "feed.xml": "feed.jinja2",
+            "sitemap.xml": "sitemap.jinja2"
         }
     }
 }

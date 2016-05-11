@@ -7,11 +7,11 @@ date: 2015-08-29
 
 ### Key ID ###
 
-**34DB676C**
+34DB676C
 
 ### Fingerprint ###
 
-**AE12 BE0C B075 2C35 CDEB  C120 4BA5 A9C5 34DB 676C**
+AE12 BE0C B075 2C35 CDEB  C120 4BA5 A9C5 34DB 676C
 
 ### Public Key in ASCII ###
 

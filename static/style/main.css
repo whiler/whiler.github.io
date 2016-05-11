@@ -12,22 +12,15 @@ article, aside {
 @media only screen and (min-width: 64em) {
     body {
         font-size: 1.125rem;
-        color: #404040;
     }
 
     article, aside {
         width: 80vw;
-        margin-left: auto;
-        margin-right: auto;
     }
 }
 
 a {
     text-decoration: none;
-    color: #404040;
-}
-
-a:hover, a:focus, a:active {
     color: #009BDF;
 }
 
@@ -55,12 +48,12 @@ article pre {
 
 article code {
     font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-    background-color: #eee;
+    background-color: #EEE;
 }
 
 article section header h3 {
     display: inline-block;
-    margin: 1em 0 0.5em 0;
+    margin: 1em 0 0;
 }
 
 article section header time {

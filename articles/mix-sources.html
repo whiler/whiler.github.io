@@ -10,7 +10,9 @@
     <body>
         <article>
 <h2>多数据源混合输出</h2>
-<p>拥有相同数据格式的数据源按照数量混合分页输出。比如在新闻列表中混合输出政治、经济、娱乐、科技新闻；在用户 Feed 流中混合输出用户订阅的条目和推荐给用户的条目。</p>
+<p>拥有相同数据格式的数据源按照数量混合分页输出。
+比如在新闻列表中混合输出政治、经济、娱乐、科技新闻；
+在用户 Feed 流中混合输出用户订阅的条目和推荐给用户的条目。</p>
 <p>数据源输出有 <strong>开始正常输出</strong>、<strong>开始变换输出（填补前一个数据源不足分页的量）</strong>、<strong>变换输出</strong> 和 <strong>结束输出</strong> 四个阶段。
 每一个数据源开始时，按照指定的数量输出，到最后一个分页不足时，由下一个数据源填补不足的量。
 将前面所有的数据源视为一个数据源，简化计算。</p>
@@ -19,25 +21,12 @@
 # -*- coding: utf-8 -*-
 #
 
-import logging
 
-from colorama import init
-from termcolor import colored
-
-logging.basicConfig(level=logging.NOTSET,
-                    format='[%(levelname)s]\t%(asctime)s\t%(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S %Z')
-
-
-def source(color, count):
-    return [colored('%d' % i, color) for i in range(count)]
+def source(tag, count):
+    return ['%s%02d' % (tag, i) for i in range(count)]
 
 
 def mix(page, *args):
-    &quot;&quot;&quot;
-        @page starts at zero
-    &quot;&quot;&quot;
-
     sources = [
         (source, len(source) / size, size)
         for source, size in args
@@ -46,7 +35,6 @@ def mix(page, *args):
 
     total = 0
     size = 0
-    first = True
     delta = list()
     for source, _, need in sources:
         count = len(source)
@@ -81,14 +69,13 @@ def mix(page, *args):
 
 
 if __name__ == '__main__':
-    init(autoreset=True)
-    a = source('red', 3)
-    b = source('green', 10)
-    c = source('yellow', 45)
+    a = source('A', 3)
+    b = source('B', 10)
+    c = source('C', 45)
     page = 0
     items = mix(page, (a, 2), (b, 3), (c, 5))
     while items:
-        logging.debug('Page: %d\t%s', page, '\t'.join(items))
+        print('Page: %d\t%s' % (page, ' '.join(items)))
         page += 1
         items = mix(page, (a, 2), (b, 3), (c, 5))
 </code></pre>

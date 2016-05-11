@@ -19,28 +19,34 @@ date: 2016-04-14
 from math import sin, sqrt, pi
 
 
-radius = 24.0 / (1.0 + sin(pi / 4))
-unit = radius * sin(pi / 4)
-offset = unit + radius
-for i in range(int(round(3.0 * unit + radius)) + 1):
-    if i <= (unit + radius):
-        delta = sqrt(i * (2.0 * radius - i))
-        up = unit + delta
-        down = max(0.0, unit - delta)
-    else:
-        up = 3.0 * unit + radius - i
-        down = 0.0
-    a, b, c, d = map(
-        lambda x: int(round(x + offset)),
-        (-up, -down, down, up)
-    )
-    buf = []
-    for x in range(d + 1):
-        if a <= x <= b:
-            buf.append('*')
-        elif c <= x <= d:
-            buf.append('*')
+def heart(radius):
+    side = radius * sin(pi / 4.0)
+    offset = radius + side
+    steps = radius + 3.0 * side
+    top = 0
+    while top <= steps:
+        if top < offset:
+            delta = sqrt(top * (2.0 * radius - top))
+            left_min = side - delta
+            if left_min < 0:
+                left_min = 0.0
+            left_max = side + delta
         else:
-            buf.append(' ')
-    print(''.join(buf))
+            left_max = steps - top
+            left_min = 0.0
+
+        line = ''
+        i = 0
+        while i < offset + left_max:
+            if offset - left_max <= i <= offset - left_min:
+                line = line + '*'
+            elif offset + left_min <= i <= offset + left_max:
+                line = line + '*'
+            else:
+                line = line + ' '
+            i = i + 1
+
+        print(line)
+
+        top = top + 1
 ```

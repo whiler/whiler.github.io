@@ -18,25 +18,12 @@ date: 2012-07-15
 # -*- coding: utf-8 -*-
 #
 
-import logging
 
-from colorama import init
-from termcolor import colored
-
-logging.basicConfig(level=logging.NOTSET,
-                    format='[%(levelname)s]\t%(asctime)s\t%(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S %Z')
-
-
-def source(color, count):
-    return [colored('%d' % i, color) for i in range(count)]
+def source(tag, count):
+    return ['%s%02d' % (tag, i) for i in range(count)]
 
 
 def mix(page, *args):
-    """
-        @page starts at zero
-    """
-
     sources = [
         (source, len(source) / size, size)
         for source, size in args
@@ -45,7 +32,6 @@ def mix(page, *args):
 
     total = 0
     size = 0
-    first = True
     delta = list()
     for source, _, need in sources:
         count = len(source)
@@ -80,14 +66,13 @@ def mix(page, *args):
 
 
 if __name__ == '__main__':
-    init(autoreset=True)
-    a = source('red', 3)
-    b = source('green', 10)
-    c = source('yellow', 45)
+    a = source('A', 3)
+    b = source('B', 10)
+    c = source('C', 45)
     page = 0
     items = mix(page, (a, 2), (b, 3), (c, 5))
     while items:
-        logging.debug('Page: %d\t%s', page, '\t'.join(items))
+        print('Page: %d\t%s' % (page, ' '.join(items)))
         page += 1
         items = mix(page, (a, 2), (b, 3), (c, 5))
 ```

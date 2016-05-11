@@ -31,53 +31,53 @@ logging.basicConfig(level=logging.NOTSET,
 DEPTH = 6
 
 
-def get_edges(count):
+def create_edges(count):
     edges = set()
     for _ in range(count):
         a = random.choice(string.ascii_uppercase)
         b = random.choice(string.ascii_uppercase)
-        while a == b or (a, b) in edges:
+        while a == b or (a, b) in edges or (b, a) in edges:
             a = random.choice(string.ascii_uppercase)
             b = random.choice(string.ascii_uppercase)
         edges.add((a, b))
     return edges
 
 
-def build_nodes(edges):
-    nodes = collections.defaultdict(set)
+def build_trees(edges):
+    trees = collections.defaultdict(set)
     for a, b in edges:
-        nodes[a].add(b)
-    return nodes
+        trees[a].add(b)
+    return trees
 
 
-def find(nodes, a, b):
-    if not (a in nodes and b in nodes):
+def find(trees, a, b):
+    if not (a in trees and b in trees):
         return -1
     elif a == b:
         return 0
-    return walk(nodes, a, b, 1)
+    return walk(trees, a, b, 1) or -1
 
 
-def walk(nodes, a, b, depth, block=None):
+def walk(trees, a, b, depth, block=None):
     if depth > DEPTH:
         return -1
-    children = nodes[a]
+    children = trees[a]
     if b in children:
         return depth
     else:
         for child in children:
             if child == block:
                 continue
-            dep = walk(nodes, child, b, depth + 1, a)
+            dep = walk(trees, child, b, depth + 1, a)
             if dep is not None:
                 return dep
 
 
 if __name__ == '__main__':
-    edges = get_edges(128)
-    nodes = build_nodes(edges)
+    edges = create_edges(128)
+    trees = build_trees(edges)
     for a, b in itertools.combinations(string.ascii_uppercase, 2):
-        dep = find(nodes, a, b)
+        dep = find(trees, a, b)
         logging.debug('degrees between %s and %s is %d', a, b, dep)
 ```
 

@@ -17,7 +17,8 @@
             "pug.handlers.MarkdownHandler": {
                 "extensions": [
                     "markdown.extensions.meta",
-                    "markdown.extensions.fenced_code"
+                    "markdown.extensions.fenced_code",
+                    "del_ins"
                 ],
                 "exts": ["md", "markdown"],
                 "suffix": "html",

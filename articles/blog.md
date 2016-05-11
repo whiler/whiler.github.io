@@ -13,13 +13,15 @@ date: 2016-03-04
 - [GitHub Pages](https://pages.github.com/)
 - [Google Analytics](https://analytics.google.com/)
 - [Disqus](https://disqus.com/)
-- [GitPython](https://github.com/gitpython-developers/GitPython)
-- [lxml](http://lxml.de/)
-- [markdown2](https://github.com/trentm/python-markdown2)
-- [readability-lxml](https://github.com/buriy/python-readability)
-- [RequireJS](http://requirejs.org/)
-- [github-markdown-css](https://github.com/sindresorhus/github-markdown-css)
-- [highlight.js](https://highlightjs.org/)
-- [marked](https://github.com/chjj/marked)
-- [mustache.js](https://github.com/janl/mustache.js)
+- ~~[GitPython](https://github.com/gitpython-developers/GitPython)~~
+- ~~[lxml](http://lxml.de/)~~
+- ~~[markdown2](https://github.com/trentm/python-markdown2)~~
+- ~~[readability-lxml](https://github.com/buriy/python-readability)~~
+- ~~[RequireJS](http://requirejs.org/)~~
+- ~~[github-markdown-css](https://github.com/sindresorhus/github-markdown-css)~~
+- ~~[highlight.js](https://highlightjs.org/)~~
+- ~~[marked](https://github.com/chjj/marked)~~
+- ~~[mustache.js](https://github.com/janl/mustache.js)~~
 - [Ionicons](http://ionicons.com/)
+- [Jinja2](http://jinja.pocoo.org/)
+- [del_ins](https://github.com/aleray/mdx_del_ins)

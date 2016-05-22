@@ -24,5 +24,6 @@ date: 2016-03-04
 - ~~[marked](https://github.com/chjj/marked)~~
 - ~~[mustache.js](https://github.com/janl/mustache.js)~~
 - [Ionicons](http://ionicons.com/)
+- [Python-Markdown](https://pythonhosted.org/Markdown/)
 - [Jinja2](http://jinja.pocoo.org/)
 - [del_ins](https://github.com/aleray/mdx_del_ins)

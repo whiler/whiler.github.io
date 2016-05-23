@@ -12,7 +12,7 @@ date: 2016-02-28
 典型的程序员，无节操、无下限、闷骚。
 想要把代码写成一首诗，但目前只能写成一坨翔，很是苦恼。 
 
-One guy from the earth, with one mouth, two legs, four eyes and six abdominal, it's me, a software engineer, likes eating, sleeping, walking, swimming, running, playing badminton and snowboarding.
+One guy from the earth, with one mouth, two legs, four eyes and six pack abs, it's me, a software engineer, likes eating, sleeping, walking, swimming, running, playing badminton and snowboarding.
 
 ### find me ###
 - [知乎](https://www.zhihu.com/people/whiler "whiler @ Zhihu")

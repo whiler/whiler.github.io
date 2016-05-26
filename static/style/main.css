@@ -9,6 +9,10 @@ article, aside {
     margin-right: auto;
 }
 
+article > h2 {
+	margin-bottom: 0;
+}
+
 @media only screen and (min-width: 64em) {
     body {
         font-size: 1.125rem;

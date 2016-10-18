@@ -1,7 +1,7 @@
 {
     "name": "trace",
-    "domain": "blog.whiler.me",
-    "statics": ["blog.whiler.me"],
+    "domain": "whiler.github.io",
+    "statics": ["whiler.github.io"],
     "default": "default.json",
     "template": "template",
     "plugins": {

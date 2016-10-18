@@ -101,7 +101,7 @@ ipset add bypass 8.8.4.4
 
 ### 安装并配置 dnsmasq ###
 修改 /etc/dnsmasq.conf 在最后加入 conf-dir=/etc/dnsmasq.d/,*.conf ，新建并进入 /etc/dnsmasq.d 目录；
-创建建一个名为 bypass.conf  文件，为每一个敏感的域名指定可信的 DNS 解析服务器，并将解析得到的地址添加到 ipset 中。内容如下
+创建一个名为 bypass.conf  文件，为每一个敏感的域名指定可信的 DNS 解析服务器，并将解析得到的地址添加到 ipset 中。内容如下
 
 ```
 server=/thinkwithgoogle.com/127.0.0.1#5353

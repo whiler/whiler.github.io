@@ -86,17 +86,10 @@ do_disconnect 在退出 虚拟私用网络 时，依次调用 reset_default_rout
 
 ```
 start_split_tunneling() {
-    # chain
-    # 为连接上所有的数据包打上标记
-    iptables --table mangle --new "${CHAINNAME}"
-    iptables --table mangle --append "${CHAINNAME}" --jump CONNMARK --restore-mark
-    iptables --table mangle --append "${CHAINNAME}" --jump MARK --set-mark "${MARK}"
-    iptables --table mangle --append "${CHAINNAME}" --jump CONNMARK --save-mark
-
     # mark
     # 目的地址匹配 ipset 则打上标记
-    iptables --table mangle --insert PREROUTING --match set --match-set "${SETNAME}" dst --jump "${CHAINNAME}"
-    iptables --table mangle --insert OUTPUT     --match set --match-set "${SETNAME}" dst --jump "${CHAINNAME}"
+    iptables --table mangle --insert PREROUTING --match set --match-set "${SETNAME}" dst --jump MARK --set-mark "${MARK}"
+    iptables --table mangle --insert OUTPUT     --match set --match-set "${SETNAME}" dst --jump MARK --set-mark "${MARK}"
 
     # forwarding
     # 允许流量进出 TUNDEV
@@ -131,12 +124,8 @@ stop_split_tunneling() {
     iptables --table filter --delete FORWARD --in-interface  "${TUNDEV}" --jump ACCEPT
 
     # mark
-    iptables --table mangle --delete PREROUTING --match set --match-set "${SETNAME}" dst --jump "${CHAINNAME}"
-    iptables --table mangle --delete OUTPUT     --match set --match-set "${SETNAME}" dst --jump "${CHAINNAME}"
-
-    # chain
-    iptables --table mangle --flush        "${CHAINNAME}"
-    iptables --table mangle --delete-chain "${CHAINNAME}"
+    iptables --table mangle --delete PREROUTING --match set --match-set "${SETNAME}" dst --jump MARK --set-mark "${MARK}"
+    iptables --table mangle --delete OUTPUT     --match set --match-set "${SETNAME}" dst --jump MARK --set-mark "${MARK}"
 }
 ```
 

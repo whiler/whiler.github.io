@@ -37,7 +37,6 @@ ipset create bypass hash:ip
 3. 访问私有网络的连接采用默认的规则；
 4. 所有目标地址匹配 ipset 的 TCP 连接都重定向到 1080 端口（本地开启的 shadowsocks 透明代理端口）；
 5. 将 BYPASS 链添加到 PREROUTING 链；
-6. 将 BYPASS 链添加到 OUTPUT 链。
 
 ```
 iptables --table nat --new BYPASS
@@ -64,7 +63,6 @@ iptables --table nat --append BYPASS --destination 255.255.255.255/32 --jump RET
 iptables --table nat --append BYPASS --protocol tcp --match set --match-set bypass dst --jump REDIRECT --to-ports 1080
 
 iptables --table nat --append PREROUTING --protocol tcp --jump BYPASS
-iptables --table nat --append OUTPUT --protocol tcp --jump BYPASS
 ```
 
 ### 安装并配置 pdnsd ###

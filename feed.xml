@@ -5,6 +5,11 @@
 		<link>http://whiler.github.io/</link>
 		<description>I leave no trace of wings in the air, but I am glad I have had my flight.</description>
 		<item>
+			<title>用虚拟私用网络访问敏感网络</title>
+			<link>http://whiler.github.io/articles/bypass-via-vpn.html</link>
+			<description>利用 域名列表 、dnsmasq 、 iptables 和 ipset 配合 虚拟私用网络 精确到域名解决网络封锁。</description>
+		</item>
+		<item>
 			<title>绘制心形图案</title>
 			<link>http://whiler.github.io/articles/heart.html</link>
 			<description>半夜没事瞎折腾，想到绘制心形图案消磨时间。</description>

@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 <article id="main">
-	<h2 class="center">归档/Archives</h2>
+	<header><h2 class="center">归档/Archives</h2></header>
+	<hr/>
 	<dl>
 	{% for article in dates %}
 	    <dt>{{ article.locale_date }}</dt>

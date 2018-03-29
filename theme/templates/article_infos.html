@@ -1,0 +1,4 @@
+<div class="meta">
+	发布于/Published: <a href="/{{ ARCHIVES_SAVE_AS }}" title="归档/Archives"><time datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time></a>
+    {% if article.modified %}更新于/Updated: <time datetime="{{ article.modified.isoformat() }}">{{ article.locale_modified }}</time>{% endif %}
+</div>

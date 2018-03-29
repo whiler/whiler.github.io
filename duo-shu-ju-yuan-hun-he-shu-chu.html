@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="cmn">
+<head>
+        <meta charset="utf-8" />
+        <title>多数据源混合输出</title>
+        <link rel="stylesheet" href="https://whiler.github.io/theme/css/main.css" />
+        <link rel="icon" href="https://whiler.github.io/theme/images/favicon.svg"/>
+        <link href="https://whiler.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="轨迹/trace Atom Feed" />
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-74531835-1"></script>
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body>
+    <header><h1><a href="https://whiler.github.io/" title="I leave no trace of wings in the air, but I am glad I have had my flight.">轨迹/trace</a></h1></header>
+	<hr/>
+<article class="main">
+    <header><h2 class="center">多数据源混合输出</h2></header>
+	<hr/>
+<div class="meta">
+	发布于/Published: <a href="/archives.html" title="归档/Archives"><time datetime="2012-07-15T00:00:00+08:00">Sun 15 July 2012</time></a>
+</div>    <div class="content"><p>拥有相同数据格式的数据源按照数量混合分页输出。
+比如在新闻列表中混合输出政治、经济、娱乐、科技新闻；
+在用户 Feed 流中混合输出用户订阅的条目和推荐给用户的条目。</p>
+<p>数据源输出有 <strong>开始正常输出</strong>、<strong>开始变换输出（填补前一个数据源不足分页的量）</strong>、<strong>变换输出</strong> 和 <strong>结束输出</strong> 四个阶段。
+每一个数据源开始时，按照指定的数量输出，到最后一个分页不足时，由下一个数据源填补不足的量。
+将前面所有的数据源视为一个数据源，简化计算。</p>
+<h3>实现</h3>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+
+
+<span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">%s%02d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">)]</span>
+
+
+<span class="k">def</span> <span class="nf">mix</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">sources</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="o">/</span> <span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">args</span>
+    <span class="p">]</span>
+    <span class="n">sources</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span> <span class="n">total</span><span class="p">)</span>
+
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">need</span> <span class="ow">in</span> <span class="n">sources</span><span class="p">:</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">total</span> <span class="o">==</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">sep</span> <span class="o">=</span> <span class="n">count</span> <span class="o">/</span> <span class="n">need</span>
+            <span class="k">if</span> <span class="n">page</span> <span class="o">&lt;</span> <span class="n">sep</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">page</span> <span class="o">*</span> <span class="n">need</span>
+                <span class="n">delta</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">start</span><span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="n">need</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">page</span> <span class="o">==</span> <span class="n">sep</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">page</span> <span class="o">*</span> <span class="n">need</span>
+                <span class="n">delta</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">start</span><span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="n">count</span> <span class="o">%</span> <span class="n">need</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sep</span> <span class="o">=</span> <span class="n">total</span> <span class="o">/</span> <span class="n">size</span>
+            <span class="k">if</span> <span class="n">page</span> <span class="o">&lt;</span> <span class="n">sep</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">page</span> <span class="o">*</span> <span class="n">need</span>
+                <span class="n">delta</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">start</span><span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="n">need</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">page</span> <span class="o">==</span> <span class="n">sep</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">page</span> <span class="o">*</span> <span class="n">need</span>
+                <span class="n">delta</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">start</span><span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="n">need</span> <span class="o">+</span> <span class="n">size</span> <span class="o">-</span> <span class="n">total</span> <span class="o">%</span> <span class="n">size</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">page</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">total</span> <span class="o">+</span> <span class="n">count</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">size</span> <span class="o">+</span> <span class="n">need</span><span class="p">):</span>
+                    <span class="n">start</span> <span class="o">=</span> <span class="n">page</span> <span class="o">*</span> <span class="p">(</span><span class="n">size</span> <span class="o">+</span> <span class="n">need</span><span class="p">)</span> <span class="o">-</span> <span class="n">total</span>
+                    <span class="n">delta</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">start</span><span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="n">need</span> <span class="o">+</span> <span class="n">size</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">start</span> <span class="o">=</span> <span class="n">page</span> <span class="o">*</span> <span class="p">(</span><span class="n">size</span> <span class="o">+</span> <span class="n">need</span><span class="p">)</span> <span class="o">-</span> <span class="n">total</span>
+                    <span class="n">delta</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">start</span><span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="n">total</span> <span class="o">+</span> <span class="n">count</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">size</span> <span class="o">+</span> <span class="n">need</span><span class="p">)])</span>
+
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">count</span>
+        <span class="n">size</span> <span class="o">+=</span> <span class="n">need</span>
+    <span class="k">return</span> <span class="n">delta</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">source</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">source</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">source</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="mi">45</span><span class="p">)</span>
+    <span class="n">page</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="n">mix</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="k">while</span> <span class="n">items</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Page: </span><span class="si">%d</span><span class="se">\t</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">items</span><span class="p">)))</span>
+        <span class="n">page</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="n">mix</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+    <aside class="comments">
+		<h3>评论/Comments</h3>
+		<div id="disqus_thread"></div>
+		<script>
+		    var disqus_config = function () {
+				this.page.url = location.protocol + '//' + location.host + location.pathname;
+		    	this.page.identifier = '91c2c440-e264-48a2-9e3a-9f34c0cee405';
+		    };
+			(function() {
+				var d = document, s = d.createElement('script');
+				s.src = 'https://traced.disqus.com/embed.js';
+				s.setAttribute('data-timestamp', +new Date());
+				(d.head || d.body).appendChild(s);
+			})();
+		</script>
+		<noscript>请启用 JavaScript 脚本以查看评论/Please enable JavaScript to view the comments.</noscript>
+    </aside>
+</article>
+	<hr/>
+    <footer class="center">始于 2016 | SINCE 2016</footer>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){ dataLayer.push(arguments); }
+		gtag('js', new Date());
+		gtag('config', 'UA-74531835-1');
+	</script>
+</body>
+</html>

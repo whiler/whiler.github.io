@@ -1,21 +1,31 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="cmn">
-    <head>
-        <title>My GPG public key</title>
-        <meta charset="utf-8"/>
-        <link href="/static/style/main.css" rel="stylesheet"/>
-        <link href="/static/image/favicon.svg" rel="icon"/>
-        <link href="/feed.xml" type="application/rss+xml" rel="alternate"/>
-    </head>
-    <body>
-        <article>
-<h2>GNU Privacy Guard</h2>
-<h3>Key ID</h3>
+<head>
+        <meta charset="utf-8" />
+        <title>my gpg public key</title>
+        <link rel="stylesheet" href="https://whiler.github.io/theme/css/main.css" />
+        <link rel="icon" href="https://whiler.github.io/theme/images/favicon.svg"/>
+        <link href="https://whiler.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="轨迹/trace Atom Feed" />
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-74531835-1"></script>
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body>
+    <header><h1><a href="https://whiler.github.io/" title="I leave no trace of wings in the air, but I am glad I have had my flight.">轨迹/trace</a></h1></header>
+	<hr/>
+<article class="main">
+    <header><h2 class="center">my gpg public key</h2></header>
+	<hr/>
+<div class="meta">
+	发布于/Published: <a href="/archives.html" title="归档/Archives"><time datetime="2015-08-29T00:00:00+08:00">Sat 29 August 2015</time></a>
+</div>    <div class="content"><h3>Key ID</h3>
 <p>34DB676C</p>
 <h3>Fingerprint</h3>
 <p>AE12 BE0C B075 2C35 CDEB  C120 4BA5 A9C5 34DB 676C</p>
 <h3>Public Key in ASCII</h3>
-<pre><code>-----BEGIN PGP PUBLIC KEY BLOCK-----
+<div class="highlight"><pre><span></span>-----BEGIN PGP PUBLIC KEY BLOCK-----
 Comment: GPGTools - https://gpgtools.org
 
 mQSuBFSqF6wRDACcPLi1uL/TPFimjUrYcMCJMSot4hpE9RQ2aa0mNfCRVqHaUqYK
@@ -309,31 +319,32 @@ RICV33t8RWvjc8KGR7YO3JnGo8Q5I9+U3YeOF+RDjQOk8frvdEvlmbbmyoGqP+77
 o1Ahjb4wIXRu
 =XeA7
 -----END PGP PUBLIC KEY BLOCK-----
-</code></pre>
-<p><time>2015-08-29</time></p>
-        </article>
-        <aside id="disqus_thread"></aside>
-        <footer>SINCE 2016</footer>
-        <script>
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-            
-            ga('create', 'UA-74531835-1', 'auto');
-            ga('send', 'pageview');
-        </script>
-        <script>
-            var disqus_config = function () {
-                this.page.url = location.protocol + '//' + location.host + location.pathname;
-                this.page.identifier = '4c1e43e2-7400-44e9-921b-1d7932e95623';
-            };
-            (function() {
-                var d = document, s = d.createElement('script');
-                s.src = '//traced.disqus.com/embed.js';
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            })();
-        </script>
-    </body>
+</pre></div></div>
+    <aside class="comments">
+		<h3>评论/Comments</h3>
+		<div id="disqus_thread"></div>
+		<script>
+		    var disqus_config = function () {
+				this.page.url = location.protocol + '//' + location.host + location.pathname;
+		    	this.page.identifier = '4c1e43e2-7400-44e9-921b-1d7932e95623';
+		    };
+			(function() {
+				var d = document, s = d.createElement('script');
+				s.src = 'https://traced.disqus.com/embed.js';
+				s.setAttribute('data-timestamp', +new Date());
+				(d.head || d.body).appendChild(s);
+			})();
+		</script>
+		<noscript>请启用 JavaScript 脚本以查看评论/Please enable JavaScript to view the comments.</noscript>
+    </aside>
+</article>
+	<hr/>
+    <footer class="center">始于 2016 | SINCE 2016</footer>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){ dataLayer.push(arguments); }
+		gtag('js', new Date());
+		gtag('config', 'UA-74531835-1');
+	</script>
+</body>
 </html>

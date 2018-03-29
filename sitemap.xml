@@ -1,33 +1,83 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-	<url>
-		<loc>http://whiler.github.io/</loc>
-	</url>
-	<url>
-		<loc>http://whiler.github.io/articles/bypass-via-vpn.html</loc>
-	</url>
-	<url>
-		<loc>http://whiler.github.io/articles/heart.html</loc>
-	</url>
-	<url>
-		<loc>http://whiler.github.io/articles/bypass.html</loc>
-	</url>
-	<url>
-		<loc>http://whiler.github.io/articles/blog.html</loc>
-	</url>
-	<url>
-		<loc>http://whiler.github.io/articles/about.html</loc>
-	</url>
-	<url>
-		<loc>http://whiler.github.io/articles/gpg.html</loc>
-	</url>
-	<url>
-		<loc>http://whiler.github.io/articles/theory-of-six-degrees-contacts.html</loc>
-	</url>
-	<url>
-		<loc>http://whiler.github.io/articles/mix-sources.html</loc>
-	</url>
-	<url>
-		<loc>http://whiler.github.io/articles/QQ2009.sis.html</loc>
-	</url>
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+<url>
+<loc>https://whiler.github.io/</loc>
+<lastmod>2018-03-29T18:48:09-00:00</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://whiler.github.io/archives.html</loc>
+<lastmod>2018-03-29T18:48:09-00:00</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://whiler.github.io/yong-xu-ni-si-yong-wang-luo-fang-wen-min-gan-wang-luo.html</loc>
+<lastmod>2016-10-18T00:00:00+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://whiler.github.io/hui-zhi-xin-xing-tu-an.html</loc>
+<lastmod>2016-04-14T00:00:00+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://whiler.github.io/rao-kai-wang-luo-feng-suo-fang-wen-min-gan-yu-ming.html</loc>
+<lastmod>2016-04-11T00:00:00+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://whiler.github.io/guan-yu-zhe-ge-bo-ke.html</loc>
+<lastmod>2016-03-04T00:00:00+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://whiler.github.io/guan-yu-about.html</loc>
+<lastmod>2016-02-28T00:00:00+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://whiler.github.io/my-gpg-public-key.html</loc>
+<lastmod>2015-08-29T00:00:00+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://whiler.github.io/liu-du-fen-ge-li-lun.html</loc>
+<lastmod>2014-09-17T00:00:00+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://whiler.github.io/duo-shu-ju-yuan-hun-he-shu-chu.html</loc>
+<lastmod>2012-07-15T00:00:00+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://whiler.github.io/shou-ji-qq2009liao-tian-ji-lu-fen-xi-ji-ti-qu.html</loc>
+<lastmod>2009-10-14T00:00:00+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
 </urlset>

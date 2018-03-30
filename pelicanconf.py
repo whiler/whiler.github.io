@@ -24,6 +24,9 @@ ARCHIVES_SAVE_AS = 'archives.html'
 DIRECT_TEMPLATES = ('index', 'archives')
 ARTICLE_EXCLUDES = ['webroot']
 
+FILENAME_METADATA = '(?P<slug>.*)'
+ARTICLE_URL = '{slug}.html'
+
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = 'feed.xml'
 CATEGORY_FEED_ATOM = None

@@ -8,13 +8,19 @@
         {% if FEED_ALL_ATOM %}
         <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Atom Feed" />
         {% endif %}
-		{% if GOOGLE_ANALYTICS %}
-		<script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS }}"></script>
-		{% endif %}
-        <script async src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/scripts/highlight.js"></script>
-        <!--[if IE]>
-            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+		<script>
+			window.taskQueue = window.taskQueue || (function(){
+				var queue = [];
+				return {
+					'enqueue': function() { return queue.push(arguments); },
+					'dequeue': function() { return queue.shift(); },
+					'getLength': function() { return queue.length; }
+				};
+			})();
+			taskQueue.enqueue('create', 'script', {src: location.protocol + '//' + location.host + '/{{ THEME_STATIC_DIR }}/scripts/highlight.js'});
+			taskQueue.enqueue('create', 'script', {src: location.protocol + '//' + location.host + '/{{ THEME_STATIC_DIR }}/scripts/mathjax.js'});
+		</script>
+        <script async src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/scripts/bootstrap.js"></script>
 </head>
 
 <body>
@@ -29,6 +35,8 @@
 		function gtag(){ dataLayer.push(arguments); }
 		gtag('js', new Date());
 		gtag('config', '{{ GOOGLE_ANALYTICS }}');
+
+		taskQueue.enqueue('create', 'script', {src: 'https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS }}', async: true});
 	</script>
 {% endif %}
 </body>

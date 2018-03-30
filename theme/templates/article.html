@@ -15,12 +15,7 @@
 				this.page.url = location.protocol + '//' + location.host + location.pathname;
 		    	this.page.identifier = '{{ article.uuid }}';
 		    };
-			(function() {
-				var d = document, s = d.createElement('script');
-				s.src = 'https://{{ DISQUS_SITENAME }}.disqus.com/embed.js';
-				s.setAttribute('data-timestamp', +new Date());
-				(d.head || d.body).appendChild(s);
-			})();
+			taskQueue.enqueue('create', 'script', {src: 'https://{{ DISQUS_SITENAME }}.disqus.com/embed.js', 'data-timestamp': +new Date(), async: true});
 		</script>
 		<noscript>请启用 JavaScript 脚本以查看评论/Please enable JavaScript to view the comments.</noscript>
     </aside>

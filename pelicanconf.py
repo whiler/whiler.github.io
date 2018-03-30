@@ -69,7 +69,9 @@ MARKDOWN = {
         'markdown.extensions.fenced_code': {},
         'markdown.extensions.extra': {},
         'markdown.extensions.meta': {},
-        'del_ins': {}
+        'del_ins': {},
+        'mdx_cite': {},
+        'mdx_math': {}
     },
     'output_format': 'html5'
 }

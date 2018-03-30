@@ -64,4 +64,11 @@ SITEMAP = {
     }
 }
 
+MARKDOWN = {
+    'extension_configs': {
+        'del_ins': {}
+    },
+    'output_format': 'html5'
+}
+
 RELATIVE_URLS = True

@@ -66,6 +66,9 @@ SITEMAP = {
 
 MARKDOWN = {
     'extension_configs': {
+        'markdown.extensions.codehilite': {'css_class': 'highlight'},
+        'markdown.extensions.extra': {},
+        'markdown.extensions.meta': {},
         'del_ins': {}
     },
     'output_format': 'html5'

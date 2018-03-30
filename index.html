@@ -7,6 +7,7 @@
         <link rel="icon" href="https://whiler.github.io/theme/images/favicon.svg"/>
         <link href="https://whiler.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="轨迹/trace Atom Feed" />
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-74531835-1"></script>
+        <script async src="https://whiler.github.io/theme/scripts/highlight.js"></script>
         <!--[if IE]>
             <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -45,42 +46,37 @@
 <h3>安装 虚拟私用网络 客户端</h3>
 <p>连接 AnyConnect 可以用 OpenConnect 的客户端。</p>
 <h3>创建 ipset</h3>
-<div class="highlight"><pre><span></span>ipset create &quot;<span class="cp">${</span><span class="n">SETNAME</span><span class="cp">}</span>&quot; hash:ip
-</pre></div>
-
+<pre><code>ipset create &quot;${SETNAME}&quot; hash:ip
+</code></pre>
 
 <h3>将可信的 DNS 服务器地址添加到 ipset</h3>
-<div class="highlight"><pre><span></span>ipset add &quot;<span class="cp">${</span><span class="n">SETNAME</span><span class="cp">}</span>&quot; 8.8.8.8
-ipset add &quot;<span class="cp">${</span><span class="n">SETNAME</span><span class="cp">}</span>&quot; 8.8.4.4
-</pre></div>
-
+<pre><code>ipset add &quot;${SETNAME}&quot; 8.8.8.8
+ipset add &quot;${SETNAME}&quot; 8.8.4.4
+</code></pre>
 
 <h3>安装并配置 dnsmasq</h3>
 <p>修改 /etc/dnsmasq.conf 在最后加入 conf-dir=/etc/dnsmasq.d/,*.conf ，新建并进入 /etc/dnsmasq.d 目录；
 创建一个后缀为 .conf 的配置文件，为每一个敏感的域名指定可信的 DNS 解析服务器，并将解析得到的地址添加到 ipset 中。</p>
-<div class="highlight"><pre><span></span>echo &quot;conf-dir=/etc/dnsmasq.d/,*.conf&quot; &gt;&gt; /etc/dnsmasq.conf
+<pre><code>echo &quot;conf-dir=/etc/dnsmasq.d/,*.conf&quot; &gt;&gt; /etc/dnsmasq.conf
 
 mkdir -p /etc/dnsmasq.d
 
-echo &quot;server=/google.com/8.8.8.8&quot;   &gt;&gt; &quot;/etc/dnsmasq.d/<span class="cp">${</span><span class="n">filename</span><span class="cp">}</span>.conf&quot;
-echo &quot;ipset=/google.com/<span class="cp">${</span><span class="n">SETNAME</span><span class="cp">}</span>&quot; &gt;&gt; &quot;/etc/dnsmasq.d/<span class="cp">${</span><span class="n">filename</span><span class="cp">}</span>.conf&quot;
-</pre></div>
-
+echo &quot;server=/google.com/8.8.8.8&quot;   &gt;&gt; &quot;/etc/dnsmasq.d/${filename}.conf&quot;
+echo &quot;ipset=/google.com/${SETNAME}&quot; &gt;&gt; &quot;/etc/dnsmasq.d/${filename}.conf&quot;
+</code></pre>
 
 <h3>创建路由表</h3>
 <p>/etc/iproute2/rt_tables 保存了系统的路由表。
 向文件中写入一行即可创建一个路由表。</p>
-<div class="highlight"><pre><span></span>echo -e &quot;<span class="cp">${</span><span class="n">TABLEID</span><span class="cp">}</span>\t<span class="cp">${</span><span class="n">TABLENAME</span><span class="cp">}</span>&quot; &gt;&gt; /etc/iproute2/rt_tables
-</pre></div>
-
+<pre><code>echo -e &quot;${TABLEID}\t${TABLENAME}&quot; &gt;&gt; /etc/iproute2/rt_tables
+</code></pre>
 
 <h3>调整内核 rp filter</h3>
 <p>由于用到部分 策略路由 ，需要将内核反向过滤策略关闭或者放宽松。</p>
-<div class="highlight"><pre><span></span>echo &quot;net.ipv4.conf.default.rp_filter=2&quot; &gt;&gt; /etc/sysctl.conf
+<pre><code>echo &quot;net.ipv4.conf.default.rp_filter=2&quot; &gt;&gt; /etc/sysctl.conf
 echo &quot;net.ipv4.conf.all.rp_filter=2&quot;     &gt;&gt; /etc/sysctl.conf
 sysctl -p
-</pre></div>
-
+</code></pre>
 
 <h3>自定义 vpnc script</h3>
 <p>若使用 OpenConnect 默认的 <a href="http://git.infradead.org/users/dwmw2/vpnc-scripts.git/blob_plain/HEAD:/vpnc-script">vpnc script</a> ，它会替换系统默认路由，让所有流量都通过 虚拟私用网络 ，显然这样不合理。</p>
@@ -88,50 +84,49 @@ sysctl -p
 <p>do_connect 在开始连接 虚拟私用网络 时，依次调用 set_vpngateway_route 、 do_ifconfig 和 set_default_route 三个函数，其中 set_default_route 将系统默认的路由替换成了 虚拟私用网络 分配的路由。</p>
 <p>do_disconnect 在退出 虚拟私用网络 时，依次调用 reset_default_route 、 del_vpngateway_route 和 destroy_tun_device ，其中 reset_default_route 函数恢复系统原来的路由。</p>
 <p>我们需要实现 start_split_tunneling 和 stop_split_tunneling 来替换 set_vpngateway_route 和 reset_default_route 完成分流。</p>
-<div class="highlight"><pre><span></span>start_split_tunneling() {
+<pre><code>start_split_tunneling() {
     # mark
     # 目的地址匹配 ipset 则打上标记
-    iptables --table mangle --insert PREROUTING --match set --match-set &quot;<span class="cp">${</span><span class="n">SETNAME</span><span class="cp">}</span>&quot; dst --jump MARK --set-mark &quot;<span class="cp">${</span><span class="n">MARK</span><span class="cp">}</span>&quot;
-    iptables --table mangle --insert OUTPUT     --match set --match-set &quot;<span class="cp">${</span><span class="n">SETNAME</span><span class="cp">}</span>&quot; dst --jump MARK --set-mark &quot;<span class="cp">${</span><span class="n">MARK</span><span class="cp">}</span>&quot;
+    iptables --table mangle --insert PREROUTING --match set --match-set &quot;${SETNAME}&quot; dst --jump MARK --set-mark &quot;${MARK}&quot;
+    iptables --table mangle --insert OUTPUT     --match set --match-set &quot;${SETNAME}&quot; dst --jump MARK --set-mark &quot;${MARK}&quot;
 
     # forwarding
     # 允许流量进出 TUNDEV
-    iptables --table filter --insert FORWARD --out-interface &quot;<span class="cp">${</span><span class="n">TUNDEV</span><span class="cp">}</span>&quot; --jump ACCEPT
-    iptables --table filter --insert FORWARD --in-interface  &quot;<span class="cp">${</span><span class="n">TUNDEV</span><span class="cp">}</span>&quot; --jump ACCEPT
+    iptables --table filter --insert FORWARD --out-interface &quot;${TUNDEV}&quot; --jump ACCEPT
+    iptables --table filter --insert FORWARD --in-interface  &quot;${TUNDEV}&quot; --jump ACCEPT
 
     # nat
     # 地址伪装
-    iptables --table nat --insert POSTROUTING --out-interface &quot;<span class="cp">${</span><span class="n">TUNDEV</span><span class="cp">}</span>&quot; --jump MASQUERADE
+    iptables --table nat --insert POSTROUTING --out-interface &quot;${TUNDEV}&quot; --jump MASQUERADE
 
     # rule
     # 所有带标记的流量都通过指定的路由表
-    ip rule add fwmark <span class="cp">${</span><span class="n">MARK</span><span class="cp">}</span> table <span class="cp">${</span><span class="n">TABLENAME</span><span class="cp">}</span>
+    ip rule add fwmark ${MARK} table ${TABLENAME}
 
     # gateway
     # 为路由表指定默认的路由设备
-    ip route add default dev &quot;<span class="cp">${</span><span class="n">TUNDEV</span><span class="cp">}</span>&quot; src &quot;<span class="cp">${</span><span class="n">INTERNAL_IP4_ADDRESS</span><span class="cp">}</span>&quot; table &quot;<span class="cp">${</span><span class="n">TABLENAME</span><span class="cp">}</span>&quot;
+    ip route add default dev &quot;${TUNDEV}&quot; src &quot;${INTERNAL_IP4_ADDRESS}&quot; table &quot;${TABLENAME}&quot;
 }
 
 stop_split_tunneling() {
     # gateway
-    ip route del default dev &quot;<span class="cp">${</span><span class="n">TUNDEV</span><span class="cp">}</span>&quot; src &quot;<span class="cp">${</span><span class="n">INTERNAL_IP4_ADDRESS</span><span class="cp">}</span>&quot; table &quot;<span class="cp">${</span><span class="n">TABLENAME</span><span class="cp">}</span>&quot;
+    ip route del default dev &quot;${TUNDEV}&quot; src &quot;${INTERNAL_IP4_ADDRESS}&quot; table &quot;${TABLENAME}&quot;
 
     # rule
-    ip rule del fwmark <span class="cp">${</span><span class="n">MARK</span><span class="cp">}</span> table <span class="cp">${</span><span class="n">TABLENAME</span><span class="cp">}</span>
+    ip rule del fwmark ${MARK} table ${TABLENAME}
 
     # nat
-    iptables --table nat --delete POSTROUTING --out-interface &quot;<span class="cp">${</span><span class="n">TUNDEV</span><span class="cp">}</span>&quot; --jump MASQUERADE
+    iptables --table nat --delete POSTROUTING --out-interface &quot;${TUNDEV}&quot; --jump MASQUERADE
 
     # forwarding
-    iptables --table filter --delete FORWARD --out-interface &quot;<span class="cp">${</span><span class="n">TUNDEV</span><span class="cp">}</span>&quot; --jump ACCEPT
-    iptables --table filter --delete FORWARD --in-interface  &quot;<span class="cp">${</span><span class="n">TUNDEV</span><span class="cp">}</span>&quot; --jump ACCEPT
+    iptables --table filter --delete FORWARD --out-interface &quot;${TUNDEV}&quot; --jump ACCEPT
+    iptables --table filter --delete FORWARD --in-interface  &quot;${TUNDEV}&quot; --jump ACCEPT
 
     # mark
-    iptables --table mangle --delete PREROUTING --match set --match-set &quot;<span class="cp">${</span><span class="n">SETNAME</span><span class="cp">}</span>&quot; dst --jump MARK --set-mark &quot;<span class="cp">${</span><span class="n">MARK</span><span class="cp">}</span>&quot;
-    iptables --table mangle --delete OUTPUT     --match set --match-set &quot;<span class="cp">${</span><span class="n">SETNAME</span><span class="cp">}</span>&quot; dst --jump MARK --set-mark &quot;<span class="cp">${</span><span class="n">MARK</span><span class="cp">}</span>&quot;
+    iptables --table mangle --delete PREROUTING --match set --match-set &quot;${SETNAME}&quot; dst --jump MARK --set-mark &quot;${MARK}&quot;
+    iptables --table mangle --delete OUTPUT     --match set --match-set &quot;${SETNAME}&quot; dst --jump MARK --set-mark &quot;${MARK}&quot;
 }
-</pre></div>
-
+</code></pre>
 
 <p>参考： <a href="https://github.com/clowwindy/ShadowVPN/wiki/ShadowVPN----ipset">ShadowVPN ipset</a></p></div>
             </aside>

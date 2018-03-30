@@ -7,6 +7,7 @@
         <link rel="icon" href="https://whiler.github.io/theme/images/favicon.svg"/>
         <link href="https://whiler.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="轨迹/trace Atom Feed" />
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-74531835-1"></script>
+        <script async src="https://whiler.github.io/theme/scripts/highlight.js"></script>
         <!--[if IE]>
             <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -51,48 +52,48 @@
 <p>补：上网一看，汗，要把手机QQ2008以前聊天记录的导入到手机QQ2009里面来还没人做，俺继续研究，应该不难，手机QQ2008的聊天记录俺有分析及提取的程序，嘿嘿。</p>
 </blockquote>
 <p>下面是提取手机QQ2009聊天记录的Python语言代码：</p>
-<div class="highlight"><pre><span></span><span class="c1"># Encoding:UTF-8</span>
-<span class="c1"># FileName:PickupMobileQQ2009Message</span>
-<span class="c1"># Date:2009_10_14</span>
+<pre><code># Encoding:UTF-8
+# FileName:PickupMobileQQ2009Message
+# Date:2009_10_14
 
-<span class="c1"># from DMQCR.convert import OtoA</span>
-<span class="c1"># I write this module for convert the expression code to char code</span>
+# from DMQCR.convert import OtoA
+# I write this module for convert the expression code to char code
 
-<span class="s s-Atom">def</span> <span class="nf">pickup</span><span class="p">(</span><span class="s s-Atom">path</span><span class="p">)</span><span class="s s-Atom">:</span>
-    <span class="s s-Atom">fp</span> <span class="o">=</span> <span class="nf">file</span><span class="p">(</span><span class="s s-Atom">path</span><span class="p">)</span>
-    <span class="s s-Atom">wfp</span> <span class="o">=</span> <span class="nf">file</span><span class="p">(</span><span class="s s-Atom">path</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;txt&quot;</span><span class="p">),</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span>
-    <span class="s s-Atom">while</span> <span class="nv">True</span> <span class="s s-Atom">:</span>
-        <span class="s s-Atom">mark</span> <span class="o">=</span> <span class="s s-Atom">fp</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="s s-Atom">#</span> <span class="s s-Atom">one</span> <span class="s s-Atom">message</span><span class="err">&#39;</span><span class="s s-Atom">s</span> <span class="s s-Atom">start</span> <span class="s s-Atom">and</span> <span class="s s-Atom">end</span> <span class="s s-Atom">mark</span>
-        <span class="s s-Atom">if</span> <span class="o">not</span> <span class="nn">mark</span><span class="p">:</span>
-            <span class="s s-Atom">break</span>
-        <span class="s s-Atom">fp</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="s s-Atom">#</span> <span class="s s-Atom">the</span> <span class="s s-Atom">ten</span> <span class="s s-Atom">chars</span> <span class="s s-Atom">are</span> <span class="s s-Atom">useless</span> <span class="s s-Atom">for</span> <span class="s s-Atom">pickup</span><span class="p">.</span>
-        <span class="s s-Atom">flag</span> <span class="o">=</span> <span class="s s-Atom">fp</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="s s-Atom">#</span> <span class="s s-Atom">send</span> <span class="s s-Atom">flag</span> <span class="mi">80</span> <span class="s s-Atom">end</span><span class="p">,</span><span class="mi">00</span> <span class="s s-Atom">receive</span>
-        <span class="s s-Atom">message</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="s s-Atom">while</span> <span class="nv">True</span><span class="s s-Atom">:</span>
-            <span class="s s-Atom">t</span> <span class="o">=</span> <span class="s s-Atom">fp</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-            <span class="s s-Atom">if</span> <span class="s s-Atom">mark</span> <span class="p">!</span><span class="o">=</span> <span class="nn">t</span><span class="p">:</span>
-                <span class="s s-Atom">message</span> <span class="s s-Atom">+=</span> <span class="s s-Atom">t</span>
-            <span class="nn">else</span><span class="p">:</span>
-                <span class="s s-Atom">message</span> <span class="o">=</span> <span class="s s-Atom">message</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="s2">&quot;\x20\x00&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-                <span class="s s-Atom">message</span> <span class="o">=</span> <span class="s s-Atom">message</span><span class="p">.</span><span class="nf">decode</span><span class="p">(</span><span class="s2">&quot;UTF-16&quot;</span><span class="p">)</span>  <span class="s s-Atom">#</span> <span class="s s-Atom">if</span> <span class="s s-Atom">you</span> <span class="s s-Atom">have</span> <span class="s s-Atom">some</span> <span class="s s-Atom">function</span> <span class="s s-Atom">to</span> <span class="s s-Atom">convert</span> <span class="s s-Atom">the</span> <span class="s s-Atom">expression</span> <span class="s s-Atom">code</span> <span class="s s-Atom">to</span> <span class="s s-Atom">char</span> <span class="s s-Atom">code</span><span class="p">,</span><span class="s s-Atom">plaese</span> <span class="s s-Atom">change</span> <span class="s s-Atom">this</span> <span class="s s-Atom">line</span> <span class="s2">&quot;message=functionname(massage).decode(&quot;</span><span class="nv">UTF</span><span class="o">-</span><span class="mi">16</span><span class="s2">&quot;)&quot;</span>
-            <span class="s s-Atom">if</span> <span class="err">&quot;</span><span class="s s-Atom">\x80</span><span class="s2">&quot; == flag:</span>
-<span class="s2">                wfp.write(&quot;</span><span class="nv">SEND</span><span class="s s-Atom">:</span><span class="s2">&quot; + message.encode(&quot;</span><span class="nv">UTF</span><span class="o">-</span><span class="mi">8</span><span class="s2">&quot;) + &quot;</span><span class="s s-Atom">\r\n</span><span class="s2">&quot;)</span>
-<span class="s2">                print &quot;</span><span class="nv">SEND</span><span class="s s-Atom">:</span> <span class="s2">&quot;, message</span>
-<span class="s2">            else:</span>
-<span class="s2">                wfp.write(&quot;</span><span class="nv">RECEIVE</span><span class="s s-Atom">:</span> <span class="s2">&quot; + message.encode(&quot;</span><span class="nv">UTF</span><span class="o">-</span><span class="mi">8</span><span class="s2">&quot;) + &quot;</span><span class="s s-Atom">\r\n</span><span class="s2">&quot;)</span>
-<span class="s2">                print &quot;</span><span class="nv">RECEIVE</span><span class="s s-Atom">:</span><span class="s2">&quot;, message</span>
-<span class="s2">            pass  # you can do more</span>
-<span class="s2">            del message</span>
-<span class="s2">            break</span>
-<span class="s2">    fp.close()</span>
-<span class="s2">    wfp.close()</span>
-<span class="s2">    del mark, flag, wfp, fp</span>
+def pickup(path):
+    fp = file(path)
+    wfp = file(path.replace(&quot;info&quot;, &quot;txt&quot;), &quot;a&quot;)
+    while True :
+        mark = fp.read(2)  # one message's start and end mark
+        if not mark:
+            break
+        fp.read(10)  # the ten chars are useless for pickup.
+        flag = fp.read(1)  # send flag 80 end,00 receive
+        message = &quot;&quot;
+        while True:
+            t = fp.read(2)
+            if mark != t:
+                message += t
+            else:
+                message = message.replace(&quot;\x20\x00&quot;, &quot;&quot;)
+                message = message.decode(&quot;UTF-16&quot;)  # if you have some function to convert the expression code to char code,plaese change this line &quot;message=functionname(massage).decode(&quot;UTF-16&quot;)&quot;
+            if &quot;\x80&quot; == flag:
+                wfp.write(&quot;SEND:&quot; + message.encode(&quot;UTF-8&quot;) + &quot;\r\n&quot;)
+                print &quot;SEND: &quot;, message
+            else:
+                wfp.write(&quot;RECEIVE: &quot; + message.encode(&quot;UTF-8&quot;) + &quot;\r\n&quot;)
+                print &quot;RECEIVE:&quot;, message
+            pass  # you can do more
+            del message
+            break
+    fp.close()
+    wfp.close()
+    del mark, flag, wfp, fp
 
-<span class="s2">if __name__ == &quot;</span><span class="k">__</span><span class="s s-Atom">main__</span><span class="s2">&quot;:</span>
-<span class="s2">    print &quot;</span><span class="nv">Running</span><span class="s s-Atom">--------</span><span class="s2">&quot;</span>
-<span class="s2">    pickup(&quot;</span><span class="nn">e</span><span class="p">:</span><span class="s s-Atom">\\msg</span><span class="p">.</span><span class="s s-Atom">info</span><span class="s2">&quot;)</span>
-<span class="s2">    print &quot;</span><span class="p">:-</span><span class="err">&quot;</span> <span class="o">*</span> <span class="mi">20</span>
-</pre></div></div>
+if __name__ == &quot;__main__&quot;:
+    print &quot;Running--------&quot;
+    pickup(&quot;e:\\msg.info&quot;)
+    print &quot;:-&quot; * 20
+</code></pre></div>
     <aside class="comments">
 		<h3>评论/Comments</h3>
 		<div id="disqus_thread"></div>

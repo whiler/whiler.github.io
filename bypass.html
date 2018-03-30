@@ -7,6 +7,7 @@
         <link rel="icon" href="https://whiler.github.io/theme/images/favicon.svg"/>
         <link href="https://whiler.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="轨迹/trace Atom Feed" />
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-74531835-1"></script>
+        <script async src="https://whiler.github.io/theme/scripts/highlight.js"></script>
         <!--[if IE]>
             <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -38,9 +39,8 @@
 <p><a href="https://github.com/shadowsocks/shadowsocks-libev">shadowsocks/shadowsocks-libev</a></p>
 <h3>创建 ipset</h3>
 <p>创建一个名为 bypass 的 ipset 。</p>
-<div class="highlight"><pre><span></span>ipset create bypass hash:ip
-</pre></div>
-
+<pre><code>ipset create bypass hash:ip
+</code></pre>
 
 <h3>创建 iptables 规则</h3>
 <ol>
@@ -50,7 +50,7 @@
 <li>所有目标地址匹配 ipset 的 TCP 连接都重定向到 1080 端口（本地开启的 shadowsocks 透明代理端口）；</li>
 <li>将 BYPASS 链添加到 PREROUTING 链；</li>
 </ol>
-<div class="highlight"><pre><span></span>iptables --table nat --new BYPASS
+<pre><code>iptables --table nat --new BYPASS
 
 iptables --table nat --append BYPASS --destination X.X.X.X --jump RETURN
 
@@ -74,8 +74,7 @@ iptables --table nat --append BYPASS --destination 255.255.255.255/32 --jump RET
 iptables --table nat --append BYPASS --protocol tcp --match set --match-set bypass dst --jump REDIRECT --to-ports 1080
 
 iptables --table nat --append PREROUTING --protocol tcp --jump BYPASS
-</pre></div>
-
+</code></pre>
 
 <h3>安装并配置 pdnsd</h3>
 <ol>
@@ -83,7 +82,7 @@ iptables --table nat --append PREROUTING --protocol tcp --jump BYPASS
 <li>修改 global 中的 server_port 为其他非 53 端口，如5353（53 端口为 dnsmasq 留着）；</li>
 <li>添加一个可信的支持 TCP 查询的 DNS 上游服务器，如 Google 公共 DNS 服务器。</li>
 </ol>
-<div class="highlight"><pre><span></span>global {
+<pre><code>global {
     perm_cache = 2048;
     cache_dir = &quot;/var/cache/pdnsd&quot;;
     run_as = &quot;nobody&quot;;
@@ -103,25 +102,23 @@ server {
     root_server = on;
     uptest = none;
 }
-</pre></div>
-
+</code></pre>
 
 <h3>将可信的 DNS 服务器地址添加到 ipset</h3>
-<div class="highlight"><pre><span></span>ipset add bypass 8.8.8.8
+<pre><code>ipset add bypass 8.8.8.8
 ipset add bypass 8.8.4.4
-</pre></div>
-
+</code></pre>
 
 <h3>安装并配置 dnsmasq</h3>
 <p>修改 /etc/dnsmasq.conf 在最后加入 conf-dir=/etc/dnsmasq.d/,*.conf ，新建并进入 /etc/dnsmasq.d 目录；
 创建一个名为 bypass.conf  文件，为每一个敏感的域名指定可信的 DNS 解析服务器，并将解析得到的地址添加到 ipset 中。内容如下</p>
-<div class="highlight"><pre><span></span>server=/thinkwithgoogle.com/127.0.0.1#5353
+<pre><code>server=/thinkwithgoogle.com/127.0.0.1#5353
 ipset=/thinkwithgoogle.com/bypass
 server=/withgoogle.com/127.0.0.1#5353
 ipset=/withgoogle.com/bypass
 server=/google.com/127.0.0.1#5353
 ipset=/google.com/bypass
-</pre></div></div>
+</code></pre></div>
     <aside class="comments">
 		<h3>评论/Comments</h3>
 		<div id="disqus_thread"></div>

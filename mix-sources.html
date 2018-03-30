@@ -7,6 +7,7 @@
         <link rel="icon" href="https://whiler.github.io/theme/images/favicon.svg"/>
         <link href="https://whiler.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="轨迹/trace Atom Feed" />
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-74531835-1"></script>
+        <script async src="https://whiler.github.io/theme/scripts/highlight.js"></script>
         <!--[if IE]>
             <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
@@ -27,129 +28,68 @@
 每一个数据源开始时，按照指定的数量输出，到最后一个分页不足时，由下一个数据源填补不足的量。
 将前面所有的数据源视为一个数据源，简化计算。</p>
 <h3>实现</h3>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
-<span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="c1">#</span>
+<pre><code>#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
 
 
-<span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">%s%02d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">)]</span>
+def source(tag, count):
+    return ['%s%02d' % (tag, i) for i in range(count)]
 
 
-<span class="k">def</span> <span class="nf">mix</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-    <span class="n">sources</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="o">/</span> <span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">args</span>
-    <span class="p">]</span>
-    <span class="n">sources</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span> <span class="n">total</span><span class="p">)</span>
+def mix(page, *args):
+    sources = [
+        (source, len(source) / size, size)
+        for source, size in args
+    ]
+    sources.sort(key=lambda (source, total, size): total)
 
-    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">delta</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">need</span> <span class="ow">in</span> <span class="n">sources</span><span class="p">:</span>
-        <span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    total = 0
+    size = 0
+    delta = list()
+    for source, _, need in sources:
+        count = len(source)
 
-        <span class="k">if</span> <span class="n">total</span> <span class="o">==</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">sep</span> <span class="o">=</span> <span class="n">count</span> <span class="o">/</span> <span class="n">need</span>
-            <span class="k">if</span> <span class="n">page</span> <span class="o">&lt;</span> <span class="n">sep</span><span class="p">:</span>
-                <span class="n">start</span> <span class="o">=</span> <span class="n">page</span> <span class="o">*</span> <span class="n">need</span>
-                <span class="n">delta</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">start</span><span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="n">need</span><span class="p">])</span>
-            <span class="k">elif</span> <span class="n">page</span> <span class="o">==</span> <span class="n">sep</span><span class="p">:</span>
-                <span class="n">start</span> <span class="o">=</span> <span class="n">page</span> <span class="o">*</span> <span class="n">need</span>
-                <span class="n">delta</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">start</span><span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="n">count</span> <span class="o">%</span> <span class="n">need</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">sep</span> <span class="o">=</span> <span class="n">total</span> <span class="o">/</span> <span class="n">size</span>
-            <span class="k">if</span> <span class="n">page</span> <span class="o">&lt;</span> <span class="n">sep</span><span class="p">:</span>
-                <span class="n">start</span> <span class="o">=</span> <span class="n">page</span> <span class="o">*</span> <span class="n">need</span>
-                <span class="n">delta</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">start</span><span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="n">need</span><span class="p">])</span>
-            <span class="k">elif</span> <span class="n">page</span> <span class="o">==</span> <span class="n">sep</span><span class="p">:</span>
-                <span class="n">start</span> <span class="o">=</span> <span class="n">page</span> <span class="o">*</span> <span class="n">need</span>
-                <span class="n">delta</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">start</span><span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="n">need</span> <span class="o">+</span> <span class="n">size</span> <span class="o">-</span> <span class="n">total</span> <span class="o">%</span> <span class="n">size</span><span class="p">])</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">page</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">total</span> <span class="o">+</span> <span class="n">count</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">size</span> <span class="o">+</span> <span class="n">need</span><span class="p">):</span>
-                    <span class="n">start</span> <span class="o">=</span> <span class="n">page</span> <span class="o">*</span> <span class="p">(</span><span class="n">size</span> <span class="o">+</span> <span class="n">need</span><span class="p">)</span> <span class="o">-</span> <span class="n">total</span>
-                    <span class="n">delta</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">start</span><span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="n">need</span> <span class="o">+</span> <span class="n">size</span><span class="p">])</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">start</span> <span class="o">=</span> <span class="n">page</span> <span class="o">*</span> <span class="p">(</span><span class="n">size</span> <span class="o">+</span> <span class="n">need</span><span class="p">)</span> <span class="o">-</span> <span class="n">total</span>
-                    <span class="n">delta</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">source</span><span class="p">[</span><span class="n">start</span><span class="p">:</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="n">total</span> <span class="o">+</span> <span class="n">count</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">size</span> <span class="o">+</span> <span class="n">need</span><span class="p">)])</span>
+        if total == size == 0:
+            sep = count / need
+            if page &lt; sep:
+                start = page * need
+                delta.extend(source[start: start + need])
+            elif page == sep:
+                start = page * need
+                delta.extend(source[start: start + count % need])
+        else:
+            sep = total / size
+            if page &lt; sep:
+                start = page * need
+                delta.extend(source[start: start + need])
+            elif page == sep:
+                start = page * need
+                delta.extend(source[start: start + need + size - total % size])
+            else:
+                if page &lt; (total + count) / (size + need):
+                    start = page * (size + need) - total
+                    delta.extend(source[start: start + need + size])
+                else:
+                    start = page * (size + need) - total
+                    delta.extend(source[start: start + (total + count) % (size + need)])
 
-        <span class="n">total</span> <span class="o">+=</span> <span class="n">count</span>
-        <span class="n">size</span> <span class="o">+=</span> <span class="n">need</span>
-    <span class="k">return</span> <span class="n">delta</span>
+        total += count
+        size += need
+    return delta
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">source</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="n">source</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">source</span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="mi">45</span><span class="p">)</span>
-    <span class="n">page</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">items</span> <span class="o">=</span> <span class="n">mix</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-    <span class="k">while</span> <span class="n">items</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Page: </span><span class="si">%d</span><span class="se">\t</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">items</span><span class="p">)))</span>
-        <span class="n">page</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="n">items</span> <span class="o">=</span> <span class="n">mix</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-</pre></div>
-</td></tr></table></div>
+if __name__ == '__main__':
+    a = source('A', 3)
+    b = source('B', 10)
+    c = source('C', 45)
+    page = 0
+    items = mix(page, (a, 2), (b, 3), (c, 5))
+    while items:
+        print('Page: %d\t%s' % (page, ' '.join(items)))
+        page += 1
+        items = mix(page, (a, 2), (b, 3), (c, 5))
+</code></pre></div>
     <aside class="comments">
 		<h3>评论/Comments</h3>
 		<div id="disqus_thread"></div>

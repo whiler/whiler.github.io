@@ -23,42 +23,37 @@
 &lt;h3&gt;安装 虚拟私用网络 客户端&lt;/h3&gt;
 &lt;p&gt;连接 AnyConnect 可以用 OpenConnect 的客户端。&lt;/p&gt;
 &lt;h3&gt;创建 ipset&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ipset create &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;SETNAME&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; hash:ip
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;pre&gt;&lt;code&gt;ipset create &amp;quot;${SETNAME}&amp;quot; hash:ip
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;将可信的 DNS 服务器地址添加到 ipset&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ipset add &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;SETNAME&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; 8.8.8.8
-ipset add &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;SETNAME&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; 8.8.4.4
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;pre&gt;&lt;code&gt;ipset add &amp;quot;${SETNAME}&amp;quot; 8.8.8.8
+ipset add &amp;quot;${SETNAME}&amp;quot; 8.8.4.4
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;安装并配置 dnsmasq&lt;/h3&gt;
 &lt;p&gt;修改 /etc/dnsmasq.conf 在最后加入 conf-dir=/etc/dnsmasq.d/,*.conf ，新建并进入 /etc/dnsmasq.d 目录；
 创建一个后缀为 .conf 的配置文件，为每一个敏感的域名指定可信的 DNS 解析服务器，并将解析得到的地址添加到 ipset 中。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;echo &amp;quot;conf-dir=/etc/dnsmasq.d/,*.conf&amp;quot; &amp;gt;&amp;gt; /etc/dnsmasq.conf
+&lt;pre&gt;&lt;code&gt;echo &amp;quot;conf-dir=/etc/dnsmasq.d/,*.conf&amp;quot; &amp;gt;&amp;gt; /etc/dnsmasq.conf
 
 mkdir -p /etc/dnsmasq.d
 
-echo &amp;quot;server=/google.com/8.8.8.8&amp;quot;   &amp;gt;&amp;gt; &amp;quot;/etc/dnsmasq.d/&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;.conf&amp;quot;
-echo &amp;quot;ipset=/google.com/&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;SETNAME&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; &amp;gt;&amp;gt; &amp;quot;/etc/dnsmasq.d/&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;.conf&amp;quot;
-&lt;/pre&gt;&lt;/div&gt;
-
+echo &amp;quot;server=/google.com/8.8.8.8&amp;quot;   &amp;gt;&amp;gt; &amp;quot;/etc/dnsmasq.d/${filename}.conf&amp;quot;
+echo &amp;quot;ipset=/google.com/${SETNAME}&amp;quot; &amp;gt;&amp;gt; &amp;quot;/etc/dnsmasq.d/${filename}.conf&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;创建路由表&lt;/h3&gt;
 &lt;p&gt;/etc/iproute2/rt_tables 保存了系统的路由表。
 向文件中写入一行即可创建一个路由表。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;echo -e &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;TABLEID&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;\t&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;TABLENAME&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; &amp;gt;&amp;gt; /etc/iproute2/rt_tables
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;pre&gt;&lt;code&gt;echo -e &amp;quot;${TABLEID}\t${TABLENAME}&amp;quot; &amp;gt;&amp;gt; /etc/iproute2/rt_tables
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;调整内核 rp filter&lt;/h3&gt;
 &lt;p&gt;由于用到部分 策略路由 ，需要将内核反向过滤策略关闭或者放宽松。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;echo &amp;quot;net.ipv4.conf.default.rp_filter=2&amp;quot; &amp;gt;&amp;gt; /etc/sysctl.conf
+&lt;pre&gt;&lt;code&gt;echo &amp;quot;net.ipv4.conf.default.rp_filter=2&amp;quot; &amp;gt;&amp;gt; /etc/sysctl.conf
 echo &amp;quot;net.ipv4.conf.all.rp_filter=2&amp;quot;     &amp;gt;&amp;gt; /etc/sysctl.conf
 sysctl -p
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;自定义 vpnc script&lt;/h3&gt;
 &lt;p&gt;若使用 OpenConnect 默认的 &lt;a href="http://git.infradead.org/users/dwmw2/vpnc-scripts.git/blob_plain/HEAD:/vpnc-script"&gt;vpnc script&lt;/a&gt; ，它会替换系统默认路由，让所有流量都通过 虚拟私用网络 ，显然这样不合理。&lt;/p&gt;
@@ -66,131 +61,93 @@ sysctl -p
 &lt;p&gt;do_connect 在开始连接 虚拟私用网络 时，依次调用 set_vpngateway_route 、 do_ifconfig 和 set_default_route 三个函数，其中 set_default_route 将系统默认的路由替换成了 虚拟私用网络 分配的路由。&lt;/p&gt;
 &lt;p&gt;do_disconnect 在退出 虚拟私用网络 时，依次调用 reset_default_route 、 del_vpngateway_route 和 destroy_tun_device ，其中 reset_default_route 函数恢复系统原来的路由。&lt;/p&gt;
 &lt;p&gt;我们需要实现 start_split_tunneling 和 stop_split_tunneling 来替换 set_vpngateway_route 和 reset_default_route 完成分流。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;start_split_tunneling() {
+&lt;pre&gt;&lt;code&gt;start_split_tunneling() {
     # mark
     # 目的地址匹配 ipset 则打上标记
-    iptables --table mangle --insert PREROUTING --match set --match-set &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;SETNAME&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; dst --jump MARK --set-mark &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;MARK&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot;
-    iptables --table mangle --insert OUTPUT     --match set --match-set &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;SETNAME&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; dst --jump MARK --set-mark &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;MARK&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot;
+    iptables --table mangle --insert PREROUTING --match set --match-set &amp;quot;${SETNAME}&amp;quot; dst --jump MARK --set-mark &amp;quot;${MARK}&amp;quot;
+    iptables --table mangle --insert OUTPUT     --match set --match-set &amp;quot;${SETNAME}&amp;quot; dst --jump MARK --set-mark &amp;quot;${MARK}&amp;quot;
 
     # forwarding
     # 允许流量进出 TUNDEV
-    iptables --table filter --insert FORWARD --out-interface &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;TUNDEV&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; --jump ACCEPT
-    iptables --table filter --insert FORWARD --in-interface  &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;TUNDEV&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; --jump ACCEPT
+    iptables --table filter --insert FORWARD --out-interface &amp;quot;${TUNDEV}&amp;quot; --jump ACCEPT
+    iptables --table filter --insert FORWARD --in-interface  &amp;quot;${TUNDEV}&amp;quot; --jump ACCEPT
 
     # nat
     # 地址伪装
-    iptables --table nat --insert POSTROUTING --out-interface &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;TUNDEV&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; --jump MASQUERADE
+    iptables --table nat --insert POSTROUTING --out-interface &amp;quot;${TUNDEV}&amp;quot; --jump MASQUERADE
 
     # rule
     # 所有带标记的流量都通过指定的路由表
-    ip rule add fwmark &lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;MARK&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt; table &lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;TABLENAME&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;
+    ip rule add fwmark ${MARK} table ${TABLENAME}
 
     # gateway
     # 为路由表指定默认的路由设备
-    ip route add default dev &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;TUNDEV&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; src &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;INTERNAL_IP4_ADDRESS&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; table &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;TABLENAME&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot;
+    ip route add default dev &amp;quot;${TUNDEV}&amp;quot; src &amp;quot;${INTERNAL_IP4_ADDRESS}&amp;quot; table &amp;quot;${TABLENAME}&amp;quot;
 }
 
 stop_split_tunneling() {
     # gateway
-    ip route del default dev &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;TUNDEV&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; src &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;INTERNAL_IP4_ADDRESS&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; table &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;TABLENAME&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot;
+    ip route del default dev &amp;quot;${TUNDEV}&amp;quot; src &amp;quot;${INTERNAL_IP4_ADDRESS}&amp;quot; table &amp;quot;${TABLENAME}&amp;quot;
 
     # rule
-    ip rule del fwmark &lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;MARK&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt; table &lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;TABLENAME&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;
+    ip rule del fwmark ${MARK} table ${TABLENAME}
 
     # nat
-    iptables --table nat --delete POSTROUTING --out-interface &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;TUNDEV&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; --jump MASQUERADE
+    iptables --table nat --delete POSTROUTING --out-interface &amp;quot;${TUNDEV}&amp;quot; --jump MASQUERADE
 
     # forwarding
-    iptables --table filter --delete FORWARD --out-interface &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;TUNDEV&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; --jump ACCEPT
-    iptables --table filter --delete FORWARD --in-interface  &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;TUNDEV&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; --jump ACCEPT
+    iptables --table filter --delete FORWARD --out-interface &amp;quot;${TUNDEV}&amp;quot; --jump ACCEPT
+    iptables --table filter --delete FORWARD --in-interface  &amp;quot;${TUNDEV}&amp;quot; --jump ACCEPT
 
     # mark
-    iptables --table mangle --delete PREROUTING --match set --match-set &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;SETNAME&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; dst --jump MARK --set-mark &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;MARK&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot;
-    iptables --table mangle --delete OUTPUT     --match set --match-set &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;SETNAME&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot; dst --jump MARK --set-mark &amp;quot;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;MARK&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&amp;quot;
+    iptables --table mangle --delete PREROUTING --match set --match-set &amp;quot;${SETNAME}&amp;quot; dst --jump MARK --set-mark &amp;quot;${MARK}&amp;quot;
+    iptables --table mangle --delete OUTPUT     --match set --match-set &amp;quot;${SETNAME}&amp;quot; dst --jump MARK --set-mark &amp;quot;${MARK}&amp;quot;
 }
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;参考： &lt;a href="https://github.com/clowwindy/ShadowVPN/wiki/ShadowVPN----ipset"&gt;ShadowVPN ipset&lt;/a&gt;&lt;/p&gt;</content></entry><entry><title>绘制心形图案</title><link href="https://whiler.github.io/heart.html" rel="alternate"></link><published>2016-04-14T00:00:00+08:00</published><updated>2016-04-14T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2016-04-14:/heart.html</id><summary type="html">&lt;p&gt;半夜没事瞎折腾，想到绘制心形图案消磨时间。&lt;/p&gt;</summary><content type="html">&lt;p&gt;半夜没事瞎折腾，想到绘制心形图案消磨时间。
 看了一些方案，最后采用半圆加正方形折叠的方式来绘制，&lt;code&gt;r = a * (1 - sin θ)&lt;/code&gt; 真心不会。&lt;/p&gt;
 &lt;p&gt;绘制心形图案，首先想到了笛卡尔的 &lt;code&gt;r = a * (1 - sin θ)&lt;/code&gt; ，但是折腾了半天不会将极坐标系的点转换到笛卡尔坐标系，于是改用正方形外接一个半圆再折叠一次来表示。
 这样就只剩下简单的几何代数运算了。&lt;/p&gt;
 &lt;p&gt;代码：&lt;/p&gt;
-&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/env python&lt;/span&gt;
-&lt;span class="c1"&gt;# -*- coding: utf-8 -*-&lt;/span&gt;
-&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;pre&gt;&lt;code&gt;#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
 
-&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;math&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;sin&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sqrt&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pi&lt;/span&gt;
+from math import sin, sqrt, pi
 
 
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;heart&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;radius&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;side&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;radius&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;sin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pi&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mf"&gt;4.0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;offset&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;radius&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;side&lt;/span&gt;
-    &lt;span class="n"&gt;steps&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;radius&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mf"&gt;3.0&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;side&lt;/span&gt;
-    &lt;span class="n"&gt;top&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
-    &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="n"&gt;top&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="n"&gt;steps&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;top&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;offset&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="n"&gt;delta&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sqrt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;top&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;2.0&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;radius&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;top&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-            &lt;span class="n"&gt;left_min&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;side&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;delta&lt;/span&gt;
-            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;left_min&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                &lt;span class="n"&gt;left_min&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.0&lt;/span&gt;
-            &lt;span class="n"&gt;left_max&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;side&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;delta&lt;/span&gt;
-        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="n"&gt;left_max&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;steps&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;top&lt;/span&gt;
-            &lt;span class="n"&gt;left_min&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.0&lt;/span&gt;
+def heart(radius):
+    side = radius * sin(pi / 4.0)
+    offset = radius + side
+    steps = radius + 3.0 * side
+    top = 0
+    while top &amp;lt;= steps:
+        if top &amp;lt; offset:
+            delta = sqrt(top * (2.0 * radius - top))
+            left_min = side - delta
+            if left_min &amp;lt; 0:
+                left_min = 0.0
+            left_max = side + delta
+        else:
+            left_max = steps - top
+            left_min = 0.0
 
-        &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
-        &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
-        &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;offset&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;left_max&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;offset&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;left_max&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="n"&gt;offset&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;left_min&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;*&amp;#39;&lt;/span&gt;
-            &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;offset&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;left_min&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="n"&gt;offset&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;left_max&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;*&amp;#39;&lt;/span&gt;
-            &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt;
-            &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+        line = ''
+        i = 0
+        while i &amp;lt; offset + left_max:
+            if offset - left_max &amp;lt;= i &amp;lt;= offset - left_min:
+                line = line + '*'
+            elif offset + left_min &amp;lt;= i &amp;lt;= offset + left_max:
+                line = line + '*'
+            else:
+                line = line + ' '
+            i = i + 1
 
-        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        print(line)
 
-        &lt;span class="n"&gt;top&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;top&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</content></entry><entry><title>绕开网络封锁访问敏感域名</title><link href="https://whiler.github.io/bypass.html" rel="alternate"></link><published>2016-04-11T00:00:00+08:00</published><updated>2016-04-11T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2016-04-11:/bypass.html</id><summary type="html">&lt;p&gt;用域名列表、dnsmasq 、 pdnsd 、 iptables 和 ipset 配合 shadowsocks-libev 精确到域名解决 tcp 连接封锁、dns 劫持、dns 请求 udp 丢包的问题，绕过网络封锁。&lt;/p&gt;</summary><content type="html">&lt;p&gt;用域名列表、dnsmasq 、 pdnsd 、 iptables 和 ipset 配合 shadowsocks-libev 精确到域名解决 TCP 连接封锁、DNS 劫持、DNS 请求 UDP 丢包的问题，绕过网络封锁。&lt;/p&gt;
+        top = top + 1
+&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>绕开网络封锁访问敏感域名</title><link href="https://whiler.github.io/bypass.html" rel="alternate"></link><published>2016-04-11T00:00:00+08:00</published><updated>2016-04-11T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2016-04-11:/bypass.html</id><summary type="html">&lt;p&gt;用域名列表、dnsmasq 、 pdnsd 、 iptables 和 ipset 配合 shadowsocks-libev 精确到域名解决 tcp 连接封锁、dns 劫持、dns 请求 udp 丢包的问题，绕过网络封锁。&lt;/p&gt;</summary><content type="html">&lt;p&gt;用域名列表、dnsmasq 、 pdnsd 、 iptables 和 ipset 配合 shadowsocks-libev 精确到域名解决 TCP 连接封锁、DNS 劫持、DNS 请求 UDP 丢包的问题，绕过网络封锁。&lt;/p&gt;
 &lt;p&gt;首先，用 shadowsocks-libev 建立透明代理，绕开网络封锁；
 配置 iptables ，配合 ipset 让匹配 ipset 的 TCP 数据都转发到透明代理；
 利用 pdnsd 通过 TCP 向可信的 DNS 服务器转发请求；
@@ -208,9 +165,8 @@ stop_split_tunneling() {
 &lt;p&gt;&lt;a href="https://github.com/shadowsocks/shadowsocks-libev"&gt;shadowsocks/shadowsocks-libev&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;创建 ipset&lt;/h3&gt;
 &lt;p&gt;创建一个名为 bypass 的 ipset 。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ipset create bypass hash:ip
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;pre&gt;&lt;code&gt;ipset create bypass hash:ip
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;创建 iptables 规则&lt;/h3&gt;
 &lt;ol&gt;
@@ -220,7 +176,7 @@ stop_split_tunneling() {
 &lt;li&gt;所有目标地址匹配 ipset 的 TCP 连接都重定向到 1080 端口（本地开启的 shadowsocks 透明代理端口）；&lt;/li&gt;
 &lt;li&gt;将 BYPASS 链添加到 PREROUTING 链；&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;iptables --table nat --new BYPASS
+&lt;pre&gt;&lt;code&gt;iptables --table nat --new BYPASS
 
 iptables --table nat --append BYPASS --destination X.X.X.X --jump RETURN
 
@@ -244,8 +200,7 @@ iptables --table nat --append BYPASS --destination 255.255.255.255/32 --jump RET
 iptables --table nat --append BYPASS --protocol tcp --match set --match-set bypass dst --jump REDIRECT --to-ports 1080
 
 iptables --table nat --append PREROUTING --protocol tcp --jump BYPASS
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;安装并配置 pdnsd&lt;/h3&gt;
 &lt;ol&gt;
@@ -253,7 +208,7 @@ iptables --table nat --append PREROUTING --protocol tcp --jump BYPASS
 &lt;li&gt;修改 global 中的 server_port 为其他非 53 端口，如5353（53 端口为 dnsmasq 留着）；&lt;/li&gt;
 &lt;li&gt;添加一个可信的支持 TCP 查询的 DNS 上游服务器，如 Google 公共 DNS 服务器。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;global {
+&lt;pre&gt;&lt;code&gt;global {
     perm_cache = 2048;
     cache_dir = &amp;quot;/var/cache/pdnsd&amp;quot;;
     run_as = &amp;quot;nobody&amp;quot;;
@@ -273,25 +228,23 @@ server {
     root_server = on;
     uptest = none;
 }
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;将可信的 DNS 服务器地址添加到 ipset&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ipset add bypass 8.8.8.8
+&lt;pre&gt;&lt;code&gt;ipset add bypass 8.8.8.8
 ipset add bypass 8.8.4.4
-&lt;/pre&gt;&lt;/div&gt;
-
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;安装并配置 dnsmasq&lt;/h3&gt;
 &lt;p&gt;修改 /etc/dnsmasq.conf 在最后加入 conf-dir=/etc/dnsmasq.d/,*.conf ，新建并进入 /etc/dnsmasq.d 目录；
 创建一个名为 bypass.conf  文件，为每一个敏感的域名指定可信的 DNS 解析服务器，并将解析得到的地址添加到 ipset 中。内容如下&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;server=/thinkwithgoogle.com/127.0.0.1#5353
+&lt;pre&gt;&lt;code&gt;server=/thinkwithgoogle.com/127.0.0.1#5353
 ipset=/thinkwithgoogle.com/bypass
 server=/withgoogle.com/127.0.0.1#5353
 ipset=/withgoogle.com/bypass
 server=/google.com/127.0.0.1#5353
 ipset=/google.com/bypass
-&lt;/pre&gt;&lt;/div&gt;</content></entry><entry><title>关于这个博客</title><link href="https://whiler.github.io/blog.html" rel="alternate"></link><published>2016-03-04T00:00:00+08:00</published><updated>2016-03-04T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2016-03-04:/blog.html</id><summary type="html">&lt;p&gt;闷头写代码到深夜，灵感闪现，迅速解决困扰了很久的问题，想要欢呼一下，发现已经是深夜了，作罢。&lt;/p&gt;</summary><content type="html">&lt;p&gt;闷头写代码到深夜，灵感闪现，迅速解决困扰了很久的问题，想要欢呼一下，发现已经是深夜了，作罢。
+&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>关于这个博客</title><link href="https://whiler.github.io/blog.html" rel="alternate"></link><published>2016-03-04T00:00:00+08:00</published><updated>2016-03-04T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2016-03-04:/blog.html</id><summary type="html">&lt;p&gt;闷头写代码到深夜，灵感闪现，迅速解决困扰了很久的问题，想要欢呼一下，发现已经是深夜了，作罢。&lt;/p&gt;</summary><content type="html">&lt;p&gt;闷头写代码到深夜，灵感闪现，迅速解决困扰了很久的问题，想要欢呼一下，发现已经是深夜了，作罢。
 还是用一个博客记下来吧，聊以告慰自己。&lt;/p&gt;
 &lt;p&gt;使用的平台和库：&lt;/p&gt;
 &lt;ul&gt;
@@ -329,7 +282,7 @@ ipset=/google.com/bypass
 &lt;h3&gt;Fingerprint&lt;/h3&gt;
 &lt;p&gt;AE12 BE0C B075 2C35 CDEB  C120 4BA5 A9C5 34DB 676C&lt;/p&gt;
 &lt;h3&gt;Public Key in ASCII&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;-----BEGIN PGP PUBLIC KEY BLOCK-----
+&lt;pre&gt;&lt;code&gt;-----BEGIN PGP PUBLIC KEY BLOCK-----
 Comment: GPGTools - https://gpgtools.org
 
 mQSuBFSqF6wRDACcPLi1uL/TPFimjUrYcMCJMSot4hpE9RQ2aa0mNfCRVqHaUqYK
@@ -623,7 +576,7 @@ RICV33t8RWvjc8KGR7YO3JnGo8Q5I9+U3YeOF+RDjQOk8frvdEvlmbbmyoGqP+77
 o1Ahjb4wIXRu
 =XeA7
 -----END PGP PUBLIC KEY BLOCK-----
-&lt;/pre&gt;&lt;/div&gt;</content></entry><entry><title>六度分割理论</title><link href="https://whiler.github.io/theory-of-six-degrees-contacts.html" rel="alternate"></link><published>2014-09-17T00:00:00+08:00</published><updated>2014-09-17T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2014-09-17:/theory-of-six-degrees-contacts.html</id><summary type="html">&lt;p&gt;一次求职笔试，考到了六度分隔理论，判断两个人之间是否存在可能的联系。&lt;/p&gt;</summary><content type="html">&lt;p&gt;一次求职笔试，考到了六度分隔理论，判断两个人之间是否存在可能的联系。
+&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>六度分割理论</title><link href="https://whiler.github.io/theory-of-six-degrees-contacts.html" rel="alternate"></link><published>2014-09-17T00:00:00+08:00</published><updated>2014-09-17T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2014-09-17:/theory-of-six-degrees-contacts.html</id><summary type="html">&lt;p&gt;一次求职笔试，考到了六度分隔理论，判断两个人之间是否存在可能的联系。&lt;/p&gt;</summary><content type="html">&lt;p&gt;一次求职笔试，考到了六度分隔理论，判断两个人之间是否存在可能的联系。
 问题是比较简单的，就是检查权重为1的无向图中两个节点在 6 层内是否有相通的路径。&lt;/p&gt;
 &lt;h3&gt;解决办法&lt;/h3&gt;
 &lt;ol&gt;
@@ -632,137 +585,72 @@ o1Ahjb4wIXRu
 &lt;li&gt;递归检查好友的好友，同时排除上一个好友&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3&gt;实现&lt;/h3&gt;
-&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/env python&lt;/span&gt;
-&lt;span class="c1"&gt;# -*- coding: utf-8 -*-&lt;/span&gt;
-&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;pre&gt;&lt;code&gt;#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
 
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;collections&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;itertools&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;logging&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;random&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;string&lt;/span&gt;
+import collections
+import itertools
+import logging
+import random
+import string
 
-&lt;span class="n"&gt;logging&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;basicConfig&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;level&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;logging&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;NOTSET&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-                    &lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;[&lt;/span&gt;&lt;span class="si"&gt;%(levelname)s&lt;/span&gt;&lt;span class="s1"&gt;]&lt;/span&gt;&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="si"&gt;%(asctime)s&lt;/span&gt;&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="si"&gt;%(message)s&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-                    &lt;span class="n"&gt;datefmt&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;%Y-%m-&lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s1"&gt; %H:%M:%S %Z&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+logging.basicConfig(level=logging.NOTSET,
+                    format='[%(levelname)s]\t%(asctime)s\t%(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S %Z')
 
-&lt;span class="n"&gt;DEPTH&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;
+DEPTH = 6
 
 
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;create_edges&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;edges&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;choice&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ascii_uppercase&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;choice&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ascii_uppercase&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;edges&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;edges&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;choice&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ascii_uppercase&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-            &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;choice&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ascii_uppercase&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="n"&gt;edges&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;edges&lt;/span&gt;
+def create_edges(count):
+    edges = set()
+    for _ in range(count):
+        a = random.choice(string.ascii_uppercase)
+        b = random.choice(string.ascii_uppercase)
+        while a == b or (a, b) in edges or (b, a) in edges:
+            a = random.choice(string.ascii_uppercase)
+            b = random.choice(string.ascii_uppercase)
+        edges.add((a, b))
+    return edges
 
 
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;build_trees&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;edges&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;trees&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;collections&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;defaultdict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;edges&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="n"&gt;trees&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;trees&lt;/span&gt;
+def build_trees(edges):
+    trees = collections.defaultdict(set)
+    for a, b in edges:
+        trees[a].add(b)
+    return trees
 
 
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trees&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;trees&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;trees&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
-    &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;walk&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trees&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+def find(trees, a, b):
+    if not (a in trees and b in trees):
+        return -1
+    elif a == b:
+        return 0
+    return walk(trees, a, b, 1) or -1
 
 
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;walk&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trees&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;depth&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;block&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;depth&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;DEPTH&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
-    &lt;span class="n"&gt;children&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;trees&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;children&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;depth&lt;/span&gt;
-    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;child&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;children&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;child&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;block&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                &lt;span class="k"&gt;continue&lt;/span&gt;
-            &lt;span class="n"&gt;dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;walk&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trees&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;child&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;depth&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;dep&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;dep&lt;/span&gt;
+def walk(trees, a, b, depth, block=None):
+    if depth &amp;gt; DEPTH:
+        return -1
+    children = trees[a]
+    if b in children:
+        return depth
+    else:
+        for child in children:
+            if child == block:
+                continue
+            dep = walk(trees, child, b, depth + 1, a)
+            if dep is not None:
+                return dep
 
 
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="n"&gt;edges&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;create_edges&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;128&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;trees&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;build_trees&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;edges&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;itertools&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;combinations&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ascii_uppercase&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="n"&gt;dep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;trees&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="n"&gt;logging&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;debug&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;degrees between &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s1"&gt; and &lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s1"&gt; is &lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dep&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+if __name__ == '__main__':
+    edges = create_edges(128)
+    trees = build_trees(edges)
+    for a, b in itertools.combinations(string.ascii_uppercase, 2):
+        dep = find(trees, a, b)
+        logging.debug('degrees between %s and %s is %d', a, b, dep)
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;关于六度分隔理论的详细介绍，可以参考 &lt;a href="https://en.wikipedia.org/wiki/Six_degrees_of_separation"&gt;Six degrees of separation&lt;/a&gt; 。&lt;/p&gt;</content></entry><entry><title>多数据源混合输出</title><link href="https://whiler.github.io/mix-sources.html" rel="alternate"></link><published>2012-07-15T00:00:00+08:00</published><updated>2012-07-15T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2012-07-15:/mix-sources.html</id><summary type="html">&lt;p&gt;拥有相同数据格式的数据源按照数量混合分页输出。&lt;/p&gt;</summary><content type="html">&lt;p&gt;拥有相同数据格式的数据源按照数量混合分页输出。
 比如在新闻列表中混合输出政治、经济、娱乐、科技新闻；
@@ -771,129 +659,68 @@ o1Ahjb4wIXRu
 每一个数据源开始时，按照指定的数量输出，到最后一个分页不足时，由下一个数据源填补不足的量。
 将前面所有的数据源视为一个数据源，简化计算。&lt;/p&gt;
 &lt;h3&gt;实现&lt;/h3&gt;
-&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/env python&lt;/span&gt;
-&lt;span class="c1"&gt;# -*- coding: utf-8 -*-&lt;/span&gt;
-&lt;span class="c1"&gt;#&lt;/span&gt;
+&lt;pre&gt;&lt;code&gt;#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
 
 
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;source&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="si"&gt;%s%02d&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+def source(tag, count):
+    return ['%s%02d' % (tag, i) for i in range(count)]
 
 
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;mix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;page&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;sources&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
-        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;
-    &lt;span class="p"&gt;]&lt;/span&gt;
-    &lt;span class="n"&gt;sources&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sort&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;total&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt; &lt;span class="n"&gt;total&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+def mix(page, *args):
+    sources = [
+        (source, len(source) / size, size)
+        for source, size in args
+    ]
+    sources.sort(key=lambda (source, total, size): total)
 
-    &lt;span class="n"&gt;total&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
-    &lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
-    &lt;span class="n"&gt;delta&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;sources&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    total = 0
+    size = 0
+    delta = list()
+    for source, _, need in sources:
+        count = len(source)
 
-        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;total&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="n"&gt;sep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt;
-            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;sep&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt;
-                &lt;span class="n"&gt;delta&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-            &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;sep&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt;
-                &lt;span class="n"&gt;delta&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="n"&gt;sep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;total&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;
-            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;sep&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt;
-                &lt;span class="n"&gt;delta&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-            &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;sep&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt;
-                &lt;span class="n"&gt;delta&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;total&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-            &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;total&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-                    &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;total&lt;/span&gt;
-                    &lt;span class="n"&gt;delta&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-                &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                    &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;total&lt;/span&gt;
-                    &lt;span class="n"&gt;delta&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;total&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;
+        if total == size == 0:
+            sep = count / need
+            if page &amp;lt; sep:
+                start = page * need
+                delta.extend(source[start: start + need])
+            elif page == sep:
+                start = page * need
+                delta.extend(source[start: start + count % need])
+        else:
+            sep = total / size
+            if page &amp;lt; sep:
+                start = page * need
+                delta.extend(source[start: start + need])
+            elif page == sep:
+                start = page * need
+                delta.extend(source[start: start + need + size - total % size])
+            else:
+                if page &amp;lt; (total + count) / (size + need):
+                    start = page * (size + need) - total
+                    delta.extend(source[start: start + need + size])
+                else:
+                    start = page * (size + need) - total
+                    delta.extend(source[start: start + (total + count) % (size + need)])
 
-        &lt;span class="n"&gt;total&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;
-        &lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;delta&lt;/span&gt;
+        total += count
+        size += need
+    return delta
 
 
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;A&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;B&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;source&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;C&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;45&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
-    &lt;span class="n"&gt;items&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;page&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-    &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Page: &lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;page&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
-        &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
-        &lt;span class="n"&gt;items&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;mix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;page&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</content></entry><entry><title>手机QQ2009聊天记录分析及提取</title><link href="https://whiler.github.io/QQ2009.sis.html" rel="alternate"></link><published>2009-10-14T00:00:00+08:00</published><updated>2009-10-14T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2009-10-14:/QQ2009.sis.html</id><summary type="html">&lt;p&gt;symbian series 60 3rd qq mobile chat log parse and extract.&lt;/p&gt;</summary><content type="html">&lt;p&gt;这是我的最早一个像程序的程序。&lt;/p&gt;
+if __name__ == '__main__':
+    a = source('A', 3)
+    b = source('B', 10)
+    c = source('C', 45)
+    page = 0
+    items = mix(page, (a, 2), (b, 3), (c, 5))
+    while items:
+        print('Page: %d\t%s' % (page, ' '.join(items)))
+        page += 1
+        items = mix(page, (a, 2), (b, 3), (c, 5))
+&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>手机QQ2009聊天记录分析及提取</title><link href="https://whiler.github.io/QQ2009.sis.html" rel="alternate"></link><published>2009-10-14T00:00:00+08:00</published><updated>2009-10-14T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2009-10-14:/QQ2009.sis.html</id><summary type="html">&lt;p&gt;symbian series 60 3rd qq mobile chat log parse and extract.&lt;/p&gt;</summary><content type="html">&lt;p&gt;这是我的最早一个像程序的程序。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;十月十三号用上手机QQ2009了，一看，果然更花哨了。但以前写的手机QQ聊天记录提取程序用不上了，莫办法，重新分析。&lt;/p&gt;
 &lt;p&gt;一手机QQ2009聊天记录文件的存放位置&lt;/p&gt;
@@ -924,45 +751,45 @@ o1Ahjb4wIXRu
 &lt;p&gt;补：上网一看，汗，要把手机QQ2008以前聊天记录的导入到手机QQ2009里面来还没人做，俺继续研究，应该不难，手机QQ2008的聊天记录俺有分析及提取的程序，嘿嘿。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;下面是提取手机QQ2009聊天记录的Python语言代码：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Encoding:UTF-8&lt;/span&gt;
-&lt;span class="c1"&gt;# FileName:PickupMobileQQ2009Message&lt;/span&gt;
-&lt;span class="c1"&gt;# Date:2009_10_14&lt;/span&gt;
+&lt;pre&gt;&lt;code&gt;# Encoding:UTF-8
+# FileName:PickupMobileQQ2009Message
+# Date:2009_10_14
 
-&lt;span class="c1"&gt;# from DMQCR.convert import OtoA&lt;/span&gt;
-&lt;span class="c1"&gt;# I write this module for convert the expression code to char code&lt;/span&gt;
+# from DMQCR.convert import OtoA
+# I write this module for convert the expression code to char code
 
-&lt;span class="s s-Atom"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;pickup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s s-Atom"&gt;path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="s s-Atom"&gt;:&lt;/span&gt;
-    &lt;span class="s s-Atom"&gt;fp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;file&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s s-Atom"&gt;path&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="s s-Atom"&gt;wfp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;file&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s s-Atom"&gt;path&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;info&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;txt&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;a&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="s s-Atom"&gt;while&lt;/span&gt; &lt;span class="nv"&gt;True&lt;/span&gt; &lt;span class="s s-Atom"&gt;:&lt;/span&gt;
-        &lt;span class="s s-Atom"&gt;mark&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s s-Atom"&gt;fp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;read&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="s s-Atom"&gt;#&lt;/span&gt; &lt;span class="s s-Atom"&gt;one&lt;/span&gt; &lt;span class="s s-Atom"&gt;message&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="s s-Atom"&gt;s&lt;/span&gt; &lt;span class="s s-Atom"&gt;start&lt;/span&gt; &lt;span class="s s-Atom"&gt;and&lt;/span&gt; &lt;span class="s s-Atom"&gt;end&lt;/span&gt; &lt;span class="s s-Atom"&gt;mark&lt;/span&gt;
-        &lt;span class="s s-Atom"&gt;if&lt;/span&gt; &lt;span class="o"&gt;not&lt;/span&gt; &lt;span class="nn"&gt;mark&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="s s-Atom"&gt;break&lt;/span&gt;
-        &lt;span class="s s-Atom"&gt;fp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;read&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="s s-Atom"&gt;#&lt;/span&gt; &lt;span class="s s-Atom"&gt;the&lt;/span&gt; &lt;span class="s s-Atom"&gt;ten&lt;/span&gt; &lt;span class="s s-Atom"&gt;chars&lt;/span&gt; &lt;span class="s s-Atom"&gt;are&lt;/span&gt; &lt;span class="s s-Atom"&gt;useless&lt;/span&gt; &lt;span class="s s-Atom"&gt;for&lt;/span&gt; &lt;span class="s s-Atom"&gt;pickup&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
-        &lt;span class="s s-Atom"&gt;flag&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s s-Atom"&gt;fp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;read&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="s s-Atom"&gt;#&lt;/span&gt; &lt;span class="s s-Atom"&gt;send&lt;/span&gt; &lt;span class="s s-Atom"&gt;flag&lt;/span&gt; &lt;span class="mi"&gt;80&lt;/span&gt; &lt;span class="s s-Atom"&gt;end&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;00&lt;/span&gt; &lt;span class="s s-Atom"&gt;receive&lt;/span&gt;
-        &lt;span class="s s-Atom"&gt;message&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
-        &lt;span class="s s-Atom"&gt;while&lt;/span&gt; &lt;span class="nv"&gt;True&lt;/span&gt;&lt;span class="s s-Atom"&gt;:&lt;/span&gt;
-            &lt;span class="s s-Atom"&gt;t&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s s-Atom"&gt;fp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;read&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-            &lt;span class="s s-Atom"&gt;if&lt;/span&gt; &lt;span class="s s-Atom"&gt;mark&lt;/span&gt; &lt;span class="p"&gt;!&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nn"&gt;t&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                &lt;span class="s s-Atom"&gt;message&lt;/span&gt; &lt;span class="s s-Atom"&gt;+=&lt;/span&gt; &lt;span class="s s-Atom"&gt;t&lt;/span&gt;
-            &lt;span class="nn"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-                &lt;span class="s s-Atom"&gt;message&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s s-Atom"&gt;message&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\x20\x00&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-                &lt;span class="s s-Atom"&gt;message&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s s-Atom"&gt;message&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;UTF-16&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="s s-Atom"&gt;#&lt;/span&gt; &lt;span class="s s-Atom"&gt;if&lt;/span&gt; &lt;span class="s s-Atom"&gt;you&lt;/span&gt; &lt;span class="s s-Atom"&gt;have&lt;/span&gt; &lt;span class="s s-Atom"&gt;some&lt;/span&gt; &lt;span class="s s-Atom"&gt;function&lt;/span&gt; &lt;span class="s s-Atom"&gt;to&lt;/span&gt; &lt;span class="s s-Atom"&gt;convert&lt;/span&gt; &lt;span class="s s-Atom"&gt;the&lt;/span&gt; &lt;span class="s s-Atom"&gt;expression&lt;/span&gt; &lt;span class="s s-Atom"&gt;code&lt;/span&gt; &lt;span class="s s-Atom"&gt;to&lt;/span&gt; &lt;span class="s s-Atom"&gt;char&lt;/span&gt; &lt;span class="s s-Atom"&gt;code&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s s-Atom"&gt;plaese&lt;/span&gt; &lt;span class="s s-Atom"&gt;change&lt;/span&gt; &lt;span class="s s-Atom"&gt;this&lt;/span&gt; &lt;span class="s s-Atom"&gt;line&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;message=functionname(massage).decode(&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;UTF&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;)&amp;quot;&lt;/span&gt;
-            &lt;span class="s s-Atom"&gt;if&lt;/span&gt; &lt;span class="err"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s s-Atom"&gt;\x80&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; == flag:&lt;/span&gt;
-&lt;span class="s2"&gt;                wfp.write(&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;SEND&lt;/span&gt;&lt;span class="s s-Atom"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot; + message.encode(&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;UTF&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;) + &amp;quot;&lt;/span&gt;&lt;span class="s s-Atom"&gt;\r\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;)&lt;/span&gt;
-&lt;span class="s2"&gt;                print &amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;SEND&lt;/span&gt;&lt;span class="s s-Atom"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;, message&lt;/span&gt;
-&lt;span class="s2"&gt;            else:&lt;/span&gt;
-&lt;span class="s2"&gt;                wfp.write(&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;RECEIVE&lt;/span&gt;&lt;span class="s s-Atom"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; + message.encode(&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;UTF&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;) + &amp;quot;&lt;/span&gt;&lt;span class="s s-Atom"&gt;\r\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;)&lt;/span&gt;
-&lt;span class="s2"&gt;                print &amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;RECEIVE&lt;/span&gt;&lt;span class="s s-Atom"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;, message&lt;/span&gt;
-&lt;span class="s2"&gt;            pass  # you can do more&lt;/span&gt;
-&lt;span class="s2"&gt;            del message&lt;/span&gt;
-&lt;span class="s2"&gt;            break&lt;/span&gt;
-&lt;span class="s2"&gt;    fp.close()&lt;/span&gt;
-&lt;span class="s2"&gt;    wfp.close()&lt;/span&gt;
-&lt;span class="s2"&gt;    del mark, flag, wfp, fp&lt;/span&gt;
+def pickup(path):
+    fp = file(path)
+    wfp = file(path.replace(&amp;quot;info&amp;quot;, &amp;quot;txt&amp;quot;), &amp;quot;a&amp;quot;)
+    while True :
+        mark = fp.read(2)  # one message's start and end mark
+        if not mark:
+            break
+        fp.read(10)  # the ten chars are useless for pickup.
+        flag = fp.read(1)  # send flag 80 end,00 receive
+        message = &amp;quot;&amp;quot;
+        while True:
+            t = fp.read(2)
+            if mark != t:
+                message += t
+            else:
+                message = message.replace(&amp;quot;\x20\x00&amp;quot;, &amp;quot;&amp;quot;)
+                message = message.decode(&amp;quot;UTF-16&amp;quot;)  # if you have some function to convert the expression code to char code,plaese change this line &amp;quot;message=functionname(massage).decode(&amp;quot;UTF-16&amp;quot;)&amp;quot;
+            if &amp;quot;\x80&amp;quot; == flag:
+                wfp.write(&amp;quot;SEND:&amp;quot; + message.encode(&amp;quot;UTF-8&amp;quot;) + &amp;quot;\r\n&amp;quot;)
+                print &amp;quot;SEND: &amp;quot;, message
+            else:
+                wfp.write(&amp;quot;RECEIVE: &amp;quot; + message.encode(&amp;quot;UTF-8&amp;quot;) + &amp;quot;\r\n&amp;quot;)
+                print &amp;quot;RECEIVE:&amp;quot;, message
+            pass  # you can do more
+            del message
+            break
+    fp.close()
+    wfp.close()
+    del mark, flag, wfp, fp
 
-&lt;span class="s2"&gt;if __name__ == &amp;quot;&lt;/span&gt;&lt;span class="k"&gt;__&lt;/span&gt;&lt;span class="s s-Atom"&gt;main__&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;:&lt;/span&gt;
-&lt;span class="s2"&gt;    print &amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;Running&lt;/span&gt;&lt;span class="s s-Atom"&gt;--------&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
-&lt;span class="s2"&gt;    pickup(&amp;quot;&lt;/span&gt;&lt;span class="nn"&gt;e&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="s s-Atom"&gt;\\msg&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="s s-Atom"&gt;info&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;)&lt;/span&gt;
-&lt;span class="s2"&gt;    print &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:-&lt;/span&gt;&lt;span class="err"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</content></entry></feed>
+if __name__ == &amp;quot;__main__&amp;quot;:
+    print &amp;quot;Running--------&amp;quot;
+    pickup(&amp;quot;e:\\msg.info&amp;quot;)
+    print &amp;quot;:-&amp;quot; * 20
+&lt;/code&gt;&lt;/pre&gt;</content></entry></feed>

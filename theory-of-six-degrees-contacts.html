@@ -29,60 +29,138 @@
 <li>递归检查好友的好友，同时排除上一个好友</li>
 </ol>
 <h3>实现</h3>
-<p>```</p>
-<h1>!/usr/bin/env python</h1>
-<h1>-<em>- coding: utf-8 -</em>-</h1>
-<h1></h1>
-<p>import collections
-import itertools
-import logging
-import random
-import string</p>
-<p>logging.basicConfig(level=logging.NOTSET,
-                    format='[%(levelname)s]\t%(asctime)s\t%(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S %Z')</p>
-<p>DEPTH = 6</p>
-<p>def create_edges(count):
-    edges = set()
-    for _ in range(count):
-        a = random.choice(string.ascii_uppercase)
-        b = random.choice(string.ascii_uppercase)
-        while a == b or (a, b) in edges or (b, a) in edges:
-            a = random.choice(string.ascii_uppercase)
-            b = random.choice(string.ascii_uppercase)
-        edges.add((a, b))
-    return edges</p>
-<p>def build_trees(edges):
-    trees = collections.defaultdict(set)
-    for a, b in edges:
-        trees[a].add(b)
-    return trees</p>
-<p>def find(trees, a, b):
-    if not (a in trees and b in trees):
-        return -1
-    elif a == b:
-        return 0
-    return walk(trees, a, b, 1) or -1</p>
-<p>def walk(trees, a, b, depth, block=None):
-    if depth &gt; DEPTH:
-        return -1
-    children = trees[a]
-    if b in children:
-        return depth
-    else:
-        for child in children:
-            if child == block:
-                continue
-            dep = walk(trees, child, b, depth + 1, a)
-            if dep is not None:
-                return dep</p>
-<p>if <strong>name</strong> == '<strong>main</strong>':
-    edges = create_edges(128)
-    trees = build_trees(edges)
-    for a, b in itertools.combinations(string.ascii_uppercase, 2):
-        dep = find(trees, a, b)
-        logging.debug('degrees between %s and %s is %d', a, b, dep)
-```</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1">#</span>
+
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">string</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">NOTSET</span><span class="p">,</span>
+                    <span class="n">format</span><span class="o">=</span><span class="s1">&#39;[</span><span class="si">%(levelname)s</span><span class="s1">]</span><span class="se">\t</span><span class="si">%(asctime)s</span><span class="se">\t</span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">,</span>
+                    <span class="n">datefmt</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S %Z&#39;</span><span class="p">)</span>
+
+<span class="n">DEPTH</span> <span class="o">=</span> <span class="mi">6</span>
+
+
+<span class="k">def</span> <span class="nf">create_edges</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="ow">or</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">in</span> <span class="n">edges</span> <span class="ow">or</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span><span class="p">)</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span><span class="p">)</span>
+        <span class="n">edges</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">edges</span>
+
+
+<span class="k">def</span> <span class="nf">build_trees</span><span class="p">(</span><span class="n">edges</span><span class="p">):</span>
+    <span class="n">trees</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+        <span class="n">trees</span><span class="p">[</span><span class="n">a</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">trees</span>
+
+
+<span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="n">trees</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">a</span> <span class="ow">in</span> <span class="n">trees</span> <span class="ow">and</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">trees</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">walk</span><span class="p">(</span><span class="n">trees</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="o">-</span><span class="mi">1</span>
+
+
+<span class="k">def</span> <span class="nf">walk</span><span class="p">(</span><span class="n">trees</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">depth</span> <span class="o">&gt;</span> <span class="n">DEPTH</span><span class="p">:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">children</span> <span class="o">=</span> <span class="n">trees</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">depth</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">child</span> <span class="o">==</span> <span class="n">block</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">dep</span> <span class="o">=</span> <span class="n">walk</span><span class="p">(</span><span class="n">trees</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">dep</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="n">create_edges</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+    <span class="n">trees</span> <span class="o">=</span> <span class="n">build_trees</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="n">dep</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">trees</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;degrees between </span><span class="si">%s</span><span class="s1"> and </span><span class="si">%s</span><span class="s1"> is </span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">dep</span><span class="p">)</span>
+</pre></div>
+</td></tr></table>
+
 <p>关于六度分隔理论的详细介绍，可以参考 <a href="https://en.wikipedia.org/wiki/Six_degrees_of_separation">Six degrees of separation</a> 。</p></div>
     <aside class="comments">
 		<h3>评论/Comments</h3>

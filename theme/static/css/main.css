@@ -76,3 +76,15 @@ hr {
     margin-left: 0.5em;
     padding-left: 0.5em;
 }
+
+pre code.hljs {
+	display: block;
+}
+p > code.hljs {
+	display: inline;
+	background-color: inherit;
+	padding: 0.1em;
+	border: 0.01em solid #cccccc;
+	border-radius: 0.2em;
+	color: #880000;
+}

@@ -57,9 +57,6 @@ hr {
     color: #404040;
 }
 
-.content {
-}
-
 .list .meta {
 	display: inline-block;
 }
@@ -67,6 +64,7 @@ hr {
 .content pre {
     white-space: pre-wrap;
     padding: 0.8em;
+	background-color: #f0f0f0;
 }
 
 .content blockquote {
@@ -75,10 +73,7 @@ hr {
 	margin: 0;
 }
 
-pre code.hljs {
-	display: block;
-}
-p > code.hljs {
+.content p > code {
 	display: inline;
 	background-color: inherit;
 	padding: 0.1em;

@@ -6,11 +6,19 @@
         <link rel="stylesheet" href="https://whiler.github.io/theme/css/main.css" />
         <link rel="icon" href="https://whiler.github.io/theme/images/favicon.svg"/>
         <link href="https://whiler.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="轨迹/trace Atom Feed" />
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-74531835-1"></script>
-        <script async src="https://whiler.github.io/theme/scripts/highlight.js"></script>
-        <!--[if IE]>
-            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+		<script>
+			window.taskQueue = window.taskQueue || (function(){
+				var queue = [];
+				return {
+					'enqueue': function() { return queue.push(arguments); },
+					'dequeue': function() { return queue.shift(); },
+					'getLength': function() { return queue.length; }
+				};
+			})();
+			taskQueue.enqueue('create', 'script', {src: location.protocol + '//' + location.host + '/theme/scripts/highlight.js'});
+			taskQueue.enqueue('create', 'script', {src: location.protocol + '//' + location.host + '/theme/scripts/mathjax.js'});
+		</script>
+        <script async src="https://whiler.github.io/theme/scripts/bootstrap.js"></script>
 </head>
 
 <body>
@@ -72,12 +80,7 @@ def heart(radius):
 				this.page.url = location.protocol + '//' + location.host + location.pathname;
 		    	this.page.identifier = '57615493-5228-472d-9945-ac0dcd0d4c00';
 		    };
-			(function() {
-				var d = document, s = d.createElement('script');
-				s.src = 'https://traced.disqus.com/embed.js';
-				s.setAttribute('data-timestamp', +new Date());
-				(d.head || d.body).appendChild(s);
-			})();
+			taskQueue.enqueue('create', 'script', {src: 'https://traced.disqus.com/embed.js', 'data-timestamp': +new Date(), async: true});
 		</script>
 		<noscript>请启用 JavaScript 脚本以查看评论/Please enable JavaScript to view the comments.</noscript>
     </aside>
@@ -89,6 +92,8 @@ def heart(radius):
 		function gtag(){ dataLayer.push(arguments); }
 		gtag('js', new Date());
 		gtag('config', 'UA-74531835-1');
+
+		taskQueue.enqueue('create', 'script', {src: 'https://www.googletagmanager.com/gtag/js?id=UA-74531835-1', async: true});
 	</script>
 </body>
 </html>

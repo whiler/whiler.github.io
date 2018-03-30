@@ -6,11 +6,19 @@
         <link rel="stylesheet" href="https://whiler.github.io/theme/css/main.css" />
         <link rel="icon" href="https://whiler.github.io/theme/images/favicon.svg"/>
         <link href="https://whiler.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="轨迹/trace Atom Feed" />
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-74531835-1"></script>
-        <script async src="https://whiler.github.io/theme/scripts/highlight.js"></script>
-        <!--[if IE]>
-            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+		<script>
+			window.taskQueue = window.taskQueue || (function(){
+				var queue = [];
+				return {
+					'enqueue': function() { return queue.push(arguments); },
+					'dequeue': function() { return queue.shift(); },
+					'getLength': function() { return queue.length; }
+				};
+			})();
+			taskQueue.enqueue('create', 'script', {src: location.protocol + '//' + location.host + '/theme/scripts/highlight.js'});
+			taskQueue.enqueue('create', 'script', {src: location.protocol + '//' + location.host + '/theme/scripts/mathjax.js'});
+		</script>
+        <script async src="https://whiler.github.io/theme/scripts/bootstrap.js"></script>
 </head>
 
 <body>
@@ -30,6 +38,8 @@
 		function gtag(){ dataLayer.push(arguments); }
 		gtag('js', new Date());
 		gtag('config', 'UA-74531835-1');
+
+		taskQueue.enqueue('create', 'script', {src: 'https://www.googletagmanager.com/gtag/js?id=UA-74531835-1', async: true});
 	</script>
 </body>
 </html>

@@ -65,16 +65,14 @@ hr {
 }
 
 .content pre {
-    background: #eee none repeat scroll 0 0;
     white-space: pre-wrap;
     padding: 0.8em;
 }
 
 .content blockquote {
-    border-left: 0.5em solid #eee;
-	background: #f9f9f9;
-    margin-left: 0.5em;
-    padding-left: 0.5em;
+    border-left: 1em solid #cccccc;
+	background-color: #f0f0f0;
+	margin: 0;
 }
 
 pre code.hljs {

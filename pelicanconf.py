@@ -71,7 +71,8 @@ MARKDOWN = {
         'markdown.extensions.meta': {},
         'del_ins': {},
         'mdx_cite': {},
-        'mdx_math': {}
+        'mdx_math': {},
+        'simplechem': {}
     },
     'output_format': 'html5'
 }

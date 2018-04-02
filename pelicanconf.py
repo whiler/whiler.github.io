@@ -5,7 +5,6 @@ from __future__ import unicode_literals
 SITEURL = 'http://local.whiler.me:10086/blog'
 SITENAME = '轨迹/trace'
 SITESUBTITLE = 'I leave no trace of wings in the air, but I am glad I have had my flight.'
-ABSROOT = '/blog'
 
 PATH = 'content'
 THEME = 'theme'

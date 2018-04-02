@@ -11,6 +11,7 @@ sys.path.append(os.curdir)
 from pelicanconf import *
 
 SITEURL = 'https://whiler.github.io'
+ABSROOT = ''
 RELATIVE_URLS = False
 
 DELETE_OUTPUT_DIRECTORY = True

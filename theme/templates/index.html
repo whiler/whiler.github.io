@@ -6,7 +6,7 @@
     {% for article in articles_page.object_list %}
         {% if loop.first and not articles_page.has_previous() %}
             <aside class="main">
-                <h2 class="center"><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h2>
+                <h2 class="center"><a href="{{ ABSROOT }}/{{ article.url }}">{{ article.title }}</a></h2>
 				<hr/>
                 {% include 'article_infos.html' %}
 				<div class="content">{{ article.content }}</div>
@@ -23,7 +23,7 @@
                     <ol class="list">
             {% endif %}
             <li>
-                <a href="{{ SITEURL }}/{{ article.url }}" title="{{ article.title|striptags }}">{{ article.title }}</a>
+                <a href="{{ ABSROOT }}/{{ article.url }}" title="{{ article.title|striptags }}">{{ article.title }}</a>
                 {% include 'article_infos.html' %}
             </li>
         {% endif %}

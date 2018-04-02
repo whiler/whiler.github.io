@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
-AUTHOR = 'whiler'
+SITEURL = 'http://local.whiler.me:10086/blog'
 SITENAME = '轨迹/trace'
 SITESUBTITLE = 'I leave no trace of wings in the air, but I am glad I have had my flight.'
-SITEURL = 'http://local.whiler.me:8000'
+ABSROOT = '/blog'
 
 PATH = 'content'
 THEME = 'theme'
@@ -28,6 +28,7 @@ FILENAME_METADATA = '(?P<slug>.*)'
 ARTICLE_URL = '{slug}.html'
 
 # Feed generation is usually not desired when developing
+FEED_DOMAIN = SITEURL
 FEED_ALL_ATOM = 'feed.xml'
 CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
@@ -76,5 +77,9 @@ MARKDOWN = {
     },
     'output_format': 'html5'
 }
+
+ASSET_CONFIG = [
+    ('cache', '/tmp'),
+]
 
 RELATIVE_URLS = True

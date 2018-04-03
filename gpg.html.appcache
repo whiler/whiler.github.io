@@ -1,0 +1,13 @@
+CACHE MANIFEST
+# manifest for /gpg.html
+# rev: e3651b02d2073a67274a7654e6520c96
+
+CACHE:
+https://whiler.github.io/theme/css/styles.min.93d86462.css
+https://whiler.github.io/theme/images/favicon.svg
+https://whiler.github.io/theme/scripts/bootstrap.min.a1f1f9b7.js
+
+NETWORK:
+*
+
+FALLBACK:

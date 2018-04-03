@@ -1,0 +1,13 @@
+CACHE MANIFEST
+# manifest for /bypass-via-vpn.html
+# rev: db796c0012f1f53850d5aaf6753448f2
+
+CACHE:
+https://whiler.github.io/theme/css/styles.min.93d86462.css
+https://whiler.github.io/theme/images/favicon.svg
+https://whiler.github.io/theme/scripts/bootstrap.min.a1f1f9b7.js
+
+NETWORK:
+*
+
+FALLBACK:

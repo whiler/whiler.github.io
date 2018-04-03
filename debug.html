@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="cmn" manifest="https://whiler.github.io/index.html.appcache">
+<html lang="cmn" manifest="https://whiler.github.io/debug.html.appcache">
 <head>
         <meta charset="utf-8" />
-        <title>轨迹/trace</title>
+        <title>兼容古老的浏览器</title>
 		<link rel="stylesheet" href="https://whiler.github.io/theme/css/styles.min.93d86462.css" />
         <link rel="icon" href="https://whiler.github.io/theme/images/favicon.svg"/>
         <link href="http://local.whiler.me:10086/blog/feed.xml" type="application/atom+xml" rel="alternate" title="轨迹/trace Atom Feed" />
@@ -23,13 +23,12 @@
 <body>
     <header><h1><a href="https://whiler.github.io" title="I leave no trace of wings in the air, but I am glad I have had my flight.">轨迹/trace</a></h1></header>
 	<hr/>
-<article>
-            <aside class="main">
-                <h2 class="center"><a href="https://whiler.github.io/debug.html">兼容古老的浏览器</a></h2>
-				<hr/>
+<article class="main">
+    <header><h2 class="center">兼容古老的浏览器</h2></header>
+	<hr/>
 <div class="meta">
 	发布于/Published: <a href="https://whiler.github.io/archives.html" title="归档/Archives"><time datetime="2018-03-30T00:00:00+08:00">Fri 30 March 2018</time></a>
-</div>				<div class="content"><p>一些古老浏览器的 <code>JavaScript</code> 性能不足，或者不支持部分特性，需要兼容古老浏览器和现代浏览器，在文档显示上做到一致。</p>
+</div>    <div class="content"><p>一些古老浏览器的 <code>JavaScript</code> 性能不足，或者不支持部分特性，需要兼容古老浏览器和现代浏览器，在文档显示上做到一致。</p>
 <h3>引用测试</h3>
 <p><strong>菩提偈</strong> <em>惠能</em></p>
 <blockquote>
@@ -135,46 +134,18 @@ B--&gt;C: Dashed line
 C-&gt;&gt;D: Open arrow
 D--&gt;&gt;A: Dashed open arrow
 </code></pre></div>
-            </aside>
-				<hr/>
-                <aside class="others">
-                    <h3>其他文章/Other articles</h3>
-                    <ol class="list">
-            <li>
-                <a href="https://whiler.github.io/bypass-via-vpn.html" title="用虚拟私用网络访问敏感网络">用虚拟私用网络访问敏感网络</a>
-<div class="meta">
-	发布于/Published: <a href="https://whiler.github.io/archives.html" title="归档/Archives"><time datetime="2016-10-18T00:00:00+08:00">Tue 18 October 2016</time></a>
-</div>            </li>
-            <li>
-                <a href="https://whiler.github.io/heart.html" title="绘制心形图案">绘制心形图案</a>
-<div class="meta">
-	发布于/Published: <a href="https://whiler.github.io/archives.html" title="归档/Archives"><time datetime="2016-04-14T00:00:00+08:00">Thu 14 April 2016</time></a>
-</div>            </li>
-            <li>
-                <a href="https://whiler.github.io/bypass.html" title="绕开网络封锁访问敏感域名">绕开网络封锁访问敏感域名</a>
-<div class="meta">
-	发布于/Published: <a href="https://whiler.github.io/archives.html" title="归档/Archives"><time datetime="2016-04-11T00:00:00+08:00">Mon 11 April 2016</time></a>
-</div>            </li>
-            <li>
-                <a href="https://whiler.github.io/blog.html" title="关于这个博客">关于这个博客</a>
-<div class="meta">
-	发布于/Published: <a href="https://whiler.github.io/archives.html" title="归档/Archives"><time datetime="2016-03-04T00:00:00+08:00">Fri 04 March 2016</time></a>
-</div>            </li>
-            <li>
-                <a href="https://whiler.github.io/about.html" title="关于/about">关于/about</a>
-<div class="meta">
-	发布于/Published: <a href="https://whiler.github.io/archives.html" title="归档/Archives"><time datetime="2016-02-28T00:00:00+08:00">Sun 28 February 2016</time></a>
-</div>            </li>
-            <li>
-                <a href="https://whiler.github.io/gpg.html" title="my gpg public key">my gpg public key</a>
-<div class="meta">
-	发布于/Published: <a href="https://whiler.github.io/archives.html" title="归档/Archives"><time datetime="2015-08-29T00:00:00+08:00">Sat 29 August 2015</time></a>
-</div>            </li>
-                </ol>
-<div class="paginator center">
-    <a >上一页/Previous</a>1 / 2<a href="https://whiler.github.io/page/2/">下一页/Next</a>
-</div>
-                </aside>
+    <aside class="comments">
+		<h3>评论/Comments</h3>
+		<div id="disqus_thread"></div>
+		<script>
+		    var disqus_config = function () {
+				this.page.url = location.protocol + '//' + location.host + location.pathname;
+		    	this.page.identifier = '3B7A321C-823C-40E0-A8A8-202CD9CB86E4';
+		    };
+			taskQueue.enqueue('create', 'script', {src: 'https://traced.disqus.com/embed.js', 'data-timestamp': +new Date(), async: true});
+		</script>
+		<noscript>请启用 JavaScript 脚本以查看评论/Please enable JavaScript to view the comments.</noscript>
+    </aside>
 </article>
 	<hr/>
     <footer class="center">始于 2016 | SINCE 2016</footer>

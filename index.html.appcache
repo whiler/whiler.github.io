@@ -1,0 +1,13 @@
+CACHE MANIFEST
+# manifest for /index.html
+# rev: bd08dc8e06a2310b936f8e4a0a2af864
+
+CACHE:
+https://whiler.github.io/theme/css/styles.min.93d86462.css
+https://whiler.github.io/theme/images/favicon.svg
+https://whiler.github.io/theme/scripts/bootstrap.min.a1f1f9b7.js
+
+NETWORK:
+*
+
+FALLBACK:

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="cmn">
+<html lang="cmn" manifest="https://whiler.github.io/about.html.appcache">
 <head>
         <meta charset="utf-8" />
         <title>关于/about</title>
-        <link rel="stylesheet" href="https://whiler.github.io/theme/css/main.css" />
+		<link rel="stylesheet" href="https://whiler.github.io/theme/css/styles.min.93d86462.css" />
         <link rel="icon" href="https://whiler.github.io/theme/images/favicon.svg"/>
-        <link href="https://whiler.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="轨迹/trace Atom Feed" />
+        <link href="http://local.whiler.me:10086/blog/feed.xml" type="application/atom+xml" rel="alternate" title="轨迹/trace Atom Feed" />
 		<script>
 			window.taskQueue = window.taskQueue || (function(){
 				var queue = [];
@@ -15,20 +15,19 @@
 					'getLength': function() { return queue.length; }
 				};
 			})();
-			taskQueue.enqueue('create', 'script', {src: location.protocol + '//' + location.host + '/theme/scripts/highlight.js'});
-			taskQueue.enqueue('create', 'script', {src: location.protocol + '//' + location.host + '/theme/scripts/mathjax.js'});
+			taskQueue.enqueue('create', 'script', {src: 'https://whiler.github.io/theme/scripts/launch.min.56690245.js'});
 		</script>
-        <script async src="https://whiler.github.io/theme/scripts/bootstrap.js"></script>
+        <script async src="https://whiler.github.io/theme/scripts/bootstrap.min.a1f1f9b7.js"></script>
 </head>
 
 <body>
-    <header><h1><a href="https://whiler.github.io/" title="I leave no trace of wings in the air, but I am glad I have had my flight.">轨迹/trace</a></h1></header>
+    <header><h1><a href="https://whiler.github.io" title="I leave no trace of wings in the air, but I am glad I have had my flight.">轨迹/trace</a></h1></header>
 	<hr/>
 <article class="main">
     <header><h2 class="center">关于/about</h2></header>
 	<hr/>
 <div class="meta">
-	发布于/Published: <a href="/archives.html" title="归档/Archives"><time datetime="2016-02-28T00:00:00+08:00">Sun 28 February 2016</time></a>
+	发布于/Published: <a href="https://whiler.github.io/archives.html" title="归档/Archives"><time datetime="2016-02-28T00:00:00+08:00">Sun 28 February 2016</time></a>
 </div>    <div class="content"><p><img alt="me" src="https://whiler.github.io/assets/images/500.png"></p>
 <p>一只嘴巴，两个鼻孔，四只眼睛，六块腹肌，拥有 22 对全球唯一的常染色体以及 1 对 <em>XY</em> 性染色体。
 喜欢吃饭、睡觉、吹风、乘凉、游泳、跑步、滑雪、羽毛球以及素描。

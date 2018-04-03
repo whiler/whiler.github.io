@@ -1,0 +1,13 @@
+CACHE MANIFEST
+# manifest for /heart.html
+# rev: aa8b22e3050d0774ef35128ef598c89e
+
+CACHE:
+https://whiler.github.io/theme/css/styles.min.93d86462.css
+https://whiler.github.io/theme/images/favicon.svg
+https://whiler.github.io/theme/scripts/bootstrap.min.a1f1f9b7.js
+
+NETWORK:
+*
+
+FALLBACK:

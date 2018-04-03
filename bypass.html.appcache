@@ -1,0 +1,13 @@
+CACHE MANIFEST
+# manifest for /bypass.html
+# rev: 58848ad991953092a8261ac4429b3003
+
+CACHE:
+https://whiler.github.io/theme/css/styles.min.93d86462.css
+https://whiler.github.io/theme/images/favicon.svg
+https://whiler.github.io/theme/scripts/bootstrap.min.a1f1f9b7.js
+
+NETWORK:
+*
+
+FALLBACK:

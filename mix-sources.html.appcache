@@ -1,0 +1,13 @@
+CACHE MANIFEST
+# manifest for /mix-sources.html
+# rev: 653060a3b8f05146f0908932b15e6c1c
+
+CACHE:
+https://whiler.github.io/theme/css/styles.min.93d86462.css
+https://whiler.github.io/theme/images/favicon.svg
+https://whiler.github.io/theme/scripts/bootstrap.min.a1f1f9b7.js
+
+NETWORK:
+*
+
+FALLBACK:

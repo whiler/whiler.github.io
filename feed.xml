@@ -1,5 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>轨迹/trace</title><link href="https://whiler.github.io/" rel="alternate"></link><link href="https://whiler.github.io/feed.xml" rel="self"></link><id>https://whiler.github.io/</id><updated>2016-10-18T00:00:00+08:00</updated><entry><title>用虚拟私用网络访问敏感网络</title><link href="https://whiler.github.io/bypass-via-vpn.html" rel="alternate"></link><published>2016-10-18T00:00:00+08:00</published><updated>2016-10-18T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2016-10-18:/bypass-via-vpn.html</id><summary type="html">&lt;p&gt;利用 域名列表 、dnsmasq 、 iptables 和 ipset 配合 虚拟私用网络 精确到域名解决网络封锁。&lt;/p&gt;</summary><content type="html">&lt;p&gt;相对于 &lt;a href="https://whiler.github.io/bypass.html"&gt;绕开网络封锁访问敏感域名&lt;/a&gt; ：&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>轨迹/trace</title><link href="https://whiler.github.io/" rel="alternate"></link><link href="http://local.whiler.me:10086/blog/feed.xml" rel="self"></link><id>https://whiler.github.io/</id><updated>2018-03-30T00:00:00+08:00</updated><entry><title>兼容古老的浏览器</title><link href="https://whiler.github.io/debug.html" rel="alternate"></link><published>2018-03-30T00:00:00+08:00</published><updated>2018-03-30T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2018-03-30:/debug.html</id><summary type="html">&lt;p&gt;support old browsers&lt;/p&gt;</summary><content type="html">&lt;p&gt;一些古老浏览器的 &lt;code&gt;JavaScript&lt;/code&gt; 性能不足，或者不支持部分特性，需要兼容古老浏览器和现代浏览器，在文档显示上做到一致。&lt;/p&gt;
+&lt;h3&gt;引用测试&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;菩提偈&lt;/strong&gt; &lt;em&gt;惠能&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;菩提本无树，明镜亦非台。
+佛性常清净，何处有尘埃！
+心是菩提树，身为明镜台。
+明镜本清净，何处染尘埃！
+菩提本无树，明镜亦非台。
+本来无一物，何处惹尘埃！
+菩提只向心觅，何劳向外求玄？&lt;/p&gt;
+&lt;p&gt;-- &lt;cite&gt;惠能&lt;/cite&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;代码测试&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;blowing in the wind&lt;/strong&gt; &lt;em&gt;Bob Dylan&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Blowing in the wind Peter, Paul &amp;amp; Mary
+How many roads must a man walk down
+Before they call him a man
+How many seas must a white dove sail
+Before she sleeps in the sand
+How many times must the cannon balls fly
+Before they're forever banned
+The answer, my friend, is blowing in the wind
+The answer is blowing in the wind
+How many years can a mountain exist
+Before it is washed to the sea
+How many years can some people exist
+Before they're allowed to be free
+How many times can a man turn his head
+And pretend that he just doesn't see
+The answer, my friend, is blowing in the wind
+The answer is blowing in the wind
+How many times must a man look up
+Before he can see the sky
+How many ears must one man have
+Before he can hear people cry
+How many deaths will it take
+'Till he knows that too many people have died
+The answer, my friend, is blowing in the wind
+The answer is blowing in the wind
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;JavaScript&lt;/h3&gt;
+&lt;pre&gt;&lt;code class="javascript"&gt;(function() {
+    var domReady = false, highlightReady = true;
+    function importHighlight() {
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js';
+        document.head.appendChild(script);
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css';
+        document.head.appendChild(link);
+    }
+    function initHighlight() {
+        var codes = document.getElementsByTagName('code');
+        for (var i = 0; i &amp;lt; codes.length; i++) {
+            hljs.highlightBlock(codes[i]);
+        }
+        delete codes;
+        return true;
+    }
+
+    var interval = setInterval(function() {
+            console.debug('interval checking');
+            if (!domReady) {
+                if (document.readyState === 'complete') {
+                    console.debug('document ready');
+                    domReady = true;
+                    if (0 &amp;lt; document.getElementsByTagName('code').length) {
+                        console.debug('importHighlight');
+                        highlightReady = false;
+                        importHighlight();
+                    } else {
+                        console.debug('no code tag');
+                    }
+                }
+            } else if (!highlightReady) {
+                highlightReady = 'undefined' != typeof(hljs);
+                if (highlightReady) {
+                    console.debug('initHighlight');
+                    initHighlight();
+                }
+            } else {
+                console.debug('destory interval');
+                clearInterval(interval);
+            }
+            return true;
+        },
+        200);
+})();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;MathJax&lt;/h3&gt;
+&lt;p&gt;
+&lt;script type="math/tex; mode=display"&gt;x = {-b \pm \sqrt{b^2-4ac} \over 2a}&lt;/script&gt;
+&lt;/p&gt;
+&lt;h3&gt;chemical&lt;/h3&gt;
+&lt;p&gt;&lt;span class="simplechem"&gt;2KOH + H&lt;sub&gt;2&lt;/sub&gt;SO&lt;sub&gt;4&lt;/sub&gt; → K&lt;sub&gt;2&lt;/sub&gt;SO&lt;sub&gt;4&lt;/sub&gt; + H&lt;sub&gt;2&lt;/sub&gt;O&lt;/span&gt;&lt;/p&gt;
+&lt;h3&gt;Sequence Diagram&lt;/h3&gt;
+&lt;pre&gt;&lt;code class="sequence"&gt;Title: Here is a title
+A-&amp;gt;B: Normal line
+B--&amp;gt;C: Dashed line
+C-&amp;gt;&amp;gt;D: Open arrow
+D--&amp;gt;&amp;gt;A: Dashed open arrow
+&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>用虚拟私用网络访问敏感网络</title><link href="https://whiler.github.io/bypass-via-vpn.html" rel="alternate"></link><published>2016-10-18T00:00:00+08:00</published><updated>2016-10-18T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-10-18:/bypass-via-vpn.html</id><summary type="html">&lt;p&gt;利用 域名列表 、dnsmasq 、 iptables 和 ipset 配合 虚拟私用网络 精确到域名解决网络封锁。&lt;/p&gt;</summary><content type="html">&lt;p&gt;相对于 &lt;a href="https://whiler.github.io/bypass.html"&gt;绕开网络封锁访问敏感域名&lt;/a&gt; ：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;依赖 虚拟私用网络 ；&lt;/li&gt;
 &lt;li&gt;不再依赖 pdnsd ；&lt;/li&gt;
@@ -105,7 +210,7 @@ stop_split_tunneling() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;参考： &lt;a href="https://github.com/clowwindy/ShadowVPN/wiki/ShadowVPN----ipset"&gt;ShadowVPN ipset&lt;/a&gt;&lt;/p&gt;</content></entry><entry><title>绘制心形图案</title><link href="https://whiler.github.io/heart.html" rel="alternate"></link><published>2016-04-14T00:00:00+08:00</published><updated>2016-04-14T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2016-04-14:/heart.html</id><summary type="html">&lt;p&gt;半夜没事瞎折腾，想到绘制心形图案消磨时间。&lt;/p&gt;</summary><content type="html">&lt;p&gt;半夜没事瞎折腾，想到绘制心形图案消磨时间。
+&lt;p&gt;参考： &lt;a href="https://github.com/clowwindy/ShadowVPN/wiki/ShadowVPN----ipset"&gt;ShadowVPN ipset&lt;/a&gt;&lt;/p&gt;</content></entry><entry><title>绘制心形图案</title><link href="https://whiler.github.io/heart.html" rel="alternate"></link><published>2016-04-14T00:00:00+08:00</published><updated>2016-04-14T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-04-14:/heart.html</id><summary type="html">&lt;p&gt;半夜没事瞎折腾，想到绘制心形图案消磨时间。&lt;/p&gt;</summary><content type="html">&lt;p&gt;半夜没事瞎折腾，想到绘制心形图案消磨时间。
 看了一些方案，最后采用半圆加正方形折叠的方式来绘制，&lt;code&gt;r = a * (1 - sin θ)&lt;/code&gt; 真心不会。&lt;/p&gt;
 &lt;p&gt;绘制心形图案，首先想到了笛卡尔的 &lt;code&gt;r = a * (1 - sin θ)&lt;/code&gt; ，但是折腾了半天不会将极坐标系的点转换到笛卡尔坐标系，于是改用正方形外接一个半圆再折叠一次来表示。
 这样就只剩下简单的几何代数运算了。&lt;/p&gt;
@@ -147,7 +252,7 @@ def heart(radius):
         print(line)
 
         top = top + 1
-&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>绕开网络封锁访问敏感域名</title><link href="https://whiler.github.io/bypass.html" rel="alternate"></link><published>2016-04-11T00:00:00+08:00</published><updated>2016-04-11T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2016-04-11:/bypass.html</id><summary type="html">&lt;p&gt;用域名列表、dnsmasq 、 pdnsd 、 iptables 和 ipset 配合 shadowsocks-libev 精确到域名解决 tcp 连接封锁、dns 劫持、dns 请求 udp 丢包的问题，绕过网络封锁。&lt;/p&gt;</summary><content type="html">&lt;p&gt;用域名列表、dnsmasq 、 pdnsd 、 iptables 和 ipset 配合 shadowsocks-libev 精确到域名解决 TCP 连接封锁、DNS 劫持、DNS 请求 UDP 丢包的问题，绕过网络封锁。&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>绕开网络封锁访问敏感域名</title><link href="https://whiler.github.io/bypass.html" rel="alternate"></link><published>2016-04-11T00:00:00+08:00</published><updated>2016-04-11T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-04-11:/bypass.html</id><summary type="html">&lt;p&gt;用域名列表、dnsmasq 、 pdnsd 、 iptables 和 ipset 配合 shadowsocks-libev 精确到域名解决 tcp 连接封锁、dns 劫持、dns 请求 udp 丢包的问题，绕过网络封锁。&lt;/p&gt;</summary><content type="html">&lt;p&gt;用域名列表、dnsmasq 、 pdnsd 、 iptables 和 ipset 配合 shadowsocks-libev 精确到域名解决 TCP 连接封锁、DNS 劫持、DNS 请求 UDP 丢包的问题，绕过网络封锁。&lt;/p&gt;
 &lt;p&gt;首先，用 shadowsocks-libev 建立透明代理，绕开网络封锁；
 配置 iptables ，配合 ipset 让匹配 ipset 的 TCP 数据都转发到透明代理；
 利用 pdnsd 通过 TCP 向可信的 DNS 服务器转发请求；
@@ -244,7 +349,7 @@ server=/withgoogle.com/127.0.0.1#5353
 ipset=/withgoogle.com/bypass
 server=/google.com/127.0.0.1#5353
 ipset=/google.com/bypass
-&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>关于这个博客</title><link href="https://whiler.github.io/blog.html" rel="alternate"></link><published>2016-03-04T00:00:00+08:00</published><updated>2016-03-04T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2016-03-04:/blog.html</id><summary type="html">&lt;p&gt;闷头写代码到深夜，灵感闪现，迅速解决困扰了很久的问题，想要欢呼一下，发现已经是深夜了，作罢。&lt;/p&gt;</summary><content type="html">&lt;p&gt;闷头写代码到深夜，灵感闪现，迅速解决困扰了很久的问题，想要欢呼一下，发现已经是深夜了，作罢。
+&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>关于这个博客</title><link href="https://whiler.github.io/blog.html" rel="alternate"></link><published>2016-03-04T00:00:00+08:00</published><updated>2016-03-04T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-03-04:/blog.html</id><summary type="html">&lt;p&gt;闷头写代码到深夜，灵感闪现，迅速解决困扰了很久的问题，想要欢呼一下，发现已经是深夜了，作罢。&lt;/p&gt;</summary><content type="html">&lt;p&gt;闷头写代码到深夜，灵感闪现，迅速解决困扰了很久的问题，想要欢呼一下，发现已经是深夜了，作罢。
 还是用一个博客记下来吧，聊以告慰自己。&lt;/p&gt;
 &lt;p&gt;使用的平台和库：&lt;/p&gt;
 &lt;ul&gt;
@@ -266,7 +371,7 @@ ipset=/google.com/bypass
 &lt;li&gt;&lt;a href="https://pythonhosted.org/Markdown/"&gt;Python-Markdown&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://jinja.pocoo.org/"&gt;Jinja2&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/aleray/mdx_del_ins"&gt;del_ins&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content></entry><entry><title>关于/about</title><link href="https://whiler.github.io/about.html" rel="alternate"></link><published>2016-02-28T00:00:00+08:00</published><updated>2016-02-28T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2016-02-28:/about.html</id><summary type="html">&lt;p&gt;一只嘴巴，两个鼻孔，四只眼睛，六块腹肌，拥有22对全球唯一的常染色体以及1对xy性染色体。&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;img alt="me" src="https://whiler.github.io/assets/images/500.png"&gt;&lt;/p&gt;
+&lt;/ul&gt;</content></entry><entry><title>关于/about</title><link href="https://whiler.github.io/about.html" rel="alternate"></link><published>2016-02-28T00:00:00+08:00</published><updated>2016-02-28T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-02-28:/about.html</id><summary type="html">&lt;p&gt;一只嘴巴，两个鼻孔，四只眼睛，六块腹肌，拥有22对全球唯一的常染色体以及1对xy性染色体。&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;img alt="me" src="https://whiler.github.io/assets/images/500.png"&gt;&lt;/p&gt;
 &lt;p&gt;一只嘴巴，两个鼻孔，四只眼睛，六块腹肌，拥有 22 对全球唯一的常染色体以及 1 对 &lt;em&gt;XY&lt;/em&gt; 性染色体。
 喜欢吃饭、睡觉、吹风、乘凉、游泳、跑步、滑雪、羽毛球以及素描。
 典型的程序员，无节操、无下限、闷骚。
@@ -277,7 +382,7 @@ ipset=/google.com/bypass
 &lt;li&gt;&lt;a href="https://www.zhihu.com/people/whiler" title="whiler @ Zhihu"&gt;知乎&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.facebook.com/wenwu.lv.5" title="Wenwu Lv @ Facebook"&gt;Facebook&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="mailto:wenwu500@qq.com" title="mail to me"&gt;Email&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content></entry><entry><title>my gpg public key</title><link href="https://whiler.github.io/gpg.html" rel="alternate"></link><published>2015-08-29T00:00:00+08:00</published><updated>2015-08-29T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2015-08-29:/gpg.html</id><summary type="html">&lt;p&gt;my gpg public key information.&lt;/p&gt;</summary><content type="html">&lt;h3&gt;Key ID&lt;/h3&gt;
+&lt;/ul&gt;</content></entry><entry><title>my gpg public key</title><link href="https://whiler.github.io/gpg.html" rel="alternate"></link><published>2015-08-29T00:00:00+08:00</published><updated>2015-08-29T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2015-08-29:/gpg.html</id><summary type="html">&lt;p&gt;my gpg public key information.&lt;/p&gt;</summary><content type="html">&lt;h3&gt;Key ID&lt;/h3&gt;
 &lt;p&gt;34DB676C&lt;/p&gt;
 &lt;h3&gt;Fingerprint&lt;/h3&gt;
 &lt;p&gt;AE12 BE0C B075 2C35 CDEB  C120 4BA5 A9C5 34DB 676C&lt;/p&gt;
@@ -576,7 +681,7 @@ RICV33t8RWvjc8KGR7YO3JnGo8Q5I9+U3YeOF+RDjQOk8frvdEvlmbbmyoGqP+77
 o1Ahjb4wIXRu
 =XeA7
 -----END PGP PUBLIC KEY BLOCK-----
-&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>六度分割理论</title><link href="https://whiler.github.io/theory-of-six-degrees-contacts.html" rel="alternate"></link><published>2014-09-17T00:00:00+08:00</published><updated>2014-09-17T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2014-09-17:/theory-of-six-degrees-contacts.html</id><summary type="html">&lt;p&gt;一次求职笔试，考到了六度分隔理论，判断两个人之间是否存在可能的联系。&lt;/p&gt;</summary><content type="html">&lt;p&gt;一次求职笔试，考到了六度分隔理论，判断两个人之间是否存在可能的联系。
+&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>六度分割理论</title><link href="https://whiler.github.io/theory-of-six-degrees-contacts.html" rel="alternate"></link><published>2014-09-17T00:00:00+08:00</published><updated>2014-09-17T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2014-09-17:/theory-of-six-degrees-contacts.html</id><summary type="html">&lt;p&gt;一次求职笔试，考到了六度分隔理论，判断两个人之间是否存在可能的联系。&lt;/p&gt;</summary><content type="html">&lt;p&gt;一次求职笔试，考到了六度分隔理论，判断两个人之间是否存在可能的联系。
 问题是比较简单的，就是检查权重为1的无向图中两个节点在 6 层内是否有相通的路径。&lt;/p&gt;
 &lt;h3&gt;解决办法&lt;/h3&gt;
 &lt;ol&gt;
@@ -652,7 +757,7 @@ if __name__ == '__main__':
         logging.debug('degrees between %s and %s is %d', a, b, dep)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;关于六度分隔理论的详细介绍，可以参考 &lt;a href="https://en.wikipedia.org/wiki/Six_degrees_of_separation"&gt;Six degrees of separation&lt;/a&gt; 。&lt;/p&gt;</content></entry><entry><title>多数据源混合输出</title><link href="https://whiler.github.io/mix-sources.html" rel="alternate"></link><published>2012-07-15T00:00:00+08:00</published><updated>2012-07-15T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2012-07-15:/mix-sources.html</id><summary type="html">&lt;p&gt;拥有相同数据格式的数据源按照数量混合分页输出。&lt;/p&gt;</summary><content type="html">&lt;p&gt;拥有相同数据格式的数据源按照数量混合分页输出。
+&lt;p&gt;关于六度分隔理论的详细介绍，可以参考 &lt;a href="https://en.wikipedia.org/wiki/Six_degrees_of_separation"&gt;Six degrees of separation&lt;/a&gt; 。&lt;/p&gt;</content></entry><entry><title>多数据源混合输出</title><link href="https://whiler.github.io/mix-sources.html" rel="alternate"></link><published>2012-07-15T00:00:00+08:00</published><updated>2012-07-15T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2012-07-15:/mix-sources.html</id><summary type="html">&lt;p&gt;拥有相同数据格式的数据源按照数量混合分页输出。&lt;/p&gt;</summary><content type="html">&lt;p&gt;拥有相同数据格式的数据源按照数量混合分页输出。
 比如在新闻列表中混合输出政治、经济、娱乐、科技新闻；
 在用户 Feed 流中混合输出用户订阅的条目和推荐给用户的条目。&lt;/p&gt;
 &lt;p&gt;数据源输出有 &lt;strong&gt;开始正常输出&lt;/strong&gt;、&lt;strong&gt;开始变换输出（填补前一个数据源不足分页的量）&lt;/strong&gt;、&lt;strong&gt;变换输出&lt;/strong&gt; 和 &lt;strong&gt;结束输出&lt;/strong&gt; 四个阶段。
@@ -720,7 +825,7 @@ if __name__ == '__main__':
         print('Page: %d\t%s' % (page, ' '.join(items)))
         page += 1
         items = mix(page, (a, 2), (b, 3), (c, 5))
-&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>手机QQ2009聊天记录分析及提取</title><link href="https://whiler.github.io/QQ2009.sis.html" rel="alternate"></link><published>2009-10-14T00:00:00+08:00</published><updated>2009-10-14T00:00:00+08:00</updated><author><name>whiler</name></author><id>tag:whiler.github.io,2009-10-14:/QQ2009.sis.html</id><summary type="html">&lt;p&gt;symbian series 60 3rd qq mobile chat log parse and extract.&lt;/p&gt;</summary><content type="html">&lt;p&gt;这是我的最早一个像程序的程序。&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>手机QQ2009聊天记录分析及提取</title><link href="https://whiler.github.io/QQ2009.sis.html" rel="alternate"></link><published>2009-10-14T00:00:00+08:00</published><updated>2009-10-14T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2009-10-14:/QQ2009.sis.html</id><summary type="html">&lt;p&gt;symbian series 60 3rd qq mobile chat log parse and extract.&lt;/p&gt;</summary><content type="html">&lt;p&gt;这是我的最早一个像程序的程序。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;十月十三号用上手机QQ2009了，一看，果然更花哨了。但以前写的手机QQ聊天记录提取程序用不上了，莫办法，重新分析。&lt;/p&gt;
 &lt;p&gt;一手机QQ2009聊天记录文件的存放位置&lt;/p&gt;

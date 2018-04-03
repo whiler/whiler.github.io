@@ -33,6 +33,7 @@ def getStatics(soup, current):
     return sorted(list(set(
         resolv(current, path) if path.startswith('.') else path
         for path in statics
+        if not path.startswith('data:')
     )))
 
 

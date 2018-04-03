@@ -53,19 +53,19 @@ a:hover, a:focus {
 }
 
 .content blockquote {
-	border-left-width: 1em;
-	border-left-style: solid;
+    border-left-width: 1em;
+    border-left-style: solid;
     margin: 0;
 }
 
 .content p > code {
     display: inline;
     padding: 0.1em;
-	border-width: 0.01em;
-	border-style: solid;
+    border-width: 0.01em;
+    border-style: solid;
     border-radius: 0.2em;
 }
 
 .content .uml-flowchart, .content .uml-sequence-diagram {
-	text-align: center;
+    text-align: center;
 }

@@ -50,8 +50,6 @@
 						      function() {
 						          return uml(flowchart, flowchartSelector, {});
 						      })
-	} else {
-		console.debug('no flowchart');
 	}
 
 	if (0 < doc.querySelectorAll(sequenceSelector).length) {
@@ -67,8 +65,6 @@
 						      function() {
 						          return uml(Diagram, sequenceSelector, {theme: 'hand'});
 						      })
-	} else {
-		console.debug('no sequence diagram');
 	}
 
 	return true;

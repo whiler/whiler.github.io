@@ -25,126 +25,122 @@
 	<hr/>
 <article>
             <aside class="main">
-                <h2 class="center"><a href="https://whiler.github.io/debug.html">兼容古老的浏览器</a></h2>
+                <h2 class="center"><a href="https://whiler.github.io/bypass-via-vpn.html">用虚拟私用网络访问敏感网络</a></h2>
 				<hr/>
 <div class="meta">
-	发布于/Published: <a href="https://whiler.github.io/archives.html" title="归档/Archives"><time datetime="2018-03-30T00:00:00+08:00">Fri 30 March 2018</time></a>
-</div>				<div class="content"><p>一些古老浏览器的 <code>JavaScript</code> 性能不足，或者不支持部分特性，需要兼容古老浏览器和现代浏览器，在文档显示上做到一致。</p>
-<h3>引用测试</h3>
-<p><strong>菩提偈</strong> <em>惠能</em></p>
-<blockquote>
-<p>菩提本无树，明镜亦非台。
-佛性常清净，何处有尘埃！
-心是菩提树，身为明镜台。
-明镜本清净，何处染尘埃！
-菩提本无树，明镜亦非台。
-本来无一物，何处惹尘埃！
-菩提只向心觅，何劳向外求玄？</p>
-<p>-- <cite>惠能</cite></p>
-</blockquote>
-<h3>代码测试</h3>
-<p><strong>blowing in the wind</strong> <em>Bob Dylan</em></p>
-<pre><code>Blowing in the wind Peter, Paul &amp; Mary
-How many roads must a man walk down
-Before they call him a man
-How many seas must a white dove sail
-Before she sleeps in the sand
-How many times must the cannon balls fly
-Before they're forever banned
-The answer, my friend, is blowing in the wind
-The answer is blowing in the wind
-How many years can a mountain exist
-Before it is washed to the sea
-How many years can some people exist
-Before they're allowed to be free
-How many times can a man turn his head
-And pretend that he just doesn't see
-The answer, my friend, is blowing in the wind
-The answer is blowing in the wind
-How many times must a man look up
-Before he can see the sky
-How many ears must one man have
-Before he can hear people cry
-How many deaths will it take
-'Till he knows that too many people have died
-The answer, my friend, is blowing in the wind
-The answer is blowing in the wind
-</code></pre>
-<h3>JavaScript</h3>
-<pre><code class="javascript">(function() {
-    var domReady = false, highlightReady = true;
-    function importHighlight() {
-        var script = document.createElement('script');
-        script.async = true;
-        script.src = '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js';
-        document.head.appendChild(script);
-        var link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css';
-        document.head.appendChild(link);
-    }
-    function initHighlight() {
-        var codes = document.getElementsByTagName('code');
-        for (var i = 0; i &lt; codes.length; i++) {
-            hljs.highlightBlock(codes[i]);
-        }
-        delete codes;
-        return true;
-    }
-
-    var interval = setInterval(function() {
-            console.debug('interval checking');
-            if (!domReady) {
-                if (document.readyState === 'complete') {
-                    console.debug('document ready');
-                    domReady = true;
-                    if (0 &lt; document.getElementsByTagName('code').length) {
-                        console.debug('importHighlight');
-                        highlightReady = false;
-                        importHighlight();
-                    } else {
-                        console.debug('no code tag');
-                    }
-                }
-            } else if (!highlightReady) {
-                highlightReady = 'undefined' != typeof(hljs);
-                if (highlightReady) {
-                    console.debug('initHighlight');
-                    initHighlight();
-                }
-            } else {
-                console.debug('destory interval');
-                clearInterval(interval);
-            }
-            return true;
-        },
-        200);
-})();
+	发布于/Published: <a href="https://whiler.github.io/archives.html" title="归档/Archives"><time datetime="2016-10-18T00:00:00+08:00">Tue 18 October 2016</time></a>
+</div>				<div class="content"><p>相对于 <a href="https://whiler.github.io/bypass.html">绕开网络封锁访问敏感域名</a> ：</p>
+<ul>
+<li>依赖 虚拟私用网络 ；</li>
+<li>不再依赖 pdnsd ；</li>
+<li>通过协议不再仅限于 TCP 和 UDP ；</li>
+<li>客户端本机也可以访问敏感网络。</li>
+</ul>
+<p>利用 域名列表 配合 dnsmasq 和 ipset 收集需要通过 虚拟私用网络 的流量，利用 iptables 和 ipset 识别并标记流量，配置 路由表 让被标记的流量通过 虚拟私用网络 访问。</p>
+<p>大致的步骤：</p>
+<ol>
+<li>安装并配置 虚拟私用网络 服务端；</li>
+<li>安装 虚拟私用网络 客户端；</li>
+<li>创建 ipset ；</li>
+<li>将可信的 DNS 服务器地址添加到 ipset ；</li>
+<li>安装并配置 dnsmasq ；</li>
+<li>创建路由表；</li>
+<li>调整内核 rp filter ；</li>
+<li>自定义 vpnc script 。</li>
+</ol>
+<h3>安装并配置 虚拟私用网络 服务端</h3>
+<p>感激 schemacs 赠送的 AnyConnect 虚拟私用网络，让我免去了安装和配置的繁琐。</p>
+<h3>安装 虚拟私用网络 客户端</h3>
+<p>连接 AnyConnect 可以用 OpenConnect 的客户端。</p>
+<h3>创建 ipset</h3>
+<pre><code>ipset create &quot;${SETNAME}&quot; hash:ip
 </code></pre>
 
-<h3>MathJax</h3>
-<p>
-<script type="math/tex; mode=display">x = {-b \pm \sqrt{b^2-4ac} \over 2a}</script>
-</p>
-<h3>chemical</h3>
-<p><span class="simplechem">2KOH + H<sub>2</sub>SO<sub>4</sub> → K<sub>2</sub>SO<sub>4</sub> + H<sub>2</sub>O</span></p>
-<h3>Sequence Diagram</h3>
-<pre><code class="sequence">Title: Here is a title
-A-&gt;B: Normal line
-B--&gt;C: Dashed line
-C-&gt;&gt;D: Open arrow
-D--&gt;&gt;A: Dashed open arrow
-</code></pre></div>
+<h3>将可信的 DNS 服务器地址添加到 ipset</h3>
+<pre><code>ipset add &quot;${SETNAME}&quot; 8.8.8.8
+ipset add &quot;${SETNAME}&quot; 8.8.4.4
+</code></pre>
+
+<h3>安装并配置 dnsmasq</h3>
+<p>修改 /etc/dnsmasq.conf 在最后加入 conf-dir=/etc/dnsmasq.d/,*.conf ，新建并进入 /etc/dnsmasq.d 目录；
+创建一个后缀为 .conf 的配置文件，为每一个敏感的域名指定可信的 DNS 解析服务器，并将解析得到的地址添加到 ipset 中。</p>
+<pre><code>echo &quot;conf-dir=/etc/dnsmasq.d/,*.conf&quot; &gt;&gt; /etc/dnsmasq.conf
+
+mkdir -p /etc/dnsmasq.d
+
+echo &quot;server=/google.com/8.8.8.8&quot;   &gt;&gt; &quot;/etc/dnsmasq.d/${filename}.conf&quot;
+echo &quot;ipset=/google.com/${SETNAME}&quot; &gt;&gt; &quot;/etc/dnsmasq.d/${filename}.conf&quot;
+</code></pre>
+
+<h3>创建路由表</h3>
+<p>/etc/iproute2/rt_tables 保存了系统的路由表。
+向文件中写入一行即可创建一个路由表。</p>
+<pre><code>echo -e &quot;${TABLEID}\t${TABLENAME}&quot; &gt;&gt; /etc/iproute2/rt_tables
+</code></pre>
+
+<h3>调整内核 rp filter</h3>
+<p>由于用到部分 策略路由 ，需要将内核反向过滤策略关闭或者放宽松。</p>
+<pre><code>echo &quot;net.ipv4.conf.default.rp_filter=2&quot; &gt;&gt; /etc/sysctl.conf
+echo &quot;net.ipv4.conf.all.rp_filter=2&quot;     &gt;&gt; /etc/sysctl.conf
+sysctl -p
+</code></pre>
+
+<h3>自定义 vpnc script</h3>
+<p>若使用 OpenConnect 默认的 <a href="http://git.infradead.org/users/dwmw2/vpnc-scripts.git/blob_plain/HEAD:/vpnc-script">vpnc script</a> ，它会替换系统默认路由，让所有流量都通过 虚拟私用网络 ，显然这样不合理。</p>
+<p>默认的 vpnc script 主要实现了两个函数 do_connect 和 do_disconnect 。</p>
+<p>do_connect 在开始连接 虚拟私用网络 时，依次调用 set_vpngateway_route 、 do_ifconfig 和 set_default_route 三个函数，其中 set_default_route 将系统默认的路由替换成了 虚拟私用网络 分配的路由。</p>
+<p>do_disconnect 在退出 虚拟私用网络 时，依次调用 reset_default_route 、 del_vpngateway_route 和 destroy_tun_device ，其中 reset_default_route 函数恢复系统原来的路由。</p>
+<p>我们需要实现 start_split_tunneling 和 stop_split_tunneling 来替换 set_vpngateway_route 和 reset_default_route 完成分流。</p>
+<pre><code>start_split_tunneling() {
+    # mark
+    # 目的地址匹配 ipset 则打上标记
+    iptables --table mangle --insert PREROUTING --match set --match-set &quot;${SETNAME}&quot; dst --jump MARK --set-mark &quot;${MARK}&quot;
+    iptables --table mangle --insert OUTPUT     --match set --match-set &quot;${SETNAME}&quot; dst --jump MARK --set-mark &quot;${MARK}&quot;
+
+    # forwarding
+    # 允许流量进出 TUNDEV
+    iptables --table filter --insert FORWARD --out-interface &quot;${TUNDEV}&quot; --jump ACCEPT
+    iptables --table filter --insert FORWARD --in-interface  &quot;${TUNDEV}&quot; --jump ACCEPT
+
+    # nat
+    # 地址伪装
+    iptables --table nat --insert POSTROUTING --out-interface &quot;${TUNDEV}&quot; --jump MASQUERADE
+
+    # rule
+    # 所有带标记的流量都通过指定的路由表
+    ip rule add fwmark ${MARK} table ${TABLENAME}
+
+    # gateway
+    # 为路由表指定默认的路由设备
+    ip route add default dev &quot;${TUNDEV}&quot; src &quot;${INTERNAL_IP4_ADDRESS}&quot; table &quot;${TABLENAME}&quot;
+}
+
+stop_split_tunneling() {
+    # gateway
+    ip route del default dev &quot;${TUNDEV}&quot; src &quot;${INTERNAL_IP4_ADDRESS}&quot; table &quot;${TABLENAME}&quot;
+
+    # rule
+    ip rule del fwmark ${MARK} table ${TABLENAME}
+
+    # nat
+    iptables --table nat --delete POSTROUTING --out-interface &quot;${TUNDEV}&quot; --jump MASQUERADE
+
+    # forwarding
+    iptables --table filter --delete FORWARD --out-interface &quot;${TUNDEV}&quot; --jump ACCEPT
+    iptables --table filter --delete FORWARD --in-interface  &quot;${TUNDEV}&quot; --jump ACCEPT
+
+    # mark
+    iptables --table mangle --delete PREROUTING --match set --match-set &quot;${SETNAME}&quot; dst --jump MARK --set-mark &quot;${MARK}&quot;
+    iptables --table mangle --delete OUTPUT     --match set --match-set &quot;${SETNAME}&quot; dst --jump MARK --set-mark &quot;${MARK}&quot;
+}
+</code></pre>
+
+<p>参考： <a href="https://github.com/clowwindy/ShadowVPN/wiki/ShadowVPN----ipset">ShadowVPN ipset</a></p></div>
             </aside>
 				<hr/>
                 <aside class="others">
                     <h3>其他文章/Other articles</h3>
                     <ol class="list">
-            <li>
-                <a href="https://whiler.github.io/bypass-via-vpn.html" title="用虚拟私用网络访问敏感网络">用虚拟私用网络访问敏感网络</a>
-<div class="meta">
-	发布于/Published: <a href="https://whiler.github.io/archives.html" title="归档/Archives"><time datetime="2016-10-18T00:00:00+08:00">Tue 18 October 2016</time></a>
-</div>            </li>
             <li>
                 <a href="https://whiler.github.io/heart.html" title="绘制心形图案">绘制心形图案</a>
 <div class="meta">
@@ -169,6 +165,11 @@ D--&gt;&gt;A: Dashed open arrow
                 <a href="https://whiler.github.io/gpg.html" title="my gpg public key">my gpg public key</a>
 <div class="meta">
 	发布于/Published: <a href="https://whiler.github.io/archives.html" title="归档/Archives"><time datetime="2015-08-29T00:00:00+08:00">Sat 29 August 2015</time></a>
+</div>            </li>
+            <li>
+                <a href="https://whiler.github.io/theory-of-six-degrees-contacts.html" title="六度分割理论">六度分割理论</a>
+<div class="meta">
+	发布于/Published: <a href="https://whiler.github.io/archives.html" title="归档/Archives"><time datetime="2014-09-17T00:00:00+08:00">Wed 17 September 2014</time></a>
 </div>            </li>
                 </ol>
 <div class="paginator center">

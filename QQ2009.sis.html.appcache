@@ -1,12 +1,12 @@
 CACHE MANIFEST
 # manifest for /QQ2009.sis.html
-# rev: 78da9433f33bb90a8831f16431f8ee2e
-# date: 2018-04-04T01:06:18.488213
+# rev: b01ea5c6e1a4e786d4c5900ce7a2b4b5
+# date: 2018-04-04T01:35:21.766998
 
 CACHE:
 https://whiler.github.io/theme/css/styles.min.24c1f063.css
 https://whiler.github.io/theme/images/favicon.svg
-https://whiler.github.io/theme/scripts/bootstrap.min.6f862332.js
+https://whiler.github.io/theme/scripts/bootstrap.min.1e5f73bc.js
 
 NETWORK:
 *

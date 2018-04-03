@@ -1,12 +1,12 @@
 CACHE MANIFEST
 # manifest for /theory-of-six-degrees-contacts.html
-# rev: e1de15ff54ae192b8c7a598d224a1089
-# date: 2018-04-04T01:06:18.476186
+# rev: da3ee1027062d955bbd1978daa0d83d7
+# date: 2018-04-04T01:35:21.751669
 
 CACHE:
 https://whiler.github.io/theme/css/styles.min.24c1f063.css
 https://whiler.github.io/theme/images/favicon.svg
-https://whiler.github.io/theme/scripts/bootstrap.min.6f862332.js
+https://whiler.github.io/theme/scripts/bootstrap.min.1e5f73bc.js
 
 NETWORK:
 *

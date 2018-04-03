@@ -1,6 +1,5 @@
 body {
     font-size: 1.125rem;
-    color: #404040;
 }
 
 body > header, body > article, body > footer, body > hr {
@@ -14,7 +13,7 @@ body > header, body > article, body > footer, body > hr {
         font-size: 1.25rem;
     }
 
-	body > header, body > article, body > footer, body > hr {
+    body > header, body > article, body > footer, body > hr {
         width: 80vw;
     }
 }
@@ -24,60 +23,45 @@ body > footer {
     line-height: 3em;
 }
 
-body > header > h1 > a {
-    color: #404040;
-}
-
 body > header > h1 > a:hover, body > header > h1 > a:focus {
     text-decoration: none;
 }
 
 a {
     text-decoration: none;
-    color: #009BDF;
 }
 
 a:hover, a:focus {
     text-decoration: underline;
 }
 
-hr {
-	color: #d3d3d3;
-}
-
 .center {
-	text-align: center;
+    text-align: center;
 }
 
 .main .meta {
-	text-align: right;
-}
-
-.meta a {
-    color: #404040;
+    text-align: right;
 }
 
 .list .meta {
-	display: inline-block;
+    display: inline-block;
 }
 
 .content pre {
     white-space: pre-wrap;
     padding: 0.8em;
-	background-color: #f0f0f0;
 }
 
 .content blockquote {
-    border-left: 1em solid #cccccc;
-	background-color: #f0f0f0;
-	margin: 0;
+	border-left-width: 1em;
+	border-left-style: solid;
+    margin: 0;
 }
 
 .content p > code {
-	display: inline;
-	background-color: inherit;
-	padding: 0.1em;
-	border: 0.01em solid #cccccc;
-	border-radius: 0.2em;
-	color: #880000;
+    display: inline;
+    padding: 0.1em;
+	border-width: 0.01em;
+	border-style: solid;
+    border-radius: 0.2em;
 }

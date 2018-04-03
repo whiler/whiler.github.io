@@ -66,13 +66,15 @@ SITEMAP = {
 
 MARKDOWN = {
     'extension_configs': {
-        'markdown.extensions.fenced_code': {},
         'markdown.extensions.extra': {},
         'markdown.extensions.meta': {},
-        'del_ins': {},
-        'mdx_cite': {},
-        'mdx_math': {},
-        'simplechem': {}
+
+        'pymdownx.arithmatex': {},
+        'pymdownx.superfences': {'highlight_code': False},
+        'pymdownx.tilde': {},
+
+        'simplechem': {},
+        'markdown_blockdiag': {'format': 'svg'},
     },
     'output_format': 'html5'
 }

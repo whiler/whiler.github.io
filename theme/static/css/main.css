@@ -81,3 +81,7 @@ hr {
 	border-radius: 0.2em;
 	color: #880000;
 }
+
+.content .uml-flowchart, .content .uml-sequence-diagram {
+	text-align: center;
+}

@@ -1,12 +1,12 @@
 CACHE MANIFEST
 # manifest for /blog.html
-# rev: 9b2d3d687d838e27c590767288e3d8cd
-# date: 2018-04-03T16:33:57.442158
+# rev: 04dc568bd90b4617464c0499af72fb71
+# date: 2018-04-04T00:06:15.359908
 
 CACHE:
 https://whiler.github.io/theme/css/styles.min.93d86462.css
 https://whiler.github.io/theme/images/favicon.svg
-https://whiler.github.io/theme/scripts/bootstrap.min.a1f1f9b7.js
+https://whiler.github.io/theme/scripts/bootstrap.min.19b72a3b.js
 
 NETWORK:
 *

@@ -1,23 +1,12 @@
 <!DOCTYPE html>
 <html lang="cmn" manifest="https://whiler.github.io/page/2/index.html.appcache">
 <head>
-        <meta charset="utf-8" />
-        <title>轨迹/trace</title>
-		<link rel="stylesheet" href="https://whiler.github.io/theme/css/styles.min.93d86462.css" />
-        <link rel="icon" href="https://whiler.github.io/theme/images/favicon.svg"/>
-        <link href="http://local.whiler.me:10086/blog/feed.xml" type="application/atom+xml" rel="alternate" title="轨迹/trace Atom Feed" />
-		<script>
-			window.taskQueue = window.taskQueue || (function(){
-				var queue = [];
-				return {
-					'enqueue': function() { return queue.push(arguments); },
-					'dequeue': function() { return queue.shift(); },
-					'getLength': function() { return queue.length; }
-				};
-			})();
-			taskQueue.enqueue('create', 'script', {src: 'https://whiler.github.io/theme/scripts/launch.min.56690245.js'});
-		</script>
-        <script async src="https://whiler.github.io/theme/scripts/bootstrap.min.a1f1f9b7.js"></script>
+	<meta charset="utf-8" />
+	<title>轨迹/trace</title>
+	<link rel="stylesheet" href="https://whiler.github.io/theme/css/styles.min.93d86462.css" />
+	<link rel="icon" href="https://whiler.github.io/theme/images/favicon.svg"/>
+	<link href="http://local.whiler.me:10086/blog/feed.xml" type="application/atom+xml" rel="alternate" title="轨迹/trace Atom Feed" />
+	<script async id="entry" src="https://whiler.github.io/theme/scripts/bootstrap.min.19b72a3b.js" data-ga="UA-74531835-1" data-disqus="traced" data-config='{}'></script>
 </head>
 
 <body>
@@ -44,13 +33,5 @@
 </article>
 	<hr/>
     <footer class="center">始于 2016 | SINCE 2016</footer>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){ dataLayer.push(arguments); }
-		gtag('js', new Date());
-		gtag('config', 'UA-74531835-1');
-
-		taskQueue.enqueue('create', 'script', {src: 'https://www.googletagmanager.com/gtag/js?id=UA-74531835-1', async: true});
-	</script>
 </body>
 </html>

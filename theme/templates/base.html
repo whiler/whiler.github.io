@@ -10,7 +10,7 @@
 {% if FEED_ALL_ATOM %}
 	<link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Atom Feed" />
 {% endif %}
-{% assets filters="slimit", output="scripts/bootstrap.min.%(version)s.js", "scripts/bootstrap.js", "scripts/ga.js", "scripts/disqus.js", "scripts/highlight.js", "scripts/mathjax.js" %}
+{% assets filters="slimit", output="scripts/bootstrap.min.%(version)s.js", "scripts/bootstrap.js", "scripts/ga.js", "scripts/disqus.js", "scripts/highlight.js", "scripts/mathjax.js", "scripts/superfences.js" %}
 	<script async id="entry" src="{{ SITEURL }}/{{ ASSET_URL }}" {% if GOOGLE_ANALYTICS %}data-ga="{{ GOOGLE_ANALYTICS }}"{% endif %} {% if DISQUS_SITENAME %}data-disqus="{{ DISQUS_SITENAME }}"{% endif %} data-config='{% block config %}{}{% endblock %}'></script>
 {% endassets %}
 </head>

@@ -11,7 +11,7 @@ THEME = 'theme'
 
 TIMEZONE = 'Asia/Shanghai'
 
-# git clone https://github.com/getpelican/pelican-plugins
+# git submodule update --init --recursive
 PLUGIN_PATHS = ['pelican-plugins', 'other-plugins']
 PLUGINS=['sitemap', 'assets', 'appcache']
 

@@ -12,8 +12,8 @@ THEME = 'theme'
 TIMEZONE = 'Asia/Shanghai'
 
 # git clone https://github.com/getpelican/pelican-plugins
-PLUGIN_PATHS = ['pelican-plugins']
-PLUGINS=['sitemap', 'assets']
+PLUGIN_PATHS = ['pelican-plugins', 'other-plugins']
+PLUGINS=['sitemap', 'assets', 'appcache']
 
 DEFAULT_LANG = 'cmn'
 AUTHOR_SAVE_AS = False

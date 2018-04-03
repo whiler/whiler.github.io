@@ -46,13 +46,12 @@ def getRev(webroot, current, statics):
     return hsh.hexdigest()
 
 
-def generateManifest(sitepath, current, rev, statics, debug):
+def generateManifest(sitepath, current, rev, statics):
     buf = list()
     buf.append('CACHE MANIFEST')
     buf.append('# manifest for %s' % current)
     buf.append('# rev: %s' % rev)
-    if debug:
-        buf.append('# date: %s' % datetime.now().isoformat())
+    buf.append('# date: %s' % datetime.now().isoformat())
     buf.append('')
 
     buf.append('CACHE:')
@@ -70,7 +69,7 @@ def generateManifest(sitepath, current, rev, statics, debug):
     return str('\n').join(buf)
 
 
-def manifest(webroot, sitepath, current, debug=False):
+def manifest(webroot, sitepath, current):
     logger.debug('manifest %s', current)
     filepath = webroot + current
     soup = BeautifulSoup(codecs.open(filepath).read(), 'html.parser')
@@ -79,11 +78,10 @@ def manifest(webroot, sitepath, current, debug=False):
     filepath = filepath + '.appcache'
     logger.debug('generating %s', filepath.replace(webroot, ''))
     with codecs.open(filepath, 'w') as fp:
-        fp.write(generateManifest(sitepath, current, rev, statics, debug))
+        fp.write(generateManifest(sitepath, current, rev, statics))
 
 
 def plugin(pelican):
-    debug = pelican.settings['DEBUG']
     webroot = pelican.settings['OUTPUT_PATH']
     sitepath = urllib.parse.urlparse(pelican.settings['SITEURL']).path.rstrip('/')
     for root, dirs, filenames in os.walk(webroot):
@@ -91,7 +89,7 @@ def plugin(pelican):
             if not filename.endswith('.html'):
                 continue
             manifest(webroot, sitepath,
-                     os.path.join(root, filename).replace(webroot, ''), debug)
+                     os.path.join(root, filename).replace(webroot, ''))
 
 
 def register():

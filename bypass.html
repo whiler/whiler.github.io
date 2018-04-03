@@ -3,10 +3,10 @@
 <head>
 	<meta charset="utf-8" />
 	<title>绕开网络封锁访问敏感域名</title>
-	<link rel="stylesheet" href="https://whiler.github.io/theme/css/styles.min.93d86462.css" />
+	<link rel="stylesheet" href="https://whiler.github.io/theme/css/styles.min.24c1f063.css" />
 	<link rel="icon" href="https://whiler.github.io/theme/images/favicon.svg"/>
 	<link href="http://local.whiler.me:10086/blog/feed.xml" type="application/atom+xml" rel="alternate" title="轨迹/trace Atom Feed" />
-	<script async id="entry" src="https://whiler.github.io/theme/scripts/bootstrap.min.19b72a3b.js" data-ga="UA-74531835-1" data-disqus="traced" data-config='{"uuid": "5d1fa571-9ab2-4501-ae68-5cad22216325"}'></script>
+	<script async id="entry" src="https://whiler.github.io/theme/scripts/bootstrap.min.6f862332.js" data-ga="UA-74531835-1" data-disqus="traced" data-config='{"uuid":"5d1fa571-9ab2-4501-ae68-5cad22216325"}'></script>
 </head>
 
 <body>
@@ -35,8 +35,7 @@
 <p><a href="https://github.com/shadowsocks/shadowsocks-libev">shadowsocks/shadowsocks-libev</a></p>
 <h3>创建 ipset</h3>
 <p>创建一个名为 bypass 的 ipset 。</p>
-<pre><code>ipset create bypass hash:ip
-</code></pre>
+<pre><code>ipset create bypass hash:ip</code></pre>
 
 <h3>创建 iptables 规则</h3>
 <ol>
@@ -69,8 +68,7 @@ iptables --table nat --append BYPASS --destination 255.255.255.255/32 --jump RET
 
 iptables --table nat --append BYPASS --protocol tcp --match set --match-set bypass dst --jump REDIRECT --to-ports 1080
 
-iptables --table nat --append PREROUTING --protocol tcp --jump BYPASS
-</code></pre>
+iptables --table nat --append PREROUTING --protocol tcp --jump BYPASS</code></pre>
 
 <h3>安装并配置 pdnsd</h3>
 <ol>
@@ -97,13 +95,11 @@ server {
     ip = 8.8.8.8, 8.8.4.4;
     root_server = on;
     uptest = none;
-}
-</code></pre>
+}</code></pre>
 
 <h3>将可信的 DNS 服务器地址添加到 ipset</h3>
 <pre><code>ipset add bypass 8.8.8.8
-ipset add bypass 8.8.4.4
-</code></pre>
+ipset add bypass 8.8.4.4</code></pre>
 
 <h3>安装并配置 dnsmasq</h3>
 <p>修改 /etc/dnsmasq.conf 在最后加入 conf-dir=/etc/dnsmasq.d/,*.conf ，新建并进入 /etc/dnsmasq.d 目录；
@@ -113,8 +109,7 @@ ipset=/thinkwithgoogle.com/bypass
 server=/withgoogle.com/127.0.0.1#5353
 ipset=/withgoogle.com/bypass
 server=/google.com/127.0.0.1#5353
-ipset=/google.com/bypass
-</code></pre></div>
+ipset=/google.com/bypass</code></pre></div>
     <aside class="comments">
 		<h3>评论/Comments</h3>
 		<div id="disqus_thread"></div>

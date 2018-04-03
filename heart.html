@@ -3,10 +3,10 @@
 <head>
 	<meta charset="utf-8" />
 	<title>绘制心形图案</title>
-	<link rel="stylesheet" href="https://whiler.github.io/theme/css/styles.min.93d86462.css" />
+	<link rel="stylesheet" href="https://whiler.github.io/theme/css/styles.min.24c1f063.css" />
 	<link rel="icon" href="https://whiler.github.io/theme/images/favicon.svg"/>
 	<link href="http://local.whiler.me:10086/blog/feed.xml" type="application/atom+xml" rel="alternate" title="轨迹/trace Atom Feed" />
-	<script async id="entry" src="https://whiler.github.io/theme/scripts/bootstrap.min.19b72a3b.js" data-ga="UA-74531835-1" data-disqus="traced" data-config='{"uuid": "57615493-5228-472d-9945-ac0dcd0d4c00"}'></script>
+	<script async id="entry" src="https://whiler.github.io/theme/scripts/bootstrap.min.6f862332.js" data-ga="UA-74531835-1" data-disqus="traced" data-config='{"uuid":"57615493-5228-472d-9945-ac0dcd0d4c00"}'></script>
 </head>
 
 <body>
@@ -21,7 +21,7 @@
 看了一些方案，最后采用半圆加正方形折叠的方式来绘制，<code>r = a * (1 - sin θ)</code> 真心不会。</p>
 <p>绘制心形图案，首先想到了笛卡尔的 <code>r = a * (1 - sin θ)</code> ，但是折腾了半天不会将极坐标系的点转换到笛卡尔坐标系，于是改用正方形外接一个半圆再折叠一次来表示。
 这样就只剩下简单的几何代数运算了。</p>
-<p>代码：</p>
+<p>代码：
 <pre><code>#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
@@ -58,8 +58,7 @@ def heart(radius):
 
         print(line)
 
-        top = top + 1
-</code></pre></div>
+        top = top + 1</code></pre></p></div>
     <aside class="comments">
 		<h3>评论/Comments</h3>
 		<div id="disqus_thread"></div>

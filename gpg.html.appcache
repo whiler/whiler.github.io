@@ -1,12 +1,12 @@
 CACHE MANIFEST
 # manifest for /gpg.html
-# rev: d189cb6180a4959cc613006a3760dc96
-# date: 2018-04-04T00:06:15.374414
+# rev: 238b610c91fc230ca8fcc453d1123042
+# date: 2018-04-04T01:06:18.482194
 
 CACHE:
-https://whiler.github.io/theme/css/styles.min.93d86462.css
+https://whiler.github.io/theme/css/styles.min.24c1f063.css
 https://whiler.github.io/theme/images/favicon.svg
-https://whiler.github.io/theme/scripts/bootstrap.min.19b72a3b.js
+https://whiler.github.io/theme/scripts/bootstrap.min.6f862332.js
 
 NETWORK:
 *

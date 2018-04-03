@@ -65,3 +65,7 @@ a:hover, a:focus {
 	border-style: solid;
     border-radius: 0.2em;
 }
+
+.content .uml-flowchart, .content .uml-sequence-diagram {
+	text-align: center;
+}

@@ -1,5 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>轨迹/trace</title><link href="https://whiler.github.io/" rel="alternate"></link><link href="http://local.whiler.me:10086/blog/feed.xml" rel="self"></link><id>https://whiler.github.io/</id><updated>2016-10-18T00:00:00+08:00</updated><entry><title>用虚拟私用网络访问敏感网络</title><link href="https://whiler.github.io/bypass-via-vpn.html" rel="alternate"></link><published>2016-10-18T00:00:00+08:00</published><updated>2016-10-18T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-10-18:/bypass-via-vpn.html</id><summary type="html">&lt;p&gt;利用 域名列表 、dnsmasq 、 iptables 和 ipset 配合 虚拟私用网络 精确到域名解决网络封锁。&lt;/p&gt;</summary><content type="html">&lt;p&gt;相对于 &lt;a href="https://whiler.github.io/bypass.html"&gt;绕开网络封锁访问敏感域名&lt;/a&gt; ：&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>轨迹/trace</title><link href="https://whiler.github.io/" rel="alternate"></link><link href="http://local.whiler.me:10086/blog/feed.xml" rel="self"></link><id>https://whiler.github.io/</id><updated>2018-04-01T00:00:00+08:00</updated><entry><title>Markdown 语法/Markdown Syntax</title><link href="https://whiler.github.io/syntax.html" rel="alternate"></link><published>2018-04-01T00:00:00+08:00</published><updated>2018-04-01T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2018-04-01:/syntax.html</id><summary type="html">&lt;p&gt;Markdown 语法/Markdown Syntax.&lt;/p&gt;</summary><content type="html">&lt;h3&gt;Markdown 1.0.1&lt;/h3&gt;
+&lt;p&gt;The quick brown fox jumped over the lazy dog's back.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This is a blockquote.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The quick brown fox jumped over the lazy dog's back.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The quick &lt;strong&gt;strong&lt;/strong&gt; fox jumped over the &lt;em&gt;emphasized&lt;/em&gt; dog's back.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the&lt;/li&gt;
+&lt;li&gt;quick&lt;/li&gt;
+&lt;li&gt;brown&lt;/li&gt;
+&lt;li&gt;fox&lt;/li&gt;
+&lt;li&gt;jumped&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The quick brown fox jumped over the lazy dog's back.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;over&lt;/li&gt;
+&lt;li&gt;the&lt;/li&gt;
+&lt;li&gt;lazy&lt;/li&gt;
+&lt;li&gt;dog's&lt;/li&gt;
+&lt;li&gt;back&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;link to &lt;a href="https://www.bing.com/"&gt;bing.com&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="image" src="https://whiler.github.io/assets/images/500.png" title="VIA"&gt;&lt;/p&gt;
+&lt;p&gt;inline &lt;code&gt;code&lt;/code&gt; ?&lt;/p&gt;
+&lt;p&gt;To specify an entire block of pre-formatted code, indent every line of the block by 4 spaces or 1 tab.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;create entire block code by indent 4 spaces
+(function(){return true;})();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;autolink &lt;a href="https://whiler.github.io"&gt;https://whiler.github.io&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;horizontal&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;GitHub Flavored Markdown Spec (0.28-gfm)&lt;/h3&gt;
+&lt;p&gt;fenced code blocks&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;int main (int argc, char *argv[]) {
+    fprintf(stdout, &amp;quot;Hello World.\n&amp;quot;);
+    return EXIT_SUCCESS;
+}&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;tables (extension)&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;foo&lt;/th&gt;
+&lt;th&gt;bar&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;baz&lt;/td&gt;
+&lt;td&gt;bim&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;task list items (extension)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;[ ] foo&lt;/li&gt;
+&lt;li&gt;[x] bar&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;strikethrough (extension)&lt;/p&gt;
+&lt;p&gt;&lt;del&gt;del&lt;/del&gt; Hello, world!&lt;/p&gt;
+&lt;p&gt;autolink https://whiler.github.io&lt;/p&gt;
+&lt;p&gt;Hard line breaks&lt;/p&gt;
+&lt;p&gt;A line break (not in a code span or HTML tag) that is preceded by two or more spaces&lt;br&gt;
+and does not occur at the end of a block is parsed as a hard line break.&lt;/p&gt;
+&lt;h3&gt;Extensions&lt;/h3&gt;
+&lt;h4&gt;LaTeX math equations&lt;/h4&gt;
+&lt;p&gt;&lt;span&gt;&lt;span class="MathJax_Preview"&gt;p(x|y) = \frac{p(y|x)p(x)}{p(y)}&lt;/span&gt;&lt;script type="math/tex"&gt;p(x|y) = \frac{p(y|x)p(x)}{p(y)}&lt;/script&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;div&gt;
+&lt;div class="MathJax_Preview"&gt;
+E(\mathbf{v}, \mathbf{h}) = -\sum_{i,j}w_{ij}v_i h_j - \sum_i b_i v_i - \sum_j c_j h_j
+&lt;/div&gt;
+&lt;script type="math/tex; mode=display"&gt;
+E(\mathbf{v}, \mathbf{h}) = -\sum_{i,j}w_{ij}v_i h_j - \sum_i b_i v_i - \sum_j c_j h_j
+&lt;/script&gt;
+&lt;/div&gt;
+&lt;div&gt;
+&lt;div class="MathJax_Preview"&gt;3 &amp;lt; 4&lt;/div&gt;
+&lt;script type="math/tex; mode=display"&gt;3 &lt; 4&lt;/script&gt;
+&lt;/div&gt;
+&lt;div&gt;
+&lt;div class="MathJax_Preview"&gt;\begin{align}
+    p(v_i=1|\mathbf{h}) &amp;amp; = \sigma\left(\sum_j w_{ij}h_j + b_i\right) \\
+    p(h_j=1|\mathbf{v}) &amp;amp; = \sigma\left(\sum_i w_{ij}v_i + c_j\right)
+\end{align}&lt;/div&gt;
+&lt;script type="math/tex; mode=display"&gt;\begin{align}
+    p(v_i=1|\mathbf{h}) &amp; = \sigma\left(\sum_j w_{ij}h_j + b_i\right) \\
+    p(h_j=1|\mathbf{v}) &amp; = \sigma\left(\sum_i w_{ij}v_i + c_j\right)
+\end{align}&lt;/script&gt;
+&lt;/div&gt;
+&lt;h4&gt;flow charts and sequence diagrams from SuperFences&lt;/h4&gt;
+&lt;p&gt;flow charts&lt;/p&gt;
+&lt;pre class="uml-flowchart"&gt;&lt;code&gt;st=&amp;gt;start: Start:&amp;gt;http://www.google.com[blank]
+e=&amp;gt;end:&amp;gt;http://www.google.com
+op1=&amp;gt;operation: My Operation
+sub1=&amp;gt;subroutine: My Subroutine
+cond=&amp;gt;condition: Yes
+or No?:&amp;gt;http://www.google.com
+io=&amp;gt;inputoutput: catch something...
+
+st-&amp;gt;op1-&amp;gt;cond
+cond(yes)-&amp;gt;io-&amp;gt;e
+cond(no)-&amp;gt;sub1(right)-&amp;gt;op1&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;sequence diagrams&lt;/p&gt;
+&lt;pre class="uml-sequence-diagram"&gt;&lt;code&gt;Title: Here is a title
+A-&amp;gt;B: Normal line
+B--&amp;gt;C: Dashed line
+C-&amp;gt;&amp;gt;D: Open arrow
+D--&amp;gt;&amp;gt;A: Dashed open arrow&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4&gt;Simplechem&lt;/h4&gt;
+&lt;p&gt;Smart subscript and special chars: &lt;span class="simplechem"&gt;2KOH + H&lt;sub&gt;2&lt;/sub&gt;SO&lt;sub&gt;4&lt;/sub&gt; → K&lt;sub&gt;2&lt;/sub&gt;SO&lt;sub&gt;4&lt;/sub&gt; + H&lt;sub&gt;2&lt;/sub&gt;O&lt;/span&gt; .&lt;/p&gt;
+&lt;h4&gt;blockdiag&lt;/h4&gt;
+&lt;p&gt;&lt;img src="data:image/svg+xml;charset=utf-8,%3C%3Fxml%20version%3D%271.0%27%20encoding%3D%27UTF-8%27%3F%3E%0A%3C%21DOCTYPE%20svg%20PUBLIC%20%22-//W3C//DTD%20SVG%201.0//EN%22%20%22http%3A//www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd%22%3E%0A%3Csvg%20viewBox%3D%220%200%20832%20200%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Ainkspace%3D%22http%3A//www.inkscape.org/namespaces/inkscape%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%3E%0A%20%20%3Cdefs%20id%3D%22defs_block%22%3E%0A%20%20%20%20%3Cfilter%20height%3D%221.504%22%20id%3D%22filter_blur%22%20inkspace%3Acollect%3D%22always%22%20width%3D%221.1575%22%20x%3D%22-0.07875%22%20y%3D%22-0.252%22%3E%0A%20%20%20%20%20%20%3CfeGaussianBlur%20id%3D%22feGaussianBlur3780%22%20inkspace%3Acollect%3D%22always%22%20stdDeviation%3D%224.2%22%20/%3E%0A%20%20%20%20%3C/filter%3E%0A%20%20%3C/defs%3E%0A%20%20%3Ctitle%3Eblockdiag%3C/title%3E%0A%20%20%3Cdesc%20/%3E%0A%20%20%3Crect%20fill%3D%22rgb%280%2C0%2C0%29%22%20height%3D%2240%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20style%3D%22filter%3Aurl%28%23filter_blur%29%3Bopacity%3A0.7%3Bfill-opacity%3A1%22%20width%3D%22128%22%20x%3D%2267%22%20y%3D%2246%22%20/%3E%0A%20%20%3Crect%20fill%3D%22rgb%280%2C0%2C0%29%22%20height%3D%2240%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20style%3D%22filter%3Aurl%28%23filter_blur%29%3Bopacity%3A0.7%3Bfill-opacity%3A1%22%20width%3D%22128%22%20x%3D%22259%22%20y%3D%2246%22%20/%3E%0A%20%20%3Crect%20fill%3D%22rgb%280%2C0%2C0%29%22%20height%3D%2240%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20style%3D%22filter%3Aurl%28%23filter_blur%29%3Bopacity%3A0.7%3Bfill-opacity%3A1%22%20width%3D%22128%22%20x%3D%22259%22%20y%3D%22126%22%20/%3E%0A%20%20%3Crect%20fill%3D%22rgb%280%2C0%2C0%29%22%20height%3D%2240%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20style%3D%22filter%3Aurl%28%23filter_blur%29%3Bopacity%3A0.7%3Bfill-opacity%3A1%22%20width%3D%22128%22%20x%3D%22451%22%20y%3D%2246%22%20/%3E%0A%20%20%3Crect%20fill%3D%22rgb%280%2C0%2C0%29%22%20height%3D%2240%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20style%3D%22filter%3Aurl%28%23filter_blur%29%3Bopacity%3A0.7%3Bfill-opacity%3A1%22%20width%3D%22128%22%20x%3D%22643%22%20y%3D%2246%22%20/%3E%0A%20%20%3Crect%20fill%3D%22rgb%280%2C0%2C0%29%22%20height%3D%2240%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20style%3D%22filter%3Aurl%28%23filter_blur%29%3Bopacity%3A0.7%3Bfill-opacity%3A1%22%20width%3D%22128%22%20x%3D%22451%22%20y%3D%22126%22%20/%3E%0A%20%20%3Crect%20fill%3D%22rgb%280%2C0%2C0%29%22%20height%3D%2240%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20style%3D%22filter%3Aurl%28%23filter_blur%29%3Bopacity%3A0.7%3Bfill-opacity%3A1%22%20width%3D%22128%22%20x%3D%22643%22%20y%3D%22126%22%20/%3E%0A%20%20%3Crect%20fill%3D%22rgb%28255%2C255%2C255%29%22%20height%3D%2240%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20width%3D%22128%22%20x%3D%2264%22%20y%3D%2240%22%20/%3E%0A%20%20%3Ctext%20fill%3D%22rgb%280%2C0%2C0%29%22%20font-family%3D%22sans-serif%22%20font-size%3D%2211%22%20font-style%3D%22normal%22%20font-weight%3D%22normal%22%20text-anchor%3D%22middle%22%20textLength%3D%226%22%20x%3D%22128.0%22%20y%3D%2266%22%3EA%3C/text%3E%0A%20%20%3Crect%20fill%3D%22rgb%28255%2C255%2C255%29%22%20height%3D%2240%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20width%3D%22128%22%20x%3D%22256%22%20y%3D%2240%22%20/%3E%0A%20%20%3Ctext%20fill%3D%22rgb%280%2C0%2C0%29%22%20font-family%3D%22sans-serif%22%20font-size%3D%2211%22%20font-style%3D%22normal%22%20font-weight%3D%22normal%22%20text-anchor%3D%22middle%22%20textLength%3D%226%22%20x%3D%22320.0%22%20y%3D%2266%22%3EB%3C/text%3E%0A%20%20%3Crect%20fill%3D%22rgb%28255%2C255%2C255%29%22%20height%3D%2240%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20width%3D%22128%22%20x%3D%22256%22%20y%3D%22120%22%20/%3E%0A%20%20%3Ctext%20fill%3D%22rgb%280%2C0%2C0%29%22%20font-family%3D%22sans-serif%22%20font-size%3D%2211%22%20font-style%3D%22normal%22%20font-weight%3D%22normal%22%20text-anchor%3D%22middle%22%20textLength%3D%226%22%20x%3D%22320.0%22%20y%3D%22146%22%3EE%3C/text%3E%0A%20%20%3Crect%20fill%3D%22rgb%28255%2C255%2C255%29%22%20height%3D%2240%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20width%3D%22128%22%20x%3D%22448%22%20y%3D%2240%22%20/%3E%0A%20%20%3Ctext%20fill%3D%22rgb%280%2C0%2C0%29%22%20font-family%3D%22sans-serif%22%20font-size%3D%2211%22%20font-style%3D%22normal%22%20font-weight%3D%22normal%22%20text-anchor%3D%22middle%22%20textLength%3D%226%22%20x%3D%22512.0%22%20y%3D%2266%22%3EC%3C/text%3E%0A%20%20%3Crect%20fill%3D%22rgb%28255%2C255%2C255%29%22%20height%3D%2240%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20width%3D%22128%22%20x%3D%22640%22%20y%3D%2240%22%20/%3E%0A%20%20%3Ctext%20fill%3D%22rgb%280%2C0%2C0%29%22%20font-family%3D%22sans-serif%22%20font-size%3D%2211%22%20font-style%3D%22normal%22%20font-weight%3D%22normal%22%20text-anchor%3D%22middle%22%20textLength%3D%226%22%20x%3D%22704.0%22%20y%3D%2266%22%3ED%3C/text%3E%0A%20%20%3Crect%20fill%3D%22rgb%28255%2C255%2C255%29%22%20height%3D%2240%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20width%3D%22128%22%20x%3D%22448%22%20y%3D%22120%22%20/%3E%0A%20%20%3Ctext%20fill%3D%22rgb%280%2C0%2C0%29%22%20font-family%3D%22sans-serif%22%20font-size%3D%2211%22%20font-style%3D%22normal%22%20font-weight%3D%22normal%22%20text-anchor%3D%22middle%22%20textLength%3D%226%22%20x%3D%22512.0%22%20y%3D%22146%22%3EF%3C/text%3E%0A%20%20%3Crect%20fill%3D%22rgb%28255%2C255%2C255%29%22%20height%3D%2240%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20width%3D%22128%22%20x%3D%22640%22%20y%3D%22120%22%20/%3E%0A%20%20%3Ctext%20fill%3D%22rgb%280%2C0%2C0%29%22%20font-family%3D%22sans-serif%22%20font-size%3D%2211%22%20font-style%3D%22normal%22%20font-weight%3D%22normal%22%20text-anchor%3D%22middle%22%20textLength%3D%226%22%20x%3D%22704.0%22%20y%3D%22146%22%3EG%3C/text%3E%0A%20%20%3Cpath%20d%3D%22M%20192%2060%20L%20248%2060%22%20fill%3D%22none%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20/%3E%0A%20%20%3Cpolygon%20fill%3D%22rgb%280%2C0%2C0%29%22%20points%3D%22255%2C60%20248%2C56%20248%2C64%20255%2C60%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20/%3E%0A%20%20%3Cpath%20d%3D%22M%20192%2060%20L%20224%2060%22%20fill%3D%22none%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20/%3E%0A%20%20%3Cpath%20d%3D%22M%20224%2060%20L%20224%20140%22%20fill%3D%22none%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20/%3E%0A%20%20%3Cpath%20d%3D%22M%20224%20140%20L%20248%20140%22%20fill%3D%22none%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20/%3E%0A%20%20%3Cpolygon%20fill%3D%22rgb%280%2C0%2C0%29%22%20points%3D%22255%2C140%20248%2C136%20248%2C144%20255%2C140%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20/%3E%0A%20%20%3Cpath%20d%3D%22M%20384%2060%20L%20440%2060%22%20fill%3D%22none%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20/%3E%0A%20%20%3Cpolygon%20fill%3D%22rgb%280%2C0%2C0%29%22%20points%3D%22447%2C60%20440%2C56%20440%2C64%20447%2C60%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20/%3E%0A%20%20%3Cpath%20d%3D%22M%20576%2060%20L%20632%2060%22%20fill%3D%22none%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20/%3E%0A%20%20%3Cpolygon%20fill%3D%22rgb%280%2C0%2C0%29%22%20points%3D%22639%2C60%20632%2C56%20632%2C64%20639%2C60%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20/%3E%0A%20%20%3Cpath%20d%3D%22M%20384%20140%20L%20440%20140%22%20fill%3D%22none%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20/%3E%0A%20%20%3Cpolygon%20fill%3D%22rgb%280%2C0%2C0%29%22%20points%3D%22447%2C140%20440%2C136%20440%2C144%20447%2C140%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20/%3E%0A%20%20%3Cpath%20d%3D%22M%20576%20140%20L%20632%20140%22%20fill%3D%22none%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20/%3E%0A%20%20%3Cpolygon%20fill%3D%22rgb%280%2C0%2C0%29%22%20points%3D%22639%2C140%20632%2C136%20632%2C144%20639%2C140%22%20stroke%3D%22rgb%280%2C0%2C0%29%22%20/%3E%0A%3C/svg%3E%0A"&gt;&lt;/p&gt;</content></entry><entry><title>用虚拟私用网络访问敏感网络</title><link href="https://whiler.github.io/bypass-via-vpn.html" rel="alternate"></link><published>2016-10-18T00:00:00+08:00</published><updated>2016-10-18T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-10-18:/bypass-via-vpn.html</id><summary type="html">&lt;p&gt;利用 域名列表 、dnsmasq 、 iptables 和 ipset 配合 虚拟私用网络 精确到域名解决网络封锁。&lt;/p&gt;</summary><content type="html">&lt;p&gt;相对于 &lt;a href="https://whiler.github.io/bypass.html"&gt;绕开网络封锁访问敏感域名&lt;/a&gt; ：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;依赖 虚拟私用网络 ；&lt;/li&gt;
 &lt;li&gt;不再依赖 pdnsd ；&lt;/li&gt;
@@ -23,13 +139,11 @@
 &lt;h3&gt;安装 虚拟私用网络 客户端&lt;/h3&gt;
 &lt;p&gt;连接 AnyConnect 可以用 OpenConnect 的客户端。&lt;/p&gt;
 &lt;h3&gt;创建 ipset&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;ipset create &amp;quot;${SETNAME}&amp;quot; hash:ip
-&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;ipset create &amp;quot;${SETNAME}&amp;quot; hash:ip&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;将可信的 DNS 服务器地址添加到 ipset&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;ipset add &amp;quot;${SETNAME}&amp;quot; 8.8.8.8
-ipset add &amp;quot;${SETNAME}&amp;quot; 8.8.4.4
-&lt;/code&gt;&lt;/pre&gt;
+ipset add &amp;quot;${SETNAME}&amp;quot; 8.8.4.4&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;安装并配置 dnsmasq&lt;/h3&gt;
 &lt;p&gt;修改 /etc/dnsmasq.conf 在最后加入 conf-dir=/etc/dnsmasq.d/,*.conf ，新建并进入 /etc/dnsmasq.d 目录；
@@ -39,21 +153,18 @@ ipset add &amp;quot;${SETNAME}&amp;quot; 8.8.4.4
 mkdir -p /etc/dnsmasq.d
 
 echo &amp;quot;server=/google.com/8.8.8.8&amp;quot;   &amp;gt;&amp;gt; &amp;quot;/etc/dnsmasq.d/${filename}.conf&amp;quot;
-echo &amp;quot;ipset=/google.com/${SETNAME}&amp;quot; &amp;gt;&amp;gt; &amp;quot;/etc/dnsmasq.d/${filename}.conf&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
+echo &amp;quot;ipset=/google.com/${SETNAME}&amp;quot; &amp;gt;&amp;gt; &amp;quot;/etc/dnsmasq.d/${filename}.conf&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;创建路由表&lt;/h3&gt;
 &lt;p&gt;/etc/iproute2/rt_tables 保存了系统的路由表。
 向文件中写入一行即可创建一个路由表。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;echo -e &amp;quot;${TABLEID}\t${TABLENAME}&amp;quot; &amp;gt;&amp;gt; /etc/iproute2/rt_tables
-&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;echo -e &amp;quot;${TABLEID}\t${TABLENAME}&amp;quot; &amp;gt;&amp;gt; /etc/iproute2/rt_tables&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;调整内核 rp filter&lt;/h3&gt;
 &lt;p&gt;由于用到部分 策略路由 ，需要将内核反向过滤策略关闭或者放宽松。&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;echo &amp;quot;net.ipv4.conf.default.rp_filter=2&amp;quot; &amp;gt;&amp;gt; /etc/sysctl.conf
 echo &amp;quot;net.ipv4.conf.all.rp_filter=2&amp;quot;     &amp;gt;&amp;gt; /etc/sysctl.conf
-sysctl -p
-&lt;/code&gt;&lt;/pre&gt;
+sysctl -p&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;自定义 vpnc script&lt;/h3&gt;
 &lt;p&gt;若使用 OpenConnect 默认的 &lt;a href="http://git.infradead.org/users/dwmw2/vpnc-scripts.git/blob_plain/HEAD:/vpnc-script"&gt;vpnc script&lt;/a&gt; ，它会替换系统默认路由，让所有流量都通过 虚拟私用网络 ，显然这样不合理。&lt;/p&gt;
@@ -102,14 +213,13 @@ stop_split_tunneling() {
     # mark
     iptables --table mangle --delete PREROUTING --match set --match-set &amp;quot;${SETNAME}&amp;quot; dst --jump MARK --set-mark &amp;quot;${MARK}&amp;quot;
     iptables --table mangle --delete OUTPUT     --match set --match-set &amp;quot;${SETNAME}&amp;quot; dst --jump MARK --set-mark &amp;quot;${MARK}&amp;quot;
-}
-&lt;/code&gt;&lt;/pre&gt;
+}&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;参考： &lt;a href="https://github.com/clowwindy/ShadowVPN/wiki/ShadowVPN----ipset"&gt;ShadowVPN ipset&lt;/a&gt;&lt;/p&gt;</content></entry><entry><title>绘制心形图案</title><link href="https://whiler.github.io/heart.html" rel="alternate"></link><published>2016-04-14T00:00:00+08:00</published><updated>2016-04-14T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-04-14:/heart.html</id><summary type="html">&lt;p&gt;半夜没事瞎折腾，想到绘制心形图案消磨时间。&lt;/p&gt;</summary><content type="html">&lt;p&gt;半夜没事瞎折腾，想到绘制心形图案消磨时间。
 看了一些方案，最后采用半圆加正方形折叠的方式来绘制，&lt;code&gt;r = a * (1 - sin θ)&lt;/code&gt; 真心不会。&lt;/p&gt;
 &lt;p&gt;绘制心形图案，首先想到了笛卡尔的 &lt;code&gt;r = a * (1 - sin θ)&lt;/code&gt; ，但是折腾了半天不会将极坐标系的点转换到笛卡尔坐标系，于是改用正方形外接一个半圆再折叠一次来表示。
 这样就只剩下简单的几何代数运算了。&lt;/p&gt;
-&lt;p&gt;代码：&lt;/p&gt;
+&lt;p&gt;代码：
 &lt;pre&gt;&lt;code&gt;#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
@@ -146,8 +256,7 @@ def heart(radius):
 
         print(line)
 
-        top = top + 1
-&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>绕开网络封锁访问敏感域名</title><link href="https://whiler.github.io/bypass.html" rel="alternate"></link><published>2016-04-11T00:00:00+08:00</published><updated>2016-04-11T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-04-11:/bypass.html</id><summary type="html">&lt;p&gt;用域名列表、dnsmasq 、 pdnsd 、 iptables 和 ipset 配合 shadowsocks-libev 精确到域名解决 tcp 连接封锁、dns 劫持、dns 请求 udp 丢包的问题，绕过网络封锁。&lt;/p&gt;</summary><content type="html">&lt;p&gt;用域名列表、dnsmasq 、 pdnsd 、 iptables 和 ipset 配合 shadowsocks-libev 精确到域名解决 TCP 连接封锁、DNS 劫持、DNS 请求 UDP 丢包的问题，绕过网络封锁。&lt;/p&gt;
+        top = top + 1&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;</content></entry><entry><title>绕开网络封锁访问敏感域名</title><link href="https://whiler.github.io/bypass.html" rel="alternate"></link><published>2016-04-11T00:00:00+08:00</published><updated>2016-04-11T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-04-11:/bypass.html</id><summary type="html">&lt;p&gt;用域名列表、dnsmasq 、 pdnsd 、 iptables 和 ipset 配合 shadowsocks-libev 精确到域名解决 tcp 连接封锁、dns 劫持、dns 请求 udp 丢包的问题，绕过网络封锁。&lt;/p&gt;</summary><content type="html">&lt;p&gt;用域名列表、dnsmasq 、 pdnsd 、 iptables 和 ipset 配合 shadowsocks-libev 精确到域名解决 TCP 连接封锁、DNS 劫持、DNS 请求 UDP 丢包的问题，绕过网络封锁。&lt;/p&gt;
 &lt;p&gt;首先，用 shadowsocks-libev 建立透明代理，绕开网络封锁；
 配置 iptables ，配合 ipset 让匹配 ipset 的 TCP 数据都转发到透明代理；
 利用 pdnsd 通过 TCP 向可信的 DNS 服务器转发请求；
@@ -165,8 +274,7 @@ def heart(radius):
 &lt;p&gt;&lt;a href="https://github.com/shadowsocks/shadowsocks-libev"&gt;shadowsocks/shadowsocks-libev&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;创建 ipset&lt;/h3&gt;
 &lt;p&gt;创建一个名为 bypass 的 ipset 。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;ipset create bypass hash:ip
-&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;ipset create bypass hash:ip&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;创建 iptables 规则&lt;/h3&gt;
 &lt;ol&gt;
@@ -199,8 +307,7 @@ iptables --table nat --append BYPASS --destination 255.255.255.255/32 --jump RET
 
 iptables --table nat --append BYPASS --protocol tcp --match set --match-set bypass dst --jump REDIRECT --to-ports 1080
 
-iptables --table nat --append PREROUTING --protocol tcp --jump BYPASS
-&lt;/code&gt;&lt;/pre&gt;
+iptables --table nat --append PREROUTING --protocol tcp --jump BYPASS&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;安装并配置 pdnsd&lt;/h3&gt;
 &lt;ol&gt;
@@ -227,13 +334,11 @@ server {
     ip = 8.8.8.8, 8.8.4.4;
     root_server = on;
     uptest = none;
-}
-&lt;/code&gt;&lt;/pre&gt;
+}&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;将可信的 DNS 服务器地址添加到 ipset&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;ipset add bypass 8.8.8.8
-ipset add bypass 8.8.4.4
-&lt;/code&gt;&lt;/pre&gt;
+ipset add bypass 8.8.4.4&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3&gt;安装并配置 dnsmasq&lt;/h3&gt;
 &lt;p&gt;修改 /etc/dnsmasq.conf 在最后加入 conf-dir=/etc/dnsmasq.d/,*.conf ，新建并进入 /etc/dnsmasq.d 目录；
@@ -243,8 +348,7 @@ ipset=/thinkwithgoogle.com/bypass
 server=/withgoogle.com/127.0.0.1#5353
 ipset=/withgoogle.com/bypass
 server=/google.com/127.0.0.1#5353
-ipset=/google.com/bypass
-&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>关于这个博客</title><link href="https://whiler.github.io/blog.html" rel="alternate"></link><published>2016-03-04T00:00:00+08:00</published><updated>2016-03-04T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-03-04:/blog.html</id><summary type="html">&lt;p&gt;闷头写代码到深夜，灵感闪现，迅速解决困扰了很久的问题，想要欢呼一下，发现已经是深夜了，作罢。&lt;/p&gt;</summary><content type="html">&lt;p&gt;闷头写代码到深夜，灵感闪现，迅速解决困扰了很久的问题，想要欢呼一下，发现已经是深夜了，作罢。
+ipset=/google.com/bypass&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>关于这个博客</title><link href="https://whiler.github.io/blog.html" rel="alternate"></link><published>2016-03-04T00:00:00+08:00</published><updated>2016-03-04T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-03-04:/blog.html</id><summary type="html">&lt;p&gt;闷头写代码到深夜，灵感闪现，迅速解决困扰了很久的问题，想要欢呼一下，发现已经是深夜了，作罢。&lt;/p&gt;</summary><content type="html">&lt;p&gt;闷头写代码到深夜，灵感闪现，迅速解决困扰了很久的问题，想要欢呼一下，发现已经是深夜了，作罢。
 还是用一个博客记下来吧，聊以告慰自己。&lt;/p&gt;
 &lt;p&gt;使用的平台和库：&lt;/p&gt;
 &lt;ul&gt;
@@ -575,8 +679,7 @@ RICV33t8RWvjc8KGR7YO3JnGo8Q5I9+U3YeOF+RDjQOk8frvdEvlmbbmyoGqP+77
 8DA2uBa9bGOybYhjQK1qUbzcXu85b08A/1Yhy3EKMeDjHMP5JCK+4FXF3ecER65y
 o1Ahjb4wIXRu
 =XeA7
------END PGP PUBLIC KEY BLOCK-----
-&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>六度分割理论</title><link href="https://whiler.github.io/theory-of-six-degrees-contacts.html" rel="alternate"></link><published>2014-09-17T00:00:00+08:00</published><updated>2014-09-17T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2014-09-17:/theory-of-six-degrees-contacts.html</id><summary type="html">&lt;p&gt;一次求职笔试，考到了六度分隔理论，判断两个人之间是否存在可能的联系。&lt;/p&gt;</summary><content type="html">&lt;p&gt;一次求职笔试，考到了六度分隔理论，判断两个人之间是否存在可能的联系。
+-----END PGP PUBLIC KEY BLOCK-----&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>六度分割理论</title><link href="https://whiler.github.io/theory-of-six-degrees-contacts.html" rel="alternate"></link><published>2014-09-17T00:00:00+08:00</published><updated>2014-09-17T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2014-09-17:/theory-of-six-degrees-contacts.html</id><summary type="html">&lt;p&gt;一次求职笔试，考到了六度分隔理论，判断两个人之间是否存在可能的联系。&lt;/p&gt;</summary><content type="html">&lt;p&gt;一次求职笔试，考到了六度分隔理论，判断两个人之间是否存在可能的联系。
 问题是比较简单的，就是检查权重为1的无向图中两个节点在 6 层内是否有相通的路径。&lt;/p&gt;
 &lt;h3&gt;解决办法&lt;/h3&gt;
 &lt;ol&gt;
@@ -649,8 +752,7 @@ if __name__ == '__main__':
     trees = build_trees(edges)
     for a, b in itertools.combinations(string.ascii_uppercase, 2):
         dep = find(trees, a, b)
-        logging.debug('degrees between %s and %s is %d', a, b, dep)
-&lt;/code&gt;&lt;/pre&gt;
+        logging.debug('degrees between %s and %s is %d', a, b, dep)&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;关于六度分隔理论的详细介绍，可以参考 &lt;a href="https://en.wikipedia.org/wiki/Six_degrees_of_separation"&gt;Six degrees of separation&lt;/a&gt; 。&lt;/p&gt;</content></entry><entry><title>多数据源混合输出</title><link href="https://whiler.github.io/mix-sources.html" rel="alternate"></link><published>2012-07-15T00:00:00+08:00</published><updated>2012-07-15T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2012-07-15:/mix-sources.html</id><summary type="html">&lt;p&gt;拥有相同数据格式的数据源按照数量混合分页输出。&lt;/p&gt;</summary><content type="html">&lt;p&gt;拥有相同数据格式的数据源按照数量混合分页输出。
 比如在新闻列表中混合输出政治、经济、娱乐、科技新闻；
@@ -719,8 +821,7 @@ if __name__ == '__main__':
     while items:
         print('Page: %d\t%s' % (page, ' '.join(items)))
         page += 1
-        items = mix(page, (a, 2), (b, 3), (c, 5))
-&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>手机QQ2009聊天记录分析及提取</title><link href="https://whiler.github.io/QQ2009.sis.html" rel="alternate"></link><published>2009-10-14T00:00:00+08:00</published><updated>2009-10-14T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2009-10-14:/QQ2009.sis.html</id><summary type="html">&lt;p&gt;symbian series 60 3rd qq mobile chat log parse and extract.&lt;/p&gt;</summary><content type="html">&lt;p&gt;这是我的最早一个像程序的程序。&lt;/p&gt;
+        items = mix(page, (a, 2), (b, 3), (c, 5))&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>手机QQ2009聊天记录分析及提取</title><link href="https://whiler.github.io/QQ2009.sis.html" rel="alternate"></link><published>2009-10-14T00:00:00+08:00</published><updated>2009-10-14T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2009-10-14:/QQ2009.sis.html</id><summary type="html">&lt;p&gt;symbian series 60 3rd qq mobile chat log parse and extract.&lt;/p&gt;</summary><content type="html">&lt;p&gt;这是我的最早一个像程序的程序。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;十月十三号用上手机QQ2009了，一看，果然更花哨了。但以前写的手机QQ聊天记录提取程序用不上了，莫办法，重新分析。&lt;/p&gt;
 &lt;p&gt;一手机QQ2009聊天记录文件的存放位置&lt;/p&gt;
@@ -791,5 +892,4 @@ def pickup(path):
 if __name__ == &amp;quot;__main__&amp;quot;:
     print &amp;quot;Running--------&amp;quot;
     pickup(&amp;quot;e:\\msg.info&amp;quot;)
-    print &amp;quot;:-&amp;quot; * 20
-&lt;/code&gt;&lt;/pre&gt;</content></entry></feed>
+    print &amp;quot;:-&amp;quot; * 20&lt;/code&gt;&lt;/pre&gt;</content></entry></feed>

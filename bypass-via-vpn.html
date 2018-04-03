@@ -3,10 +3,10 @@
 <head>
 	<meta charset="utf-8" />
 	<title>用虚拟私用网络访问敏感网络</title>
-	<link rel="stylesheet" href="https://whiler.github.io/theme/css/styles.min.93d86462.css" />
+	<link rel="stylesheet" href="https://whiler.github.io/theme/css/styles.min.24c1f063.css" />
 	<link rel="icon" href="https://whiler.github.io/theme/images/favicon.svg"/>
 	<link href="http://local.whiler.me:10086/blog/feed.xml" type="application/atom+xml" rel="alternate" title="轨迹/trace Atom Feed" />
-	<script async id="entry" src="https://whiler.github.io/theme/scripts/bootstrap.min.19b72a3b.js" data-ga="UA-74531835-1" data-disqus="traced" data-config='{"uuid": "add3a6b7-97d3-4856-b986-8f373d2b8c28"}'></script>
+	<script async id="entry" src="https://whiler.github.io/theme/scripts/bootstrap.min.6f862332.js" data-ga="UA-74531835-1" data-disqus="traced" data-config='{"uuid":"add3a6b7-97d3-4856-b986-8f373d2b8c28"}'></script>
 </head>
 
 <body>
@@ -41,13 +41,11 @@
 <h3>安装 虚拟私用网络 客户端</h3>
 <p>连接 AnyConnect 可以用 OpenConnect 的客户端。</p>
 <h3>创建 ipset</h3>
-<pre><code>ipset create &quot;${SETNAME}&quot; hash:ip
-</code></pre>
+<pre><code>ipset create &quot;${SETNAME}&quot; hash:ip</code></pre>
 
 <h3>将可信的 DNS 服务器地址添加到 ipset</h3>
 <pre><code>ipset add &quot;${SETNAME}&quot; 8.8.8.8
-ipset add &quot;${SETNAME}&quot; 8.8.4.4
-</code></pre>
+ipset add &quot;${SETNAME}&quot; 8.8.4.4</code></pre>
 
 <h3>安装并配置 dnsmasq</h3>
 <p>修改 /etc/dnsmasq.conf 在最后加入 conf-dir=/etc/dnsmasq.d/,*.conf ，新建并进入 /etc/dnsmasq.d 目录；
@@ -57,21 +55,18 @@ ipset add &quot;${SETNAME}&quot; 8.8.4.4
 mkdir -p /etc/dnsmasq.d
 
 echo &quot;server=/google.com/8.8.8.8&quot;   &gt;&gt; &quot;/etc/dnsmasq.d/${filename}.conf&quot;
-echo &quot;ipset=/google.com/${SETNAME}&quot; &gt;&gt; &quot;/etc/dnsmasq.d/${filename}.conf&quot;
-</code></pre>
+echo &quot;ipset=/google.com/${SETNAME}&quot; &gt;&gt; &quot;/etc/dnsmasq.d/${filename}.conf&quot;</code></pre>
 
 <h3>创建路由表</h3>
 <p>/etc/iproute2/rt_tables 保存了系统的路由表。
 向文件中写入一行即可创建一个路由表。</p>
-<pre><code>echo -e &quot;${TABLEID}\t${TABLENAME}&quot; &gt;&gt; /etc/iproute2/rt_tables
-</code></pre>
+<pre><code>echo -e &quot;${TABLEID}\t${TABLENAME}&quot; &gt;&gt; /etc/iproute2/rt_tables</code></pre>
 
 <h3>调整内核 rp filter</h3>
 <p>由于用到部分 策略路由 ，需要将内核反向过滤策略关闭或者放宽松。</p>
 <pre><code>echo &quot;net.ipv4.conf.default.rp_filter=2&quot; &gt;&gt; /etc/sysctl.conf
 echo &quot;net.ipv4.conf.all.rp_filter=2&quot;     &gt;&gt; /etc/sysctl.conf
-sysctl -p
-</code></pre>
+sysctl -p</code></pre>
 
 <h3>自定义 vpnc script</h3>
 <p>若使用 OpenConnect 默认的 <a href="http://git.infradead.org/users/dwmw2/vpnc-scripts.git/blob_plain/HEAD:/vpnc-script">vpnc script</a> ，它会替换系统默认路由，让所有流量都通过 虚拟私用网络 ，显然这样不合理。</p>
@@ -120,8 +115,7 @@ stop_split_tunneling() {
     # mark
     iptables --table mangle --delete PREROUTING --match set --match-set &quot;${SETNAME}&quot; dst --jump MARK --set-mark &quot;${MARK}&quot;
     iptables --table mangle --delete OUTPUT     --match set --match-set &quot;${SETNAME}&quot; dst --jump MARK --set-mark &quot;${MARK}&quot;
-}
-</code></pre>
+}</code></pre>
 
 <p>参考： <a href="https://github.com/clowwindy/ShadowVPN/wiki/ShadowVPN----ipset">ShadowVPN ipset</a></p></div>
     <aside class="comments">

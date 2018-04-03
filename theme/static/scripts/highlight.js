@@ -14,5 +14,5 @@
                                   return true;
                               });
     }
-	return true;
+    return true;
 })(window, document);

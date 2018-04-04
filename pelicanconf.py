@@ -83,4 +83,6 @@ ASSET_CONFIG = [
     ('cache', '/tmp'),
 ]
 
+APPCACHE = False
+
 RELATIVE_URLS = True

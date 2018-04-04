@@ -83,6 +83,8 @@ def manifest(webroot, sitepath, current):
 
 
 def plugin(pelican):
+    if not pelican.settings.get('APPCACHE', False):
+        return
     webroot = pelican.settings['OUTPUT_PATH']
     sitepath = urllib.parse.urlparse(pelican.settings['SITEURL']).path.rstrip('/')
     for root, dirs, filenames in os.walk(webroot):

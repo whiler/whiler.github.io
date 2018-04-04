@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ DEFAULT_LANG }}" manifest="{{ SITEURL }}/{{ output_file }}.appcache">
+<html lang="{{ DEFAULT_LANG }}"{% if APPCACHE %}manifest="{{ SITEURL }}/{{ output_file }}.appcache"{% endif %}>
 <head>
 	<meta charset="utf-8" />
 	<title>{% block title %}{{ SITENAME }}{%endblock%}</title>

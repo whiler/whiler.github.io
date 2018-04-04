@@ -1,7 +1,7 @@
 (function(win, doc) {
     var nodes = doc.querySelectorAll('script[type^="math/tex"]'),
         reg = /\s*\\ce{/,
-        cfg = "MathJax.Ajax.config.path['mhchem'] = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax-mhchem/3.3.0';" + 
+        cfg = "MathJax.Ajax.config.path['mhchem'] = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax-mhchem/3.3.0';" +
               "MathJax.Hub.Config({TeX: {extensions: ['[mhchem]/mhchem.js']}});";
     if (0 < nodes.length) {
         for (var i = 0; i < nodes.length; i++) {

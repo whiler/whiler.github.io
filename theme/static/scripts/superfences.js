@@ -3,7 +3,7 @@
         sequenceSelector = 'pre[class=uml-sequence-diagram] code',
         whitespace = /^\s*$/,
         classReg = /pre\[class=(.+)\] code/;
-    
+
     function getParentPre(node) {
         var parentNode = node.parentNode;
         while (parentNode && parentNode.nodeName.toUpperCase() != 'PRE') {
@@ -11,7 +11,7 @@
         }
         return parentNode;
     }
-    
+
     function uml(converter, selector, settings) {
         var codes = doc.querySelectorAll(selector),
             match = classReg.exec(selector),

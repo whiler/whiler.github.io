@@ -133,10 +133,6 @@ C->>D: Open arrow
 D-->>A: Dashed open arrow
 ```
 
-#### Simplechem ####
-
-Smart subscript and special chars: {2KOH + H2SO4 -> K2SO4 + H2O} .
-
 #### blockdiag ####
 
 blockdiag {

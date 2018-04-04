@@ -73,7 +73,6 @@ MARKDOWN = {
         'pymdownx.superfences': {'highlight_code': False},
         'pymdownx.tilde': {},
 
-        'simplechem': {},
         'markdown_blockdiag': {'format': 'svg'},
     },
     'output_format': 'html5'

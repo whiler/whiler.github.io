@@ -12,7 +12,7 @@ THEME = 'theme'
 TIMEZONE = 'Asia/Shanghai'
 
 # git submodule update --init --recursive
-PLUGIN_PATHS = ['/opt/pelican-plugins', 'other-plugins']
+PLUGIN_PATHS = ['pelican-plugins', 'other-plugins']
 PLUGINS=['sitemap', 'assets', 'appcache']
 
 DEFAULT_LANG = 'cmn'

@@ -93,6 +93,18 @@ $$
 \end{align}
 $$
 
+#### LaTex chemical equations ####
+
+inline LaTex chemical equation: $\ce{Na2SO4 ->[H2O] Na+ + SO4^2-}$ .
+
+block LaTex chemical equation:
+
+$$\ce{Na2SO4 ->[H2O] Na+ + SO4^2-}$$
+
+$$
+\ce{Na2SO4 ->[H2O] Na+ + SO4^2-}
+$$
+
 #### flow charts and sequence diagrams from SuperFences ####
 
 flow charts

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="{{ DEFAULT_LANG }}"{% if APPCACHE %}manifest="{{ SITEURL }}/{{ output_file }}.appcache"{% endif %}>
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<title>{% block title %}{{ SITENAME }}{%endblock%}</title>
 {% assets filters="cssmin", output="css/styles.min.%(version)s.css", "css/layout.css", "css/color.css" %}
 	<link rel="stylesheet" href="{{ SITEURL }}/{{ ASSET_URL }}" />

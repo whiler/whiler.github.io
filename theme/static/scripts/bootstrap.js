@@ -29,7 +29,11 @@
             if ('create' == action) {
                 var element = doc.createElement(args[1]), attrs = args[2];
                 for (var name in attrs) {
-                    element.setAttribute(name, attrs[name]);
+                    if ('innerHTML' == name || 'text' == name) {
+                        element[name] = attrs[name];
+                    } else {
+                        element.setAttribute(name, attrs[name]);
+                    }
                 }
                 (doc.head || doc.body).appendChild(element);
                 delete element;

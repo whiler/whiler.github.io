@@ -1,0 +1,14 @@
+CACHE MANIFEST
+# manifest for /archives.html
+# rev: e5261a7e195caa35d0464bcd144f3ce9
+# date: 2018-04-10T14:40:46.286677
+
+CACHE:
+https://whiler.github.io/theme/css/styles.min.24c1f063.css
+https://whiler.github.io/theme/images/favicon.svg
+https://whiler.github.io/theme/scripts/bootstrap.min.a5e60ff0.js
+
+NETWORK:
+*
+
+FALLBACK:

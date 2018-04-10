@@ -13,4 +13,7 @@ from pelicanconf import *
 SITEURL = 'https://whiler.github.io'
 RELATIVE_URLS = False
 
+APPCACHE = True
+MINIFYHTML = True
+
 DELETE_OUTPUT_DIRECTORY = True

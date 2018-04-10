@@ -13,7 +13,7 @@ TIMEZONE = 'Asia/Shanghai'
 
 # git submodule update --init --recursive
 PLUGIN_PATHS = ['pelican-plugins', 'other-plugins']
-PLUGINS=['sitemap', 'assets', 'appcache']
+PLUGINS=['sitemap', 'assets', 'minifyhtml', 'appcache']
 
 DEFAULT_LANG = 'cmn'
 AUTHOR_SAVE_AS = False
@@ -83,5 +83,6 @@ ASSET_CONFIG = [
 ]
 
 APPCACHE = False
+MINIFYHTML = False
 
 RELATIVE_URLS = True

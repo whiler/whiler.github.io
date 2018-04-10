@@ -1,8 +1,9 @@
-pelican==3.7.1
 bs4==0.0.1
-webassets==0.12.1
 cssmin==0.2.0
-slimit==0.8.1
-Markdown==2.6.11
-pymdown-extensions==4.9.2
+htmlmin==0.1.12
 markdown-blockdiag==0.7.0
+pymdown-extensions==4.9.2
+slimit==0.8.1
+webassets==0.12.1
+Markdown==2.6.11
+pelican==3.7.1

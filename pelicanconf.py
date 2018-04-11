@@ -35,11 +35,12 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 TYPOGRIFY = None
 
-STATIC_PATHS = ['assets', 'webroot/.nojekyll', 'webroot/LICENSE', 'webroot/README.md', 'webroot/robots.txt']
+STATIC_PATHS = ['assets', 'webroot/.nojekyll', 'webroot/LICENSE', 'webroot/README.md', 'webroot/favicon.svg', 'webroot/robots.txt']
 EXTRA_PATH_METADATA = {
     'webroot/.nojekyll': {'path': '.nojekyll'},
     'webroot/LICENSE': {'path': 'LICENSE'},
     'webroot/README.md': {'path': 'README.md'},
+    'webroot/favicon.svg': {'path': 'favicon.svg'},
     'webroot/robots.txt': {'path': 'robots.txt'}
 }
 

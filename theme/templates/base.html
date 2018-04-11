@@ -8,7 +8,7 @@
 {% assets filters="cssmin", output="css/styles.min.%(version)s.css", "css/layout.css", "css/color.css" %}
 	<link rel="stylesheet" href="{{ SITEURL }}/{{ ASSET_URL }}" />
 {% endassets %}
-	<link rel="icon" href="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/images/favicon.svg"/>
+	<link rel="icon" href="{{ SITEURL }}/favicon.svg"/>
 {% if FEED_ALL_ATOM %}
 	<link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Atom Feed" />
 {% endif %}

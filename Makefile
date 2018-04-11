@@ -3,7 +3,8 @@ PELICAN?=pelican
 PELICANOPTS=
 
 BASEDIR=$(CURDIR)
-INPUTDIR=$(BASEDIR)/content
+CONTENT=content
+INPUTDIR=$(BASEDIR)/$(CONTENT)
 OUTPUTDIR=$(BASEDIR)/output
 CONFFILE=$(BASEDIR)/pelicanconf.py
 PUBLISHCONF=$(BASEDIR)/publishconf.py
@@ -16,6 +17,8 @@ SSH_HOST=localhost
 SSH_PORT=22
 SSH_USER=root
 SSH_TARGET_DIR=/var/www
+
+SYNTAX=syntax.md
 
 S3_BUCKET=my_s3_bucket
 
@@ -97,7 +100,13 @@ stopserver:
 	@echo 'Stopped Pelican and SimpleHTTPServer processes running in background.'
 
 publish:
+ifeq ($(CONTENT)/$(SYNTAX), $(wildcard $(CONTENT)/$(SYNTAX)))
+	mv $(CONTENT)/$(SYNTAX) /tmp
 	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONF) $(PELICANOPTS)
+	mv /tmp/$(SYNTAX) $(CONTENT)
+else
+	$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(PUBLISHCONF) $(PELICANOPTS)
+endif
 
 ssh_upload: publish
 	scp -P $(SSH_PORT) -r $(OUTPUTDIR)/* $(SSH_USER)@$(SSH_HOST):$(SSH_TARGET_DIR)

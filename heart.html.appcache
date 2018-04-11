@@ -1,11 +1,11 @@
 CACHE MANIFEST
 # manifest for /heart.html
-# rev: bbd7c49ae681408029e2111028da01a3
-# date: 2018-04-10T14:41:57.908605
+# rev: 0407d1a2e5a39f2b53bf75b5542d3cbf
+# date: 2018-04-12T00:42:18.309122
 
 CACHE:
+https://whiler.github.io/favicon.svg
 https://whiler.github.io/theme/css/styles.min.24c1f063.css
-https://whiler.github.io/theme/images/favicon.svg
 https://whiler.github.io/theme/scripts/bootstrap.min.a5e60ff0.js
 
 NETWORK:

@@ -1,11 +1,11 @@
 CACHE MANIFEST
 # manifest for /bypass.html
-# rev: 2e25ac98cb717ecd6029c4ee75b42da4
-# date: 2018-04-10T14:41:57.901761
+# rev: 4da0a6b8c84590f56d81cd701bf565db
+# date: 2018-04-12T00:42:18.328972
 
 CACHE:
+https://whiler.github.io/favicon.svg
 https://whiler.github.io/theme/css/styles.min.24c1f063.css
-https://whiler.github.io/theme/images/favicon.svg
 https://whiler.github.io/theme/scripts/bootstrap.min.a5e60ff0.js
 
 NETWORK:

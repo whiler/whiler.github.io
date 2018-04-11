@@ -27,7 +27,6 @@ FILENAME_METADATA = '(?P<slug>.*)'
 ARTICLE_URL = '{slug}.html'
 
 # Feed generation is usually not desired when developing
-FEED_DOMAIN = SITEURL
 FEED_ALL_ATOM = 'feed.xml'
 CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None

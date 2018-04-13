@@ -21,7 +21,7 @@ CATEGORY_SAVE_AS = False
 TAG_SAVE_AS = False
 ARCHIVES_SAVE_AS = 'archives.html'
 DIRECT_TEMPLATES = ('index', 'archives')
-ARTICLE_EXCLUDES = ['webroot']
+ARTICLE_EXCLUDES = ['webroot', 'assets', 'html']
 
 FILENAME_METADATA = '(?P<slug>.*)'
 ARTICLE_URL = '{slug}.html'
@@ -34,7 +34,7 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 TYPOGRIFY = None
 
-STATIC_PATHS = ['assets', 'webroot/.nojekyll', 'webroot/LICENSE', 'webroot/README.md', 'webroot/favicon.svg', 'webroot/robots.txt']
+STATIC_PATHS = ['assets', 'html', 'webroot/.nojekyll', 'webroot/LICENSE', 'webroot/README.md', 'webroot/favicon.svg', 'webroot/robots.txt']
 EXTRA_PATH_METADATA = {
     'webroot/.nojekyll': {'path': '.nojekyll'},
     'webroot/LICENSE': {'path': 'LICENSE'},

@@ -1,0 +1,14 @@
+CACHE MANIFEST
+# manifest for /html/puzzle/index.html
+# rev: 6f9889584408672f7ef142cad193c770
+# date: 2018-04-14T05:44:48.011569
+
+CACHE:
+/favicon.svg
+puzzle.min.css
+puzzle.min.js
+
+NETWORK:
+*
+
+FALLBACK:

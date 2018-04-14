@@ -7,7 +7,27 @@
 找到一个不是很完美的解决办法，通过白块当前的位置动态计算向四个方向移动的概率，然后按照四个方向不同的概率移动，终于走出起始点了。
 但是，当白块移动到正中央的时候四个方向的概率又相同了，又有「原地踏步」的可能。
 目前没有想到其他更好的办法。&lt;/p&gt;
-&lt;p&gt;游戏地址： &lt;a href="./html/puzzle/index.html"&gt;拼图/Puzzle&lt;/a&gt;&lt;/p&gt;</content></entry><entry><title>用虚拟私用网络访问敏感网络</title><link href="https://whiler.github.io/bypass-via-vpn.html" rel="alternate"></link><published>2016-10-18T00:00:00+08:00</published><updated>2016-10-18T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-10-18:/bypass-via-vpn.html</id><summary type="html">&lt;p&gt;利用 域名列表 、dnsmasq 、 iptables 和 ipset 配合 虚拟私用网络 精确到域名解决网络封锁。&lt;/p&gt;</summary><content type="html">&lt;p&gt;相对于 &lt;a href="https://whiler.github.io/bypass.html"&gt;绕开网络封锁访问敏感域名&lt;/a&gt; ：&lt;/p&gt;
+&lt;p&gt;游戏地址：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="./html/puzzle/"&gt;拼图/Puzzle&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="./html/puzzle/?mode=simple"&gt;简单模式/Simple&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="./html/puzzle/"&gt;正常模式/Normal&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="./html/puzzle/?grid=12x9&amp;amp;mode=hard"&gt;困难模式/Hard&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;变更历史&lt;/h3&gt;
+&lt;h4&gt;2018-04-14&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;增加还原判定&lt;/li&gt;
+&lt;li&gt;适配竖屏&lt;/li&gt;
+&lt;li&gt;参数支持&lt;ul&gt;
+&lt;li&gt;网格设置&lt;/li&gt;
+&lt;li&gt;难度设置&lt;/li&gt;
+&lt;li&gt;背景图更换&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</content></entry><entry><title>用虚拟私用网络访问敏感网络</title><link href="https://whiler.github.io/bypass-via-vpn.html" rel="alternate"></link><published>2016-10-18T00:00:00+08:00</published><updated>2016-10-18T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-10-18:/bypass-via-vpn.html</id><summary type="html">&lt;p&gt;利用 域名列表 、dnsmasq 、 iptables 和 ipset 配合 虚拟私用网络 精确到域名解决网络封锁。&lt;/p&gt;</summary><content type="html">&lt;p&gt;相对于 &lt;a href="https://whiler.github.io/bypass.html"&gt;绕开网络封锁访问敏感域名&lt;/a&gt; ：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;依赖 虚拟私用网络 ；&lt;/li&gt;
 &lt;li&gt;不再依赖 pdnsd ；&lt;/li&gt;

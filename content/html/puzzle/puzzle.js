@@ -164,18 +164,20 @@
 		// }}}
 		// {{{ resizer
 		function resizer(e) {
-			width = container.clientWidth / cols;
-			height = container.clientHeight / rows;
+			var newwidth = container.clientWidth / cols,
+				newheight = container.clientHeight / rows;
 			var tds = container.getElementsByTagName('td'), idx = 0;
 			for (var i = 0; i < rows; i++) {
 				for (var j = 0; j < cols; j++) {
 					idx = i * cols + j;
-					tds[idx].style.backgroundPositionX = (-j * width) + 'px';
-					tds[idx].style.backgroundPositionY = (-i * height) + 'px';
-					tds[idx].style.width = (width - 2).toFixed(2) + 'px';
-					tds[idx].style.height = (height - 2).toFixed(2) + 'px';
+					tds[idx].style.backgroundPositionX = (parseFloat(tds[idx].style.backgroundPositionX) / width * newwidth) + 'px';
+					tds[idx].style.backgroundPositionY = (parseFloat(tds[idx].style.backgroundPositionY) / height * newheight) + 'px';
+					tds[idx].style.width = (newwidth - 2).toFixed(2) + 'px';
+					tds[idx].style.height = (newheight - 2).toFixed(2) + 'px';
 				}
 			}
+			width = newwidth;
+			height = newheight;
 			delete tds;
 			return true;
 		}

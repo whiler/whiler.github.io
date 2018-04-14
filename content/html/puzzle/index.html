@@ -1,17 +1,36 @@
 <!DOCTYPE html>
-<html lang="cmn">
+<html lang="cmn" manifest="./index.html.appcache">
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <title>拼图/Puzzle</title>
 		<link rel="icon" href="../../favicon.svg"/>
-		<link rel=stylesheet href=puzzle.min.css />
-		<script async src="puzzle.min.js"></script>
+		<link rel=stylesheet href="./puzzle.min.css" />
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-74531835-1"></script>
+		<script async src="./puzzle.min.js"></script>
     </head>
     <body>
         <header><h1></h1></header>
-        <article id="container"></article>
+        <article id="container">
+			<section class="congratulation">
+				<div title="刷新页面重新开始">
+					<h3>恭喜！</h3>
+					<span>你在 <em>{time}</em> 秒内，花 <em>{steps}</em> 步还原了拼图。</span>
+				</div>
+				<div title="reload page to restart">
+					<h3>CONGRATULATION!</h3>
+					<span>You have resolved this puzzle in <em>{time}</em> seconds with <em>{steps}</em> steps.</span>
+				</div>
+			</section>
+			<noscript>启用 JavaScript ，享用游戏。/enable JavaScript enjoy game.</noscript>
+		</article>
         <footer></footer>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){ dataLayer.push(arguments); }
+			gtag('js', new Date());
+			gtag('config', 'UA-74531835-1');
+		</script>
     </body>
 </html>

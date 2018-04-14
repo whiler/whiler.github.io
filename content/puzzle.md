@@ -2,6 +2,7 @@ UUID: ECB9A11E-CF8D-41B4-995E-91759848B70D
 Title: 写了一个简单的拼图游戏
 Summary: 用 HTML/JavaScript/CSS 写了一个简单的拼图游戏。
 Date: 2018-04-14
+Modified: 2018-04-14
 
 早就想写一个拼图游戏了，以前被 `生成的拼图没法还原` 的问题唬住了，迟迟没能动手写。
 今天抽了几个小时做了一个简单的拼图游戏。
@@ -14,4 +15,19 @@ Date: 2018-04-14
 但是，当白块移动到正中央的时候四个方向的概率又相同了，又有「原地踏步」的可能。
 目前没有想到其他更好的办法。
 
-游戏地址： [拼图/Puzzle](./html/puzzle/index.html)
+游戏地址：
+
+- [拼图/Puzzle](./html/puzzle/)
+	- [简单模式/Simple](./html/puzzle/?mode=simple)
+	- [正常模式/Normal](./html/puzzle/)
+	- [困难模式/Hard](./html/puzzle/?grid=12x9&mode=hard)
+
+### 变更历史 ###
+
+#### 2018-04-14 ####
+- 增加还原判定
+- 适配竖屏
+- 参数支持
+	- 网格设置
+	- 难度设置
+	- 背景图更换

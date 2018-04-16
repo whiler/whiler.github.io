@@ -1,4 +1,4 @@
 <div class="meta">
-	发布于/Published: <a href="{{ SITEURL }}/{{ ARCHIVES_SAVE_AS }}" title="归档/Archives"><time datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time></a>
-    {% if article.modified %}更新于/Updated: <a href="{{ SITEURL }}/{{ ARCHIVES_SAVE_AS }}" title="归档/Archives"><time datetime="{{ article.modified.isoformat() }}">{{ article.locale_modified }}</time></a>{% endif %}
+	<span>发布于/Published: <a href="{{ SITEURL }}/{{ ARCHIVES_SAVE_AS }}" title="归档/Archives"><time datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time></a></span>
+    {% if article.modified %}<span>更新于/Updated: <a href="{{ SITEURL }}/{{ ARCHIVES_SAVE_AS }}" title="归档/Archives"><time datetime="{{ article.modified.isoformat() }}">{{ article.locale_modified }}</time></a></span>{% endif %}
 </div>

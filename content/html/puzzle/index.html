@@ -13,6 +13,33 @@
     <body>
         <header><h1></h1></header>
         <article id="container">
+			<section class="launcher">
+				<form id="settings">
+					<fieldset>
+						<label title="2x3" for="simple">
+							<input type="radio" name="mode" id="simple" value="simple"/>
+							<span>简单/Simple</span>
+						</label>
+						<label title="3x5" for="normal">
+							<input type="radio" name="mode" id="normal" value="normal" checked/>
+							<span>普通/Normal</span>
+						</label>
+						<label title="5x7" for="hard">
+							<input type="radio" name="mode" id="hard" value="hard"/>
+							<span>困难/Hard</span>
+						</label>
+					</fieldset>
+
+					<input type="button" value="开始/START"/>
+				</form>
+			</section>
+			<table id="puzzle"></table>
+			<section class="playing">
+				<form id="playing">
+					<label><input type="button" name="reset" value="重新开始/RESTART"/></label>
+					<label><input type="button" name="auto" value="自动还原/AUTO" disabled/></label>
+				</form>
+			</section>
 			<section class="congratulation">
 				<div title="刷新页面重新开始">
 					<h3>恭喜！</h3>
@@ -20,8 +47,11 @@
 				</div>
 				<div title="reload page to restart">
 					<h3>CONGRATULATION!</h3>
-					<span>You have resolved this puzzle in <em>{time}</em> seconds with <em>{steps}</em> steps.</span>
+					<span>resolved in <em>{time}</em> seconds with <em>{steps}</em> steps.</span>
 				</div>
+				<form>
+					<input type="button" name="restart" value="重新开始/RESTART"/>
+				</form>
 			</section>
 			<noscript>启用 JavaScript ，享用游戏。/enable JavaScript enjoy game.</noscript>
 		</article>

@@ -133,7 +133,7 @@
                     playing = false;
                     congratulation();
                 }
-            } else if (playing && target == current) {
+            } else if (playing && startat && target == current) {
                 dotip(e);
             }
             return true;

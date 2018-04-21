@@ -307,12 +307,156 @@
             return true;
         }
         // }}}
+		// {{{ auto
+		function auto() {
+			var tds = table.querySelectorAll('td'), src = [], dest = [], path = null, cur = -1, map = {};
+			for (var i = 0; i < tds.length; i++) {
+				var row = Math.abs(Math.round(parseInt(tds[i].style.backgroundPositionY) / height)),
+					col = Math.abs(Math.round(parseInt(tds[i].style.backgroundPositionX) / width));
+				map[row * cols + col] = i;
+				src.push(row * cols + col);
+				dest.push(i);
+				if (i == current) {
+					cur = row * cols + col;
+				}
+			}
+			delete tds;
+			path = astar(rows, cols, src, dest, cur);
+			return true;
+		}
+		// }}}
+		// {{{ astar 
+		function astar(rows, cols, src, dest, cur) {
+			var openset = [], closeset = {}, found = false, path = [], child = null, dup = false,
+				target = JSON.stringify(dest);
+
+			function getHeuristic(src, dest) {
+				var heuristic = 0;
+				for (var i = 0; i < dest.length; i++) {
+					if (dest[i] != src[i]) {
+						heuristic++;
+					}
+				}
+				return heuristic;
+			}
+			function compare(a, b) {
+				return a.gscore + a.heuristic < b.gscore + b.heuristic;
+			}
+			// {{{ getChildren
+			function getChildren(rows, cols, node, cur) {
+				var i = node.state.indexOf(cur), children = [], state = null, t = null;
+				if (i + cols < rows * cols) {
+					state = node.state.slice(0);
+					t = state[i + cols];
+					state[i + cols] = cur;
+					state[i] = t;
+					children.push({
+						id: JSON.stringify(state),
+						parent: node,
+						gscore: node.gscore + 1,
+						heuristic: -1,
+						state: state,
+						target: i + cols
+					});
+				}
+				if (i - cols >= 0) {
+					state = node.state.slice(0);
+					t = state[i - cols];
+					state[i - cols] = cur;
+					state[i] = t;
+					children.push({
+						id: JSON.stringify(state),
+						parent: node,
+						gscore: node.gscore + 1,
+						heuristic: -1,
+						state: state,
+						target: i - cols
+					});
+				}
+				if (i % cols + 1 < cols) {
+					state = node.state.slice(0);
+					t = state[i + 1];
+					state[i + 1] = cur;
+					state[i] = t;
+					children.push({
+						id: JSON.stringify(state),
+						parent: node,
+						gscore: node.gscore + 1,
+						heuristic: -1,
+						state: state,
+						target: i + 1
+					});
+				}
+				if (i % cols - 1 >= 0) {
+					state = node.state.slice(0);
+					t = state[i - 1];
+					state[i - 1] = cur;
+					state[i] = t;
+					children.push({
+						id: JSON.stringify(state),
+						parent: node,
+						gscore: node.gscore + 1,
+						heuristic: -1,
+						state: state,
+						target: i - 1
+					});
+				}
+				return children;
+			}
+			// }}}
+
+			openset.push({
+				id: JSON.stringify(src),
+				parent: null,
+				gscore: 0,
+				heuristic: getHeuristic(src, dest),
+				state: src,
+				target: cur
+			});
+			while (openset.length && !found) {
+				openset.sort(compare);
+				curr = openset.pop();
+				closeset[curr.id] = true;
+				children = getChildren(rows, cols, curr, cur);
+				for (var i = 0; i < children.length; i++) {
+					dup = false;
+					child = children[i];
+					if (child.id in closeset) {
+						continue;
+					}
+					if (child.id == target) {
+						while (child.parent) {
+							console.debug(child.id);
+							path.push(child.target);
+							child = child.parent;
+						}
+						found = true;
+						break;
+					}
+					for (var j = 0; j < openset.length; j++) {
+						if (openset[j].id == child.id && openset[j].gscore > child.gscore) {
+							openset[j].gscore = child.gscore;
+							openset[j].parent = child.parent;
+							dup = true;
+						}
+					}
+					if (!dup) {
+						child.heuristic = getHeuristic(child.state, dest);
+						openset.push(child);
+					}
+				}
+			}
+
+			return path;
+		}
+		// }}}
 
         win.addEventListener("resize", resizer, false);
 
         return {update: update,
                 start: start,
                 reset: reset,
+				auto: auto,
                 onCongratulation: onCongratulation,
                 onTip: onTip,
                 onMove: onMove}
@@ -360,6 +504,7 @@
             return true;
         }
         // }}}
+		img = 'seq.png';
         launcher.style.display = "block";
         game = puzzle(win, doc, container, gamebox, docongratulation);
         game.onCongratulation(docongratulation).onTip(dotip).onMove(onmove);
@@ -383,6 +528,7 @@
             launcher.style.display = "block";
             return true;
         }, false);
+        auto.addEventListener("click", game.auto, false);
 
         return true;
     }

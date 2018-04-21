@@ -309,11 +309,10 @@
         // }}}
 		// {{{ auto
 		function auto() {
-			var tds = table.querySelectorAll('td'), src = [], dest = [], path = null, cur = -1, map = {};
+			var tds = table.querySelectorAll('td'), src = [], dest = [], path = null, cur = -1;
 			for (var i = 0; i < tds.length; i++) {
 				var row = Math.abs(Math.round(parseInt(tds[i].style.backgroundPositionY) / height)),
 					col = Math.abs(Math.round(parseInt(tds[i].style.backgroundPositionX) / width));
-				map[row * cols + col] = i;
 				src.push(row * cols + col);
 				dest.push(i);
 				if (i == current) {
@@ -322,6 +321,16 @@
 			}
 			delete tds;
 			path = astar(rows, cols, src, dest, cur);
+			if (path) {
+				setTimeout(function() {
+					var target = path.pop();
+					if (target != undefined) {
+						walk(target);
+						setTimeout(arguments.callee, 50);
+					}
+					return true;
+				}, 50);
+			}
 			return true;
 		}
 		// }}}
@@ -426,7 +435,6 @@
 					}
 					if (child.id == target) {
 						while (child.parent) {
-							console.debug(child.id);
 							path.push(child.target);
 							child = child.parent;
 						}

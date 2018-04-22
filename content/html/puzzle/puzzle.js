@@ -4,7 +4,103 @@
             return key in ctx ? ctx[key] : key;
         });
     }
-
+	// {{{ BinaryHeap
+	// BinaryHeap
+	// come from https://github.com/bgrins/javascript-astar with MIT License.
+	function BinaryHeap(equalFunction, scoreFunction) {
+	    this.content = [];
+	    this.equalFunction = equalFunction;
+	    this.scoreFunction = scoreFunction;
+	}
+	BinaryHeap.prototype = {
+	    push: function(element) {
+	        this.content.push(element);
+	        this.sinkDown(this.content.length - 1);
+	    },
+	    pop: function() {
+	        var result = this.content[0], end = this.content.pop();
+	        if (this.content.length > 0) {
+	            this.content[0] = end;
+	            this.bubbleUp(0);
+	        }
+	        return result;
+	    },
+		indexOf: function(node) {
+			var i = 0, len = this.content.length;
+			for (; i < len && !this.equalFunction(this.content[i], node); i++) {
+			}
+			return i < len ? i : -1;
+		},
+		get: function(i) {
+			return this.content[i];
+		},
+	    remove: function(node) {
+	        var i = this.indexOf(node), end = this.content.pop();
+	        if (i !== this.content.length - 1) {
+	            this.content[i] = end;
+	            if (this.scoreFunction(end) < this.scoreFunction(node)) {
+	                this.sinkDown(i);
+	            } else {
+	                this.bubbleUp(i);
+	            }
+	        }
+	    },
+	    size: function() {
+	        return this.content.length;
+	    },
+	    rescoreElement: function(node) {
+	        this.sinkDown(this.indexOf(node));
+	    },
+	    sinkDown: function(n) {
+	        var element = this.content[n], parentN = null, parent = null;
+	        while (n > 0) {
+	            parentN = ((n + 1) >> 1) - 1;
+	            parent = this.content[parentN];
+	            if (this.scoreFunction(element) < this.scoreFunction(parent)) {
+	                this.content[parentN] = element;
+	                this.content[n] = parent;
+	                n = parentN;
+	            } else {
+	                break;
+	            }
+	        }
+	    },
+	    bubbleUp: function(n) {
+	        var length = this.content.length,
+				element = this.content[n],
+	        	elemScore = this.scoreFunction(element),
+				child1 = null, child1N = null, child2N = null, swap = null, child1Score = null,
+				child2 = null, child2Score = null;
+	
+	        while (true) {
+	            child2N = (n + 1) << 1;
+	            child1N = child2N - 1;
+	            swap = null;
+	            if (child1N < length) {
+	                child1 = this.content[child1N];
+	                child1Score = this.scoreFunction(child1);
+	                if (child1Score < elemScore) {
+	                    swap = child1N;
+	                }
+	            }
+	            if (child2N < length) {
+	                child2 = this.content[child2N];
+	                child2Score = this.scoreFunction(child2);
+	                if (child2Score < (swap === null ? elemScore : child1Score)) {
+	                    swap = child2N;
+	                }
+	            }
+	            if (swap !== null) {
+	                this.content[n] = this.content[swap];
+	                this.content[swap] = element;
+	                n = swap;
+	            } else {
+	                break;
+	            }
+	        }
+	    }
+	};
+	// }}}
     // {{{ puzzle
     function puzzle(win, doc, container, table) {
         var mode = null, img = null,
@@ -309,7 +405,8 @@
         // }}}
 		// {{{ auto
 		function auto() {
-			var tds = table.querySelectorAll('td'), src = [], dest = [], path = null, cur = -1;
+			var tds = table.querySelectorAll('td'), src = [], dest = [], path = null, cur = -1,
+				as = null;
 			for (var i = 0; i < tds.length; i++) {
 				var row = Math.abs(Math.round(parseInt(tds[i].style.backgroundPositionY) / height)),
 					col = Math.abs(Math.round(parseInt(tds[i].style.backgroundPositionX) / width));
@@ -320,7 +417,9 @@
 				}
 			}
 			delete tds;
+			as = new Date();
 			path = astar(rows, cols, src, dest, cur);
+			console.debug('astar elapsed: ' + (new Date() - as) + 'ms');
 			if (path) {
 				setTimeout(function() {
 					var target = path.pop();
@@ -335,105 +434,116 @@
 		}
 		// }}}
 		// {{{ astar 
+		function encode(ns) {
+			return String.fromCharCode.apply(null, ns);
+		}
+		function decode(asciis) {
+			var ret = [];
+			for (var i = 0, len = asciis.length; i < len; i++) {
+				ret.push(asciis.charCodeAt(i));
+			}
+			return ret;
+		}
+		function getHeuristic(src, dest) {
+			var heuristic = 0;
+			for (var i = 0; i < dest.length; i++) {
+				if (dest[i] != src[i]) {
+					heuristic++;
+				}
+			}
+			return heuristic;
+		}
+		function getChildren(rows, cols, node, cur) {
+			var nodestate = decode(node.id), i = node.target,
+				children = [],
+				state = null, t = null;
+			if (i + cols < rows * cols) {
+				state = nodestate.slice(0);
+				t = state[i + cols];
+				state[i + cols] = cur;
+				state[i] = t;
+				children.push({
+					id: encode(state),
+					parent: node,
+					gscore: 0,
+					heuristic: 0,
+					factor: 0,
+					target: i + cols
+				});
+			}
+			if (i - cols >= 0) {
+				state = nodestate.slice(0);
+				t = state[i - cols];
+				state[i - cols] = cur;
+				state[i] = t;
+				children.push({
+					id: encode(state),
+					parent: node,
+					gscore: 0,
+					heuristic: 0,
+					factor: 0,
+					target: i - cols
+				});
+			}
+			if (i % cols + 1 < cols) {
+				state = nodestate.slice(0);
+				t = state[i + 1];
+				state[i + 1] = cur;
+				state[i] = t;
+				children.push({
+					id: encode(state),
+					parent: node,
+					gscore: 0,
+					heuristic: 0,
+					factor: 0,
+					target: i + 1
+				});
+			}
+			if (i % cols - 1 >= 0) {
+				state = nodestate.slice(0);
+				t = state[i - 1];
+				state[i - 1] = cur;
+				state[i] = t;
+				children.push({
+					id: encode(state),
+					parent: node,
+					gscore: 0,
+					heuristic: 0,
+					factor: 0,
+					target: i - 1
+				});
+			}
+			return children;
+		}
 		function astar(rows, cols, src, dest, cur) {
-			var openset = [], closeset = {}, found = false, path = [], child = null, dup = false,
-				target = JSON.stringify(dest);
+			var openset = null, openmap = {}, closeset = {},
+				found = false, path = [],
+				children = null, child = null, curr = null, idx = 0, dup = null, gscore = 0,
+				start = encode(src), target = encode(dest);
 
-			function getHeuristic(src, dest) {
-				var heuristic = 0;
-				for (var i = 0; i < dest.length; i++) {
-					if (dest[i] != src[i]) {
-						heuristic++;
-					}
-				}
-				return heuristic;
-			}
-			function compare(a, b) {
-				return a.gscore + a.heuristic < b.gscore + b.heuristic;
-			}
-			// {{{ getChildren
-			function getChildren(rows, cols, node, cur) {
-				var i = node.state.indexOf(cur), children = [], state = null, t = null;
-				if (i + cols < rows * cols) {
-					state = node.state.slice(0);
-					t = state[i + cols];
-					state[i + cols] = cur;
-					state[i] = t;
-					children.push({
-						id: JSON.stringify(state),
-						parent: node,
-						gscore: node.gscore + 1,
-						heuristic: -1,
-						state: state,
-						target: i + cols
-					});
-				}
-				if (i - cols >= 0) {
-					state = node.state.slice(0);
-					t = state[i - cols];
-					state[i - cols] = cur;
-					state[i] = t;
-					children.push({
-						id: JSON.stringify(state),
-						parent: node,
-						gscore: node.gscore + 1,
-						heuristic: -1,
-						state: state,
-						target: i - cols
-					});
-				}
-				if (i % cols + 1 < cols) {
-					state = node.state.slice(0);
-					t = state[i + 1];
-					state[i + 1] = cur;
-					state[i] = t;
-					children.push({
-						id: JSON.stringify(state),
-						parent: node,
-						gscore: node.gscore + 1,
-						heuristic: -1,
-						state: state,
-						target: i + 1
-					});
-				}
-				if (i % cols - 1 >= 0) {
-					state = node.state.slice(0);
-					t = state[i - 1];
-					state[i - 1] = cur;
-					state[i] = t;
-					children.push({
-						id: JSON.stringify(state),
-						parent: node,
-						gscore: node.gscore + 1,
-						heuristic: -1,
-						state: state,
-						target: i - 1
-					});
-				}
-				return children;
-			}
-			// }}}
-
+			openset = new BinaryHeap(function(a, b) { return a.id == b.id; },
+								     function(node) { return node.factor; });
 			openset.push({
-				id: JSON.stringify(src),
+				id: start,
 				parent: null,
 				gscore: 0,
-				heuristic: getHeuristic(src, dest),
-				state: src,
-				target: cur
+				heuristic: getHeuristic(start, target),
+				factor: getHeuristic(start, target),
+				target: src.indexOf(cur)
 			});
-			while (openset.length && !found) {
-				openset.sort(compare);
+			while (openset.size() && !found) {
 				curr = openset.pop();
+				delete openmap[curr.id];
 				closeset[curr.id] = true;
 				children = getChildren(rows, cols, curr, cur);
-				for (var i = 0; i < children.length; i++) {
-					dup = false;
+				for (var i = 0, len = children.length; i < len; i++) {
+					idx = -1;
+					dup = null;
+					gscore = curr.gscore + 1;
 					child = children[i];
 					if (child.id in closeset) {
 						continue;
-					}
-					if (child.id == target) {
+					} else if (child.id == target) {
 						while (child.parent) {
 							path.push(child.target);
 							child = child.parent;
@@ -441,20 +551,25 @@
 						found = true;
 						break;
 					}
-					for (var j = 0; j < openset.length; j++) {
-						if (openset[j].id == child.id && openset[j].gscore > child.gscore) {
-							openset[j].gscore = child.gscore;
-							openset[j].parent = child.parent;
-							dup = true;
-						}
-					}
-					if (!dup) {
-						child.heuristic = getHeuristic(child.state, dest);
+					if (!(child.id in openmap)) {
+						child.gscore = gscore;
+						child.heuristic = getHeuristic(child.id, target);
+						child.factor = child.gscore + child.heuristic;
 						openset.push(child);
+						openmap[child.id] = true;
+					} else {
+						idx = openset.indexOf(child);
+						dup = openset.get(idx);
+						if (dup.gscore > gscore) {
+							dup.gscore = gscore;
+							dup.factor = gscore + dup.heuristic;
+							dup.parent = curr;
+							openset.sinkDown(idx);
+						}
 					}
 				}
 			}
-
+		
 			return path;
 		}
 		// }}}

@@ -1,110 +1,116 @@
 (function(win, doc) {
+    "use strict";
+
     function template(tpl, ctx) {
         return tpl.replace(/\{(\w+)\}/g, function(m, key) {
             return key in ctx ? ctx[key] : key;
         });
     }
-	// {{{ BinaryHeap
-	// BinaryHeap
-	// come from https://github.com/bgrins/javascript-astar with MIT License.
-	function BinaryHeap(equalFunction, scoreFunction) {
-	    this.content = [];
-	    this.equalFunction = equalFunction;
-	    this.scoreFunction = scoreFunction;
-	}
-	BinaryHeap.prototype = {
-	    push: function(element) {
-	        this.content.push(element);
-	        this.sinkDown(this.content.length - 1);
-	    },
-	    pop: function() {
-	        var result = this.content[0], end = this.content.pop();
-	        if (this.content.length > 0) {
-	            this.content[0] = end;
-	            this.bubbleUp(0);
-	        }
-	        return result;
-	    },
-		indexOf: function(node) {
-			var i = 0, len = this.content.length;
-			for (; i < len && !this.equalFunction(this.content[i], node); i++) {
-			}
-			return i < len ? i : -1;
-		},
-		get: function(i) {
-			return this.content[i];
-		},
-	    remove: function(node) {
-	        var i = this.indexOf(node), end = this.content.pop();
-	        if (i !== this.content.length - 1) {
-	            this.content[i] = end;
-	            if (this.scoreFunction(end) < this.scoreFunction(node)) {
-	                this.sinkDown(i);
-	            } else {
-	                this.bubbleUp(i);
-	            }
-	        }
-	    },
-	    size: function() {
-	        return this.content.length;
-	    },
-	    rescoreElement: function(node) {
-	        this.sinkDown(this.indexOf(node));
-	    },
-	    sinkDown: function(n) {
-	        var element = this.content[n], parentN = null, parent = null;
-	        while (n > 0) {
-	            parentN = ((n + 1) >> 1) - 1;
-	            parent = this.content[parentN];
-	            if (this.scoreFunction(element) < this.scoreFunction(parent)) {
-	                this.content[parentN] = element;
-	                this.content[n] = parent;
-	                n = parentN;
-	            } else {
-	                break;
-	            }
-	        }
-	    },
-	    bubbleUp: function(n) {
-	        var length = this.content.length,
-				element = this.content[n],
-	        	elemScore = this.scoreFunction(element),
-				child1 = null, child1N = null, child2N = null, swap = null, child1Score = null,
-				child2 = null, child2Score = null;
-	
-	        while (true) {
-	            child2N = (n + 1) << 1;
-	            child1N = child2N - 1;
-	            swap = null;
-	            if (child1N < length) {
-	                child1 = this.content[child1N];
-	                child1Score = this.scoreFunction(child1);
-	                if (child1Score < elemScore) {
-	                    swap = child1N;
-	                }
-	            }
-	            if (child2N < length) {
-	                child2 = this.content[child2N];
-	                child2Score = this.scoreFunction(child2);
-	                if (child2Score < (swap === null ? elemScore : child1Score)) {
-	                    swap = child2N;
-	                }
-	            }
-	            if (swap !== null) {
-	                this.content[n] = this.content[swap];
-	                this.content[swap] = element;
-	                n = swap;
-	            } else {
-	                break;
-	            }
-	        }
-	    }
-	};
-	// }}}
+
+    // {{{ BinaryHeap
+    // 0. 33297
+    // 1. 25120
+    // 2. 13277
+    // 3. 13101
+    // 4. 12828
+    // 5. 10036
+    // 6. 382
+    // 7. 181
+    function BinaryHeap(keyFunction, scoreFunction) {
+        this.content = [];
+        this.map = {};
+        this.keyFunction = keyFunction;
+        this.scoreFunction = scoreFunction;
+    }
+    BinaryHeap.prototype = {
+        push: function(node) {
+            this.content.push(node);
+            this.map[this.keyFunction(node)] = this.bubbleUp(this.content.length - 1, node,
+                                                             this.scoreFunction(node));
+            return true;
+        },
+        pop: function() {
+            var result = this.content[0], end = this.content.pop();
+            if (this.content.length > 0) {
+                this.content[0] = end;
+                this.map[this.keyFunction(end)] = this.sinkDown(0, end, this.scoreFunction(end));
+            }
+            delete this.map[this.keyFunction(result)];
+            return result;
+        },
+        get: function(key) {
+            return this.map.hasOwnProperty(key) ? this.content[this.map[key]] : null;
+        },
+        size: function() {
+            return this.content.length;
+        },
+        update: function(key) {
+            var idx = this.map[key], node = this.content[idx], score = this.scoreFunction(node);
+            idx = this.bubbleUp(idx, node, score);
+            this.map[key] = this.sinkDown(idx, node, score);
+            return true;
+        },
+        bubbleUp: function(n, node, score) {
+            var parentIdx = null, parent = null;
+            while (n > 0) {
+                parentIdx = ((n + 1) >> 1) - 1;
+                parent = this.content[parentIdx];
+                if (score < this.scoreFunction(parent)) {
+                    this.content[parentIdx] = node;
+                    this.content[n] = parent;
+                    this.map[this.keyFunction(parent)] = n;
+                    n = parentIdx;
+                } else {
+                    break;
+                }
+            }
+            return n;
+        },
+        sinkDown: function(n, node, score) {
+            var length = this.content.length,
+                left = null, leftIdx = null, leftScore = null,
+                right = null, rightIdx = null, rightScore = null,
+                swap = null, swapKey = null;
+
+            while (true) {
+                rightIdx = (n + 1) << 1;
+                leftIdx = rightIdx - 1;
+                swap = null;
+                swapKey = null;
+                if (leftIdx < length) {
+                    left = this.content[leftIdx];
+                    leftScore = this.scoreFunction(left);
+                    if (leftScore < score) {
+                        swap = leftIdx;
+                        swapKey = this.keyFunction(left);
+                    }
+                }
+                if (rightIdx < length) {
+                    right = this.content[rightIdx];
+                    rightScore = this.scoreFunction(right);
+                    if (rightScore < (swap === null ? score : leftScore)) {
+                        swap = rightIdx;
+                        swapKey = this.keyFunction(right);
+                    }
+                }
+                if (swap !== null) {
+                    this.content[n] = this.content[swap];
+                    this.content[swap] = node;
+                    this.map[swapKey] = n;
+                    n = swap;
+                } else {
+                    break;
+                }
+            }
+
+            return n;
+        }
+    };
+    // }}}
     // {{{ puzzle
     function puzzle(win, doc, container, table) {
         var mode = null, img = null,
-            grids = {"simple": "2x3", "normal": "3x5", "hard": "5x7"},
+            grids = {"simple": "2x3", "normal": "3x5", "hard": "5x5"},
             width = 0, height = 0, cols = 0, rows = 0, reg = /(\d+)x(\d+)/,
             current = -1, startat = null, resolved = null, playing = false,
             className = "empty", gopath = [], comepath = [],
@@ -149,7 +155,7 @@
             for (var i = 0; i < tds.length; i++) {
                 tds[i].style.backgroundImage = "url(" + src + ")";
             }
-            delete tds;
+            tds = null;
             return true;
         }
         // }}}
@@ -182,10 +188,10 @@
                     td.style.height = (height - 2).toFixed(2) + "px";
                     td.addEventListener("click", clicker, false);
                     tr.appendChild(td);
-                    delete td;
+                    td = null;
                 }
                 table.appendChild(tr);
-                delete tr;
+                tr = null;
             }
             return true;
         }
@@ -209,8 +215,8 @@
                     tds[idx].style.backgroundPositionY = (-i * height) + "px";
                 }
             }
-            delete tds;
-            delete cur;
+            tds = null;
+            cur = null;
             return true;
         }
         // }}}
@@ -240,19 +246,20 @@
             var duration = duration || 1000, elapsed = 0,
                 block = doc.getElementById(current),
                 origin = block.className.trim();
-            setTimeout(function() {
+            var callee = function() {
                 var cur = block.className.trim();
                 if (elapsed < duration) {
                     block.className = (cur.indexOf(className) != -1 ? cur.replace(className, "") : cur + " " + className).trim();
                     elapsed += 1000 / 6;
-                    setTimeout(arguments.callee, 1000 / 6);
+                    setTimeout(callee, 1000 / 6);
                 } else {
                     block.className = origin;
-                    delete block;
+                    block = null;
                     callback && callback();
                 }
                 return true;
-            }, 1000 / 6);
+            };
+            setTimeout(callee, 1000 / 6);
             return true;
         }
         // }}}
@@ -261,7 +268,8 @@
             var end = Math.pow(Math.max(rows, cols), 2), delay = 0,
                 cur = current, target = -1, block = -1,
                 row = 0, col = 0,
-                path = [];
+                path = [],
+                callee = null;
             while (path.length < end) {
                 row = Math.floor(cur / cols), col = cur % cols;
                 if (Math.random() < 0.5) {
@@ -284,17 +292,18 @@
                 }
             }
             delay = 1000 / end;
-            setTimeout(function() {
+            callee = function() {
                 var target = path.shift();
                 if (target != undefined) {
                     gopath.push(target);
                     walk(target);
-                    setTimeout(arguments.callee, delay);
+                    setTimeout(callee, delay);
                 } else {
                     startat = new Date();
                 }
                 return true;
-            }, delay);
+            };
+            setTimeout(callee, delay);
             doc.getElementById(current).className = className;
             return true;
         }
@@ -327,8 +336,8 @@
             cur.style.backgroundPosition = block.style.backgroundPosition;
             block.style.backgroundPosition = backgroundPosition;
             current = dest;
-            delete block;
-            delete cur;
+            block = null;
+            cur = null;
             return true;
         }
         // }}}
@@ -350,7 +359,7 @@
                     break;
                 }
             }
-            delete tds;
+            tds = null;
             return !stop;
         }
         // }}}
@@ -361,7 +370,7 @@
             flash(1000, function() {return replay(function() {
                     var cur = doc.getElementById(current);
                     cur.className = cur.className.replace(className, "").trim();
-                    delete cur;
+                    cur = null;
                     return docongratulation({"elapsed": elapsed, "steps": steps});
             });});
             return true;
@@ -369,17 +378,18 @@
         // }}}
         // {{{ replay
         function replay(callback) {
-            var path = gopath.concat(comepath), delay = 2000 / path.length;
-            setTimeout(function() {
+            var path = gopath.concat(comepath), delay = 2000 / path.length, callee = null;
+            callee = function() {
                 var target = path.shift();
                 if (target != undefined) {
                     walk(target);
-                    setTimeout(arguments.callee, delay);
+                    setTimeout(callee, delay);
                 } else {
                     callback();
                 }
                 return true;
-            }, delay);
+            };
+            setTimeout(callee, delay);
             return true;
         }
         // }}}
@@ -399,200 +409,203 @@
             }
             width = newwidth;
             height = newheight;
-            delete tds;
+            tds = null;
             return true;
         }
         // }}}
-		// {{{ auto
-		function auto() {
-			var tds = table.querySelectorAll('td'), src = [], dest = [], path = null, cur = -1,
-				as = null;
-			for (var i = 0; i < tds.length; i++) {
-				var row = Math.abs(Math.round(parseInt(tds[i].style.backgroundPositionY) / height)),
-					col = Math.abs(Math.round(parseInt(tds[i].style.backgroundPositionX) / width));
-				src.push(row * cols + col);
-				dest.push(i);
-				if (i == current) {
-					cur = row * cols + col;
-				}
-			}
-			delete tds;
-			as = new Date();
-			path = astar(rows, cols, src, dest, cur);
-			console.debug('astar elapsed: ' + (new Date() - as) + 'ms');
-			if (path) {
-				setTimeout(function() {
-					var target = path.pop();
-					if (target != undefined) {
-						walk(target);
-						setTimeout(arguments.callee, 50);
-					}
-					return true;
-				}, 50);
-			}
-			return true;
-		}
-		// }}}
-		// {{{ astar 
-		function encode(ns) {
-			return String.fromCharCode.apply(null, ns);
-		}
-		function decode(asciis) {
-			var ret = [];
-			for (var i = 0, len = asciis.length; i < len; i++) {
-				ret.push(asciis.charCodeAt(i));
-			}
-			return ret;
-		}
-		function getHeuristic(src, dest) {
-			var heuristic = 0;
-			for (var i = 0; i < dest.length; i++) {
-				if (dest[i] != src[i]) {
-					heuristic++;
-				}
-			}
-			return heuristic;
-		}
-		function getChildren(rows, cols, node, cur) {
-			var nodestate = decode(node.id), i = node.target,
-				children = [],
-				state = null, t = null;
-			if (i + cols < rows * cols) {
-				state = nodestate.slice(0);
-				t = state[i + cols];
-				state[i + cols] = cur;
-				state[i] = t;
-				children.push({
-					id: encode(state),
-					parent: node,
-					gscore: 0,
-					heuristic: 0,
-					factor: 0,
-					target: i + cols
-				});
-			}
-			if (i - cols >= 0) {
-				state = nodestate.slice(0);
-				t = state[i - cols];
-				state[i - cols] = cur;
-				state[i] = t;
-				children.push({
-					id: encode(state),
-					parent: node,
-					gscore: 0,
-					heuristic: 0,
-					factor: 0,
-					target: i - cols
-				});
-			}
-			if (i % cols + 1 < cols) {
-				state = nodestate.slice(0);
-				t = state[i + 1];
-				state[i + 1] = cur;
-				state[i] = t;
-				children.push({
-					id: encode(state),
-					parent: node,
-					gscore: 0,
-					heuristic: 0,
-					factor: 0,
-					target: i + 1
-				});
-			}
-			if (i % cols - 1 >= 0) {
-				state = nodestate.slice(0);
-				t = state[i - 1];
-				state[i - 1] = cur;
-				state[i] = t;
-				children.push({
-					id: encode(state),
-					parent: node,
-					gscore: 0,
-					heuristic: 0,
-					factor: 0,
-					target: i - 1
-				});
-			}
-			return children;
-		}
-		function astar(rows, cols, src, dest, cur) {
-			var openset = null, openmap = {}, closeset = {},
-				found = false, path = [],
-				children = null, child = null, curr = null, idx = 0, dup = null, gscore = 0,
-				start = encode(src), target = encode(dest);
+        // {{{ auto
+        function auto() {
+            var tds = table.querySelectorAll("td"), src = [], dest = [], path = null, cur = -1,
+                callee = null;
+            playing = false;
+            for (var i = 0; i < tds.length; i++) {
+                var row = Math.abs(Math.round(parseInt(tds[i].style.backgroundPositionY) / height)),
+                    col = Math.abs(Math.round(parseInt(tds[i].style.backgroundPositionX) / width));
+                src.push(row * cols + col);
+                dest.push(i);
+                if (i == current) {
+                    cur = row * cols + col;
+                }
+            }
+            tds = null;
+            path = astar(rows, cols, src, dest, cur);
+            if (path) {
+                callee = function() {
+                    var target = path.pop();
+                    if (target != undefined) {
+                        comepath.push(target);
+                        walk(target);
+                        setTimeout(callee, 50);
+                    } else if (checkresolved()) {
+                        resolved = new Date();
+                        congratulation();
+                    }
+                    return true;
+                };
+                setTimeout(callee, 50);
+            } else {
+                console.debug("astar failed", src, cur);
+                playing = true;
+            }
+            return true;
+        }
+        // }}}
+        // {{{ astar
+        function encode(ns) {
+            return String.fromCharCode.apply(null, ns);
+        }
+        function decode(asciis) {
+            var ret = [];
+            for (var i = 0, len = asciis.length; i < len; i++) {
+                ret.push(asciis.charCodeAt(i));
+            }
+            return ret;
+        }
+        function getHeuristic(src, dest) {
+            var heuristic = 0;
+            for (var i = 0; i < dest.length; i++) {
+                if (dest[i] != src[i]) {
+                    heuristic++;
+                }
+            }
+            return heuristic;
+        }
+        function getChildren(rows, cols, node, cur) {
+            var nodestate = decode(node.id), i = node.target,
+                children = [],
+                state = null, t = null;
+            if (i + cols < rows * cols) {
+                state = nodestate.slice(0);
+                t = state[i + cols];
+                state[i + cols] = cur;
+                state[i] = t;
+                children.push({
+                    id: encode(state),
+                    parent: node,
+                    gscore: 0,
+                    heuristic: 0,
+                    factor: 0,
+                    target: i + cols
+                });
+            }
+            if (i - cols >= 0) {
+                state = nodestate.slice(0);
+                t = state[i - cols];
+                state[i - cols] = cur;
+                state[i] = t;
+                children.push({
+                    id: encode(state),
+                    parent: node,
+                    gscore: 0,
+                    heuristic: 0,
+                    factor: 0,
+                    target: i - cols
+                });
+            }
+            if (i % cols + 1 < cols) {
+                state = nodestate.slice(0);
+                t = state[i + 1];
+                state[i + 1] = cur;
+                state[i] = t;
+                children.push({
+                    id: encode(state),
+                    parent: node,
+                    gscore: 0,
+                    heuristic: 0,
+                    factor: 0,
+                    target: i + 1
+                });
+            }
+            if (i % cols - 1 >= 0) {
+                state = nodestate.slice(0);
+                t = state[i - 1];
+                state[i - 1] = cur;
+                state[i] = t;
+                children.push({
+                    id: encode(state),
+                    parent: node,
+                    gscore: 0,
+                    heuristic: 0,
+                    factor: 0,
+                    target: i - 1
+                });
+            }
+            return children;
+        }
+        function astar(rows, cols, src, dest, cur) {
+            var openset = null, closeset = {},
+                found = false, path = [],
+                children = null, child = null, curr = null, idx = 0, dup = null, gscore = 0,
+                start = encode(src), target = encode(dest);
 
-			openset = new BinaryHeap(function(a, b) { return a.id == b.id; },
-								     function(node) { return node.factor; });
-			openset.push({
-				id: start,
-				parent: null,
-				gscore: 0,
-				heuristic: getHeuristic(start, target),
-				factor: getHeuristic(start, target),
-				target: src.indexOf(cur)
-			});
-			while (openset.size() && !found) {
-				curr = openset.pop();
-				delete openmap[curr.id];
-				closeset[curr.id] = true;
-				children = getChildren(rows, cols, curr, cur);
-				for (var i = 0, len = children.length; i < len; i++) {
-					idx = -1;
-					dup = null;
-					gscore = curr.gscore + 1;
-					child = children[i];
-					if (child.id in closeset) {
-						continue;
-					} else if (child.id == target) {
-						while (child.parent) {
-							path.push(child.target);
-							child = child.parent;
-						}
-						found = true;
-						break;
-					}
-					if (!(child.id in openmap)) {
-						child.gscore = gscore;
-						child.heuristic = getHeuristic(child.id, target);
-						child.factor = child.gscore + child.heuristic;
-						openset.push(child);
-						openmap[child.id] = true;
-					} else {
-						idx = openset.indexOf(child);
-						dup = openset.get(idx);
-						if (dup.gscore > gscore) {
-							dup.gscore = gscore;
-							dup.factor = gscore + dup.heuristic;
-							dup.parent = curr;
-							openset.sinkDown(idx);
-						}
-					}
-				}
-			}
-		
-			return path;
-		}
-		// }}}
+            openset = new BinaryHeap(function(node) { return node.id; },
+                                     function(node) { return node.factor; });
+            openset.push({
+                id: start,
+                parent: null,
+                gscore: 0,
+                heuristic: getHeuristic(start, target),
+                factor: getHeuristic(start, target),
+                target: src.indexOf(cur)
+            });
+            while (openset.size() && !found) {
+                curr = openset.pop();
+                closeset[curr.id] = true;
+                children = getChildren(rows, cols, curr, cur);
+                for (var i = 0, len = children.length; i < len; i++) {
+                    idx = -1;
+                    dup = null;
+                    gscore = curr.gscore + 1;
+                    child = children[i];
+                    if (child.id in closeset) {
+                        continue;
+                    } else if (child.id == target) {
+                        while (child.parent) {
+                            path.push(child.target);
+                            child = child.parent;
+                        }
+                        found = true;
+                        break;
+                    }
+                    dup = openset.get(child.id);
+                    if (!dup) {
+                        child.gscore = gscore;
+                        child.heuristic = getHeuristic(child.id, target);
+                        child.factor = child.gscore + child.heuristic;
+                        openset.push(child);
+                    } else if (dup.gscore > gscore) {
+                        dup.gscore = gscore;
+                        dup.factor = gscore + dup.heuristic;
+                        dup.parent = curr;
+                        openset.update(child.id);
+                    }
+                }
+            }
+
+            return path;
+        }
+        // }}}
 
         win.addEventListener("resize", resizer, false);
 
         return {update: update,
                 start: start,
                 reset: reset,
-				auto: auto,
+                auto: auto,
                 onCongratulation: onCongratulation,
                 onTip: onTip,
                 onMove: onMove}
     }
     // }}}
-
+    // {{{ app
     function app(win, doc) {
         var imgs = ["cat.jpg", "husky.jpg", "cat.jpg", "husky.jpg", "cat.jpg", "smile.jpg", "husky.jpg", "cat.jpg", "smile.jpg", "cat.jpg"], img = imgs[Math.floor(Math.random() * imgs.length)],
             container = doc.getElementById("container"), sections = container.querySelectorAll("section"),
             launcher = sections[0], playing = sections[1], congratulation = sections[2], gamebox = container.querySelectorAll("table")[0],
             radios = launcher.querySelectorAll("input[type=radio][name=mode]"), start = launcher.querySelectorAll("input[type=button]")[0],
             restart = congratulation.querySelectorAll("input[type=button][name=restart]")[0],
-            reset = playing.querySelectorAll("input[type=button][name=reset]")[0], auto = playing.querySelectorAll("input[type=button][name=auto]")[0];
+            reset = playing.querySelectorAll("input[type=button][name=reset]")[0], auto = playing.querySelectorAll("input[type=button][name=auto]")[0],
+            game = null;
         // {{{ docongratulation
         function docongratulation(cost) {
             var ems = congratulation.querySelectorAll("em"),
@@ -609,7 +622,7 @@
                 ems[i].innerHTML = template(tpl, ctx);
             }
             congratulation.style.display = "block";
-            delete ems;
+            ems = null;
             return true;
         }
         // }}}
@@ -627,7 +640,6 @@
             return true;
         }
         // }}}
-		img = 'seq.png';
         launcher.style.display = "block";
         game = puzzle(win, doc, container, gamebox, docongratulation);
         game.onCongratulation(docongratulation).onTip(dotip).onMove(onmove);
@@ -651,14 +663,20 @@
             launcher.style.display = "block";
             return true;
         }, false);
-        auto.addEventListener("click", game.auto, false);
+        auto.addEventListener("click", function(e) {
+            playing.style.display = "none";
+            return game.auto();
+        }, false);
 
         return true;
     }
+    // }}}
 
-    setTimeout(function() {
-        return doc.readyState == "complete" ? app(win, doc) : setTimeout(arguments.callee, 200);
-    }, 200);
+    function launcher () {
+        return doc.readyState == "complete" ? app(win, doc) : setTimeout(launcher, 200);
+    }
+
+    setTimeout(launcher, 200);
 
     return true;
 })(window, document);

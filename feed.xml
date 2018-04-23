@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>轨迹/trace</title><link href="https://whiler.github.io/" rel="alternate"></link><link href="https://whiler.github.io/feed.xml" rel="self"></link><id>https://whiler.github.io/</id><updated>2018-04-14T00:00:00+08:00</updated><entry><title>写了一个简单的拼图游戏</title><link href="https://whiler.github.io/puzzle.html" rel="alternate"></link><published>2018-04-14T00:00:00+08:00</published><updated>2018-04-14T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2018-04-14:/puzzle.html</id><summary type="html">&lt;p&gt;用 HTML/JavaScript/CSS 写了一个简单的拼图游戏。&lt;/p&gt;</summary><content type="html">&lt;p&gt;早就想写一个拼图游戏了，以前被 &lt;code&gt;生成的拼图没法还原&lt;/code&gt; 的问题唬住了，迟迟没能动手写。
+<feed xmlns="http://www.w3.org/2005/Atom"><title>轨迹/trace</title><link href="https://whiler.github.io/" rel="alternate"></link><link href="https://whiler.github.io/feed.xml" rel="self"></link><id>https://whiler.github.io/</id><updated>2018-04-24T00:00:00+08:00</updated><entry><title>写了一个简单的拼图游戏</title><link href="https://whiler.github.io/puzzle.html" rel="alternate"></link><published>2018-04-14T00:00:00+08:00</published><updated>2018-04-24T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2018-04-14:/puzzle.html</id><summary type="html">&lt;p&gt;用 HTML/JavaScript/CSS 写了一个简单的拼图游戏。&lt;/p&gt;</summary><content type="html">&lt;p&gt;早就想写一个拼图游戏了，以前被 &lt;code&gt;生成的拼图没法还原&lt;/code&gt; 的问题唬住了，迟迟没能动手写。
 今天抽了几个小时做了一个简单的拼图游戏。&lt;/p&gt;
 &lt;p&gt;随机生成的拼图不一定能还原，但是可以通过 &lt;strong&gt;从还原好的拼图随机打乱&lt;/strong&gt; 的方式生成拼图。
 这样，生成的拼图 100% 能还原，解决了 &lt;code&gt;生成的拼图没法还原&lt;/code&gt; 的问题。&lt;/p&gt;
@@ -7,16 +7,20 @@
 找到一个不是很完美的解决办法，通过白块当前的位置动态计算向四个方向移动的概率，然后按照四个方向不同的概率移动，终于走出起始点了。
 但是，当白块移动到正中央的时候四个方向的概率又相同了，又有「原地踏步」的可能。
 目前没有想到其他更好的办法。&lt;/p&gt;
-&lt;p&gt;游戏地址：&lt;/p&gt;
+&lt;p&gt;游戏地址： &lt;a href="./html/puzzle/"&gt;拼图/Puzzle&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;变更历史&lt;/h3&gt;
+&lt;h4&gt;2018-04-24&lt;/h4&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="./html/puzzle/"&gt;拼图/Puzzle&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href="./html/puzzle/?mode=simple"&gt;简单模式/Simple&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="./html/puzzle/"&gt;正常模式/Normal&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="./html/puzzle/?grid=12x9&amp;amp;mode=hard"&gt;困难模式/Hard&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;完善用户体验&lt;ul&gt;
+&lt;li&gt;新增「开始」交互界面&lt;/li&gt;
+&lt;li&gt;新增 「游戏中」交互界面&lt;/li&gt;
+&lt;li&gt;新增 「游戏结束」交互界面&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
+&lt;li&gt;新增 &lt;strong&gt;「自动还原」&lt;/strong&gt; 功能&lt;/li&gt;
+&lt;li&gt;可以随意选取开始位置&lt;/li&gt;
+&lt;li&gt;新增「猫」「狗」背景图，随机选择概率分别是 50% 和 30%&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;变更历史&lt;/h3&gt;
 &lt;h4&gt;2018-04-14&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;增加还原判定&lt;/li&gt;

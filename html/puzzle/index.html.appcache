@@ -1,13 +1,16 @@
 CACHE MANIFEST
 # manifest for /html/puzzle/index.html
-# rev: 8775840b45df495708e0730d9c6a820a
-# date: 2018-04-14T20:33:36.122385
+# rev: 201f182a700c94dda66e220d955f6897
+# date: 2018-04-24T00:25:29.618920
 
 CACHE:
 /favicon.svg
 /html/puzzle/puzzle.min.css
 /html/puzzle/puzzle.min.js
+cat.jpg
 https://www.googletagmanager.com/gtag/js?id=UA-74531835-1
+husky.jpg
+smile.jpg
 
 NETWORK:
 *

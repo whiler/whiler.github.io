@@ -68,3 +68,9 @@ body {
 #container section input[type=file] {
 	display: none;
 }
+
+img.preload {
+	display: none;
+	width: 0;
+	height: 0;
+}

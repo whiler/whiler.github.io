@@ -1,9 +1,11 @@
 CACHE MANIFEST
 # manifest for /puzzle.html
-# rev: cb481bb2d84d89a8986595e7bd27cfb9
-# date: 2018-04-24T00:25:29.599505
+# rev: 8ceae23d1e0ac8368ddce64070298acc
+# date: 2018-04-24T22:12:23.925893
 
 CACHE:
+https://whiler.github.io/assets/astar.svg
+https://whiler.github.io/assets/binheap.svg
 https://whiler.github.io/favicon.svg
 https://whiler.github.io/theme/css/styles.min.24c1f063.css
 https://whiler.github.io/theme/scripts/bootstrap.min.a5e60ff0.js

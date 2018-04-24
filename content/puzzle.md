@@ -25,14 +25,14 @@ Modified: 2018-04-24
 算法不断从开放区域选取代价最小的节点，通过该节点再生成该节点的子节点并放到开放区域中，直到找到目标节点。
 算法的关键在 **选取代价最小的节点** ，这个操作需要预估该节点到目标节点的代价。
 
-[![AStar]({filename}/assets/astar.svg)](https://gist.github.com/whiler/259285dca698f7b59970c3d34584111c)
+[![AStar]({filename}/assets/images/astar.svg)](https://gist.github.com/whiler/259285dca698f7b59970c3d34584111c)
 
 
 *A 星* 算法每次都需要选取代价最小的节点，这样的操作十分适合用 *二叉堆* 来实现。
 *二叉堆* 是一种队列，不同于常见的先进先出、先进后出队列，它随意进队，最小的出队。进队出队的时间复杂队都是 $O(log(n))$ 。
 它用线性的数组／列表抽象地构造出一个完全二叉树，树上每一个节点小于它的子节点。
 
-[![BinaryHeap]({filename}/assets/binheap.svg)](https://gist.github.com/whiler/67668f14c0466eca081a203d5655f779)
+[![BinaryHeap]({filename}/assets/images/binheap.svg)](https://gist.github.com/whiler/67668f14c0466eca081a203d5655f779)
 
 
 ### 变更历史 ###

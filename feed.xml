@@ -13,11 +13,11 @@
 &lt;p&gt;&lt;em&gt;A 星&lt;/em&gt; 算法是一个启发性寻路算法，是最有效的直接搜索算法。其他的寻路算法还有广度优先、深度优先和 DijKstra 算法。
 算法不断从开放区域选取代价最小的节点，通过该节点再生成该节点的子节点并放到开放区域中，直到找到目标节点。
 算法的关键在 &lt;strong&gt;选取代价最小的节点&lt;/strong&gt; ，这个操作需要预估该节点到目标节点的代价。&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://gist.github.com/whiler/259285dca698f7b59970c3d34584111c"&gt;&lt;img alt="AStar" src="https://whiler.github.io/assets/astar.svg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://gist.github.com/whiler/259285dca698f7b59970c3d34584111c"&gt;&lt;img alt="AStar" src="https://whiler.github.io/assets/images/astar.svg"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;A 星&lt;/em&gt; 算法每次都需要选取代价最小的节点，这样的操作十分适合用 &lt;em&gt;二叉堆&lt;/em&gt; 来实现。
 &lt;em&gt;二叉堆&lt;/em&gt; 是一种队列，不同于常见的先进先出、先进后出队列，它随意进队，最小的出队。进队出队的时间复杂队都是 &lt;span&gt;&lt;span class="MathJax_Preview"&gt;O(log(n))&lt;/span&gt;&lt;script type="math/tex"&gt;O(log(n))&lt;/script&gt;&lt;/span&gt; 。
 它用线性的数组／列表抽象地构造出一个完全二叉树，树上每一个节点小于它的子节点。&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://gist.github.com/whiler/67668f14c0466eca081a203d5655f779"&gt;&lt;img alt="BinaryHeap" src="https://whiler.github.io/assets/binheap.svg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://gist.github.com/whiler/67668f14c0466eca081a203d5655f779"&gt;&lt;img alt="BinaryHeap" src="https://whiler.github.io/assets/images/binheap.svg"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;变更历史&lt;/h3&gt;
 &lt;h4&gt;2018-04-24&lt;/h4&gt;
 &lt;ul&gt;

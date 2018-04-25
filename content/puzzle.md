@@ -21,19 +21,42 @@ Modified: 2018-04-24
 
 **自动还原** 功能其实并不难，前期调研时候就知道可以用 *A 星* 算法实现，难在学习和实现这个算法上了，还有 *A 星* 依赖的 *二叉堆* 。
 
+```dot
+digraph AStar {
+	bgcolor="transparent";
+
+	S -> A[label=10]
+	S -> B[label=10]
+	S -> C[label=10]
+	S -> D[label=10]
+	A -> E[label=10,style=dashed]
+	B -> E[label=20,style=dashed]
+	C -> E[label=30,style=dashed]
+}
+```
+
 *A 星* 算法是一个启发性寻路算法，是最有效的直接搜索算法。其他的寻路算法还有广度优先、深度优先和 DijKstra 算法。
 算法不断从开放区域选取代价最小的节点，通过该节点再生成该节点的子节点并放到开放区域中，直到找到目标节点。
 算法的关键在 **选取代价最小的节点** ，这个操作需要预估该节点到目标节点的代价。
+[A 星算法实现](https://gist.github.com/whiler/259285dca698f7b59970c3d34584111c)
 
-[![AStar]({filename}/assets/images/astar.svg)](https://gist.github.com/whiler/259285dca698f7b59970c3d34584111c)
+```dot
+digraph BinaryHeap {
+	bgcolor="transparent";
 
+	7 -> 17
+	7 -> 13
+	17 -> 23
+	17 -> 19
+	13 -> 29
+	List[shape=record,label="{<f0>7|<f1>17|<f2>13|<f3>23|<f4>19|<f5>29}"]
+}
+```
 
 *A 星* 算法每次都需要选取代价最小的节点，这样的操作十分适合用 *二叉堆* 来实现。
 *二叉堆* 是一种队列，不同于常见的先进先出、先进后出队列，它随意进队，最小的出队。进队出队的时间复杂队都是 $O(log(n))$ 。
 它用线性的数组／列表抽象地构造出一个完全二叉树，树上每一个节点小于它的子节点。
-
-[![BinaryHeap]({filename}/assets/images/binheap.svg)](https://gist.github.com/whiler/67668f14c0466eca081a203d5655f779)
-
+[二叉堆实现](https://gist.github.com/whiler/67668f14c0466eca081a203d5655f779)
 
 ### 变更历史 ###
 

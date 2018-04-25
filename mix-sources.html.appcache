@@ -1,11 +1,11 @@
 CACHE MANIFEST
 # manifest for /mix-sources.html
-# rev: 2866be21945eaf05e130b64b1c38c1c9
-# date: 2018-04-24T22:28:48.441292
+# rev: 3591d102bd5b657465cad94e1149a4b8
+# date: 2018-04-25T18:00:01.392389
 
 CACHE:
 https://whiler.github.io/favicon.svg
-https://whiler.github.io/theme/css/styles.min.24c1f063.css
+https://whiler.github.io/theme/css/styles.min.6d5efdb3.css
 https://whiler.github.io/theme/scripts/bootstrap.min.a5e60ff0.js
 
 NETWORK:

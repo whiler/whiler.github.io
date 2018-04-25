@@ -1,11 +1,11 @@
 CACHE MANIFEST
 # manifest for /bypass-via-vpn.html
-# rev: 487ebe2b9b3afebd70edf26e591c69e6
-# date: 2018-04-24T22:28:48.425117
+# rev: 045cfb3e9ab7c355f92ec32680ef05cd
+# date: 2018-04-25T18:00:01.376542
 
 CACHE:
 https://whiler.github.io/favicon.svg
-https://whiler.github.io/theme/css/styles.min.24c1f063.css
+https://whiler.github.io/theme/css/styles.min.6d5efdb3.css
 https://whiler.github.io/theme/scripts/bootstrap.min.a5e60ff0.js
 
 NETWORK:

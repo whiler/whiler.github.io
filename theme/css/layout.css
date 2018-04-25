@@ -69,3 +69,9 @@ a:hover, a:focus {
 .content .uml-flowchart, .content .uml-sequence-diagram {
     text-align: center;
 }
+
+img.circo, img.sfdp, img.neato, img.osage, img.fdp, img.twopi, img.patchwork, img.dot {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}

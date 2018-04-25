@@ -64,13 +64,43 @@ SITEMAP = {
     }
 }
 
+import subprocess
+import logging
+import base64
+
+def graph(raw, engine='dot', clazz='dot'):
+    proc = subprocess.Popen([engine, '-Tsvg'],
+                            stdin=subprocess.PIPE,
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE)
+    stdout, stderr = proc.communicate(raw.encode())
+    if stderr:
+        logging.error(raw)
+        logging.error(stderr.decode())
+    if stdout:
+        return '<img src="data:image/svg+xml;charset=utf-8;base64,%s" class="%s" alt="Graph"/>' % (base64.b64encode(stdout).decode().strip(), clazz)
+    else:
+        return ''
+
+
+FENCES = [
+    {'name': engine, 'class': engine, 'format': graph}
+    for engine in {'circo', 'sfdp', 'neato', 'osage', 'fdp', 'twopi', 'patchwork', 'dot'}
+]
+
 MARKDOWN = {
     'extension_configs': {
         'markdown.extensions.extra': {},
         'markdown.extensions.meta': {},
 
         'pymdownx.arithmatex': {},
-        'pymdownx.superfences': {'highlight_code': False},
+        'pymdownx.superfences': {
+            'highlight_code': False,
+            'custom_fences': [
+                {'name':'flow', 'class':'uml-flowchart'},
+                {'name':'sequence', 'class':'uml-sequence-diagram'}
+            ] + FENCES
+        },
         'pymdownx.tilde': {},
 
         'markdown_blockdiag': {'format': 'svg'},

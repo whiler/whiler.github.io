@@ -139,3 +139,24 @@ blockdiag {
     A -> B -> C -> D;
     A -> E -> F -> G;
 }
+
+#### Graphviz dot ####
+
+```dot
+digraph R {
+	bgcolor="transparent";
+
+	node [shape=record];
+
+	{ rank=same rA sA tA }
+	{ rank=same uB vB wB }
+
+	rA -> sA;
+	sA -> vB;
+	t  -> rA;
+	uB -> vB;
+	wB -> u;
+	wB -> tA;
+
+}
+```

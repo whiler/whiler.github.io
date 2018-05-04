@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>轨迹/trace</title><link href="https://whiler.github.io/" rel="alternate"></link><link href="https://whiler.github.io/feed.xml" rel="self"></link><id>https://whiler.github.io/</id><updated>2018-04-27T00:00:00+08:00</updated><entry><title>「虚构」村里出了命案</title><link href="https://whiler.github.io/fictional-homicide.html" rel="alternate"></link><published>2018-04-27T00:00:00+08:00</published><updated>2018-04-27T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2018-04-27:/fictional-homicide.html</id><summary type="html">&lt;p&gt;「虚构」村里出了命案，张三杀了李四。&lt;/p&gt;</summary><content type="html">&lt;p&gt;这是一个虚构的故事。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>轨迹/trace</title><link href="https://whiler.github.io/" rel="alternate"></link><link href="https://whiler.github.io/feed.xml" rel="self"></link><id>https://whiler.github.io/</id><updated>2018-05-04T00:00:00+08:00</updated><entry><title>「虚构」村里出了命案</title><link href="https://whiler.github.io/fictional-homicide.html" rel="alternate"></link><published>2018-04-27T00:00:00+08:00</published><updated>2018-04-27T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2018-04-27:/fictional-homicide.html</id><summary type="html">&lt;p&gt;「虚构」村里出了命案，张三杀了李四。&lt;/p&gt;</summary><content type="html">&lt;p&gt;这是一个虚构的故事。&lt;/p&gt;
 &lt;p&gt;村长！出命案了！&lt;br&gt;
 张三杀了李四！该拉出去枪毙！&lt;br&gt;
 等等，是李四先杀了张三的老婆！&lt;br&gt;
@@ -282,7 +282,7 @@ ipset=/thinkwithgoogle.com/bypass
 server=/withgoogle.com/127.0.0.1#5353
 ipset=/withgoogle.com/bypass
 server=/google.com/127.0.0.1#5353
-ipset=/google.com/bypass&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>关于这个博客</title><link href="https://whiler.github.io/blog.html" rel="alternate"></link><published>2016-03-04T00:00:00+08:00</published><updated>2016-03-04T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-03-04:/blog.html</id><summary type="html">&lt;p&gt;闷头写代码到深夜，灵感闪现，迅速解决困扰了很久的问题，想要欢呼一下，发现已经是深夜了，作罢。&lt;/p&gt;</summary><content type="html">&lt;p&gt;闷头写代码到深夜，灵感闪现，迅速解决困扰了很久的问题，想要欢呼一下，发现已经是深夜了，作罢。
+ipset=/google.com/bypass&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title>关于这个博客</title><link href="https://whiler.github.io/blog.html" rel="alternate"></link><published>2016-03-04T00:00:00+08:00</published><updated>2018-05-04T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-03-04:/blog.html</id><summary type="html">&lt;p&gt;闷头写代码到深夜，灵感闪现，迅速解决困扰了很久的问题，想要欢呼一下，发现已经是深夜了，作罢。&lt;/p&gt;</summary><content type="html">&lt;p&gt;闷头写代码到深夜，灵感闪现，迅速解决困扰了很久的问题，想要欢呼一下，发现已经是深夜了，作罢。
 还是用一个博客记下来吧，聊以告慰自己。&lt;/p&gt;
 &lt;p&gt;使用的平台和库：&lt;/p&gt;
 &lt;ul&gt;
@@ -297,14 +297,28 @@ ipset=/google.com/bypass&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title
 &lt;li&gt;&lt;del&gt;&lt;a href="https://github.com/buriy/python-readability"&gt;readability-lxml&lt;/a&gt;&lt;/del&gt;&lt;/li&gt;
 &lt;li&gt;&lt;del&gt;&lt;a href="http://requirejs.org/"&gt;RequireJS&lt;/a&gt;&lt;/del&gt;&lt;/li&gt;
 &lt;li&gt;&lt;del&gt;&lt;a href="https://github.com/sindresorhus/github-markdown-css"&gt;github-markdown-css&lt;/a&gt;&lt;/del&gt;&lt;/li&gt;
-&lt;li&gt;&lt;del&gt;&lt;a href="https://highlightjs.org/"&gt;highlight.js&lt;/a&gt;&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://highlightjs.org/"&gt;highlight.js&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;del&gt;&lt;a href="https://github.com/chjj/marked"&gt;marked&lt;/a&gt;&lt;/del&gt;&lt;/li&gt;
 &lt;li&gt;&lt;del&gt;&lt;a href="https://github.com/janl/mustache.js"&gt;mustache.js&lt;/a&gt;&lt;/del&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://ionicons.com/"&gt;Ionicons&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://pythonhosted.org/Markdown/"&gt;Python-Markdown&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;&lt;a href="https://pythonhosted.org/Markdown/"&gt;Python-Markdown&lt;/a&gt;&lt;/del&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://jinja.pocoo.org/"&gt;Jinja2&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://github.com/aleray/mdx_del_ins"&gt;del_ins&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content></entry><entry><title>关于/about</title><link href="https://whiler.github.io/about.html" rel="alternate"></link><published>2016-02-28T00:00:00+08:00</published><updated>2016-02-28T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-02-28:/about.html</id><summary type="html">&lt;p&gt;一只嘴巴，两个鼻孔，四只眼睛，六块腹肌，拥有22对全球唯一的常染色体以及1对xy性染色体。&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;img alt="me" src="https://whiler.github.io/assets/images/500.png"&gt;&lt;/p&gt;
+&lt;li&gt;&lt;del&gt;&lt;a href="https://github.com/aleray/mdx_del_ins"&gt;del_ins&lt;/a&gt;&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.crummy.com/software/BeautifulSoup/"&gt;Beautiful Soup&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/zacharyvoase/cssmin"&gt;cssmin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/mankyd/htmlmin"&gt;htmlmin&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/gisce/markdown-blockdiag"&gt;Markdown blockdiag&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/facelessuser/pymdown-extensions"&gt;PyMdown Extensions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/rspivak/slimit"&gt;SlimIt&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/miracle2k/webassets"&gt;webassets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/Python-Markdown/markdown"&gt;Python-Markdown&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/getpelican/pelican"&gt;Pelican&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.mathjax.org/"&gt;MathJax&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/mhchem/MathJax-mhchem"&gt;MathJax/mhchem Extension&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/adrai/flowchart.js"&gt;flowchart.js&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/bramp/js-sequence-diagrams"&gt;JS Sequence Diagrams&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.graphviz.org/"&gt;Graphviz&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content></entry><entry><title>关于/about</title><link href="https://whiler.github.io/about.html" rel="alternate"></link><published>2016-02-28T00:00:00+08:00</published><updated>2018-05-04T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2016-02-28:/about.html</id><summary type="html">&lt;p&gt;一只嘴巴，两个鼻孔，四只眼睛，六块腹肌，拥有22对全球唯一的常染色体以及1对xy性染色体。&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;img alt="me" src="https://whiler.github.io/assets/images/500.png"&gt;&lt;/p&gt;
 &lt;p&gt;一只嘴巴，两个鼻孔，四只眼睛，六块腹肌，拥有 22 对全球唯一的常染色体以及 1 对 &lt;em&gt;XY&lt;/em&gt; 性染色体。
 喜欢吃饭、睡觉、吹风、乘凉、游泳、跑步、滑雪、羽毛球以及素描。
 典型的程序员，无节操、无下限、闷骚。
@@ -313,8 +327,9 @@ ipset=/google.com/bypass&lt;/code&gt;&lt;/pre&gt;</content></entry><entry><title
 &lt;h3&gt;find me&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://www.zhihu.com/people/whiler" title="whiler @ Zhihu"&gt;知乎&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://www.facebook.com/wenwu.lv.5" title="Wenwu Lv @ Facebook"&gt;Facebook&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;&lt;a href="https://www.facebook.com/wenwu.lv.5" title="Wenwu Lv @ Facebook"&gt;Facebook&lt;/a&gt;&lt;/del&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="mailto:wenwu500@qq.com" title="mail to me"&gt;Email&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/whiler" title="whiler @ GitHub"&gt;GitHub&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content></entry><entry><title>my gpg public key</title><link href="https://whiler.github.io/gpg.html" rel="alternate"></link><published>2015-08-29T00:00:00+08:00</published><updated>2015-08-29T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2015-08-29:/gpg.html</id><summary type="html">&lt;p&gt;my gpg public key information.&lt;/p&gt;</summary><content type="html">&lt;h3&gt;Key ID&lt;/h3&gt;
 &lt;p&gt;34DB676C&lt;/p&gt;
 &lt;h3&gt;Fingerprint&lt;/h3&gt;

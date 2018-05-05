@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>轨迹/trace</title><link href="https://whiler.github.io/" rel="alternate"></link><link href="https://whiler.github.io/feed.xml" rel="self"></link><id>https://whiler.github.io/</id><updated>2018-05-04T00:00:00+08:00</updated><entry><title>「虚构」村里出了命案</title><link href="https://whiler.github.io/fictional-homicide.html" rel="alternate"></link><published>2018-04-27T00:00:00+08:00</published><updated>2018-04-27T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2018-04-27:/fictional-homicide.html</id><summary type="html">&lt;p&gt;「虚构」村里出了命案，张三杀了李四。&lt;/p&gt;</summary><content type="html">&lt;p&gt;这是一个虚构的故事。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>轨迹/trace</title><link href="https://whiler.github.io/" rel="alternate"></link><link href="https://whiler.github.io/feed.xml" rel="self"></link><id>https://whiler.github.io/</id><updated>2018-05-05T00:00:00+08:00</updated><entry><title>「虚构」村里出了命案</title><link href="https://whiler.github.io/fictional-homicide.html" rel="alternate"></link><published>2018-04-27T00:00:00+08:00</published><updated>2018-04-27T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2018-04-27:/fictional-homicide.html</id><summary type="html">&lt;p&gt;「虚构」村里出了命案，张三杀了李四。&lt;/p&gt;</summary><content type="html">&lt;p&gt;这是一个虚构的故事。&lt;/p&gt;
 &lt;p&gt;村长！出命案了！&lt;br&gt;
 张三杀了李四！该拉出去枪毙！&lt;br&gt;
 等等，是李四先杀了张三的老婆！&lt;br&gt;
 再等等，是张三老婆借了李四 200 块钱，没还！&lt;br&gt;
 村长，张三该怎么处理？&lt;br&gt;
-欠钱不还还杀人！没有王法了？枪毙！&lt;/p&gt;</content></entry><entry><title>写了一个简单的拼图游戏</title><link href="https://whiler.github.io/puzzle.html" rel="alternate"></link><published>2018-04-14T00:00:00+08:00</published><updated>2018-04-24T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2018-04-14:/puzzle.html</id><summary type="html">&lt;p&gt;用 HTML/JavaScript/CSS 写了一个简单的拼图游戏。&lt;/p&gt;</summary><content type="html">&lt;p&gt;游戏地址： &lt;a href="./html/puzzle/"&gt;拼图/Puzzle&lt;/a&gt;&lt;/p&gt;
+欠钱不还还杀人！没有王法了？枪毙！&lt;/p&gt;</content></entry><entry><title>写了一个简单的拼图游戏</title><link href="https://whiler.github.io/puzzle.html" rel="alternate"></link><published>2018-04-14T00:00:00+08:00</published><updated>2018-05-05T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2018-04-14:/puzzle.html</id><summary type="html">&lt;p&gt;用 HTML/JavaScript/CSS 写了一个简单的拼图游戏。&lt;/p&gt;</summary><content type="html">&lt;p&gt;游戏地址： &lt;a href="./html/puzzle/"&gt;拼图/Puzzle&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;早就想写一个拼图游戏了，以前被 &lt;code&gt;生成的拼图没法还原&lt;/code&gt; 的问题唬住了，迟迟没能动手写。
 今天抽了几个小时做了一个简单的拼图游戏。&lt;/p&gt;
 &lt;p&gt;随机生成的拼图不一定能还原，但是可以通过 &lt;strong&gt;从还原好的拼图随机打乱&lt;/strong&gt; 的方式生成拼图。
@@ -27,6 +27,13 @@
 它用线性的数组／列表抽象地构造出一个完全二叉树，树上每一个节点小于它的子节点。
 &lt;a href="https://gist.github.com/whiler/67668f14c0466eca081a203d5655f779"&gt;二叉堆实现&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;变更历史&lt;/h3&gt;
+&lt;h4&gt;2018-05-05&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;增加评分功能&lt;/li&gt;
+&lt;li&gt;根据浏览器自动适配中文版和英文版&lt;/li&gt;
+&lt;li&gt;美化样式&lt;/li&gt;
+&lt;li&gt;难度调整&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h4&gt;2018-04-24&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;完善用户体验&lt;ul&gt;

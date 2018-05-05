@@ -6,7 +6,21 @@
             return key in ctx ? ctx[key] : key;
         });
     }
-
+	// {{{ I18N
+	function I18N(lan, dicts) {
+		var dict = {};
+		for (var locale in dicts) {
+			if (dicts.hasOwnProperty(locale) && RegExp(locale).test(lan)) {
+				dict = dicts[locale];
+				break;
+			}
+		}
+		function localize(origin) {
+			return dict.hasOwnProperty(origin) ? dict[origin] : origin;
+		}
+		return {"localize": localize};
+	}
+	// }}}
     // {{{ BinaryHeap
     // 0. 33297
     // 1. 25120
@@ -110,10 +124,10 @@
     // {{{ puzzle
     function puzzle(win, doc, container, table) {
         var mode = null, img = null,
-            grids = {"simple": "2x3", "normal": "3x5", "hard": "5x5"},
+            grids = {"simple": "2x3", "normal": "3x3", "hard": "3x5"},
             width = 0, height = 0, cols = 0, rows = 0, reg = /(\d+)x(\d+)/,
             current = -1, startat = null, resolved = null, playing = false,
-            className = "empty", gopath = [], comepath = [],
+            className = "empty", gopath = [], comepath = [], threshold = 0,
             docongratulation = null, dotip = null, onmove = null;
 
         // {{{ update
@@ -122,11 +136,11 @@
             if (cfg.mode in grids && cfg.mode != mode) {
                 mode = cfg.mode;
                 setGrid(container, table, reg.exec(grids[mode]));
-                setBackgroundImage(table, img);
+                setBackgroundImage(img);
             } else if (!mode) {
                 mode = "normal";
                 setGrid(container, table, reg.exec(grids[mode]));
-                setBackgroundImage(table, img);
+                setBackgroundImage(img);
             }
             return this;
         }
@@ -150,7 +164,7 @@
         }
         // }}}
         // {{{ setBackgroundImage
-        function setBackgroundImage(table, src) {
+        function setBackgroundImage(src) {
             var tds = table.querySelectorAll("td");
             for (var i = 0; i < tds.length; i++) {
                 tds[i].style.backgroundImage = "url(" + src + ")";
@@ -198,7 +212,7 @@
         // }}}
         // {{{ start
         function start() {
-            current = -1, startat = null, resolved = null, gopath = [], comepath = [], playing = true;
+            current = -1, startat = null, resolved = null, gopath = [], comepath = [], playing = true, threshold = 0;
             return true;
         }
         // }}}
@@ -207,6 +221,7 @@
             var tds = table.querySelectorAll("td"),
                 cur = doc.getElementById(current);
             start();
+			playing = false;
             cur.className = cur.className.replace(className, "").trim();
             for (var i = 0; i < rows; i++) {
                 for (var j = 0; j < cols; j++) {
@@ -293,12 +308,14 @@
             }
             delay = 1000 / end;
             callee = function() {
-                var target = path.shift();
+                var target = path.shift(), currentSnapshoot = null, best = null;
                 if (target != undefined) {
                     gopath.push(target);
                     walk(target);
                     setTimeout(callee, delay);
                 } else {
+					currentSnapshoot = snapshoot();
+					threshold = astar(rows, cols, currentSnapshoot.src, currentSnapshoot.dest, currentSnapshoot.cur).length;
                     startat = new Date();
                 }
                 return true;
@@ -365,13 +382,14 @@
         // }}}
         // {{{ congratulation
         function congratulation() {
-            var elapsed = resolved - startat, steps = comepath.length;
-            console.info("resolved in " + (elapsed / 1000).toFixed(2) + "s/" + steps + ".");
+            var elapsed = resolved - startat, steps = comepath.length,
+				score = 100 * threshold / steps;
+            console.info("resolved in " + (elapsed / 1000).toFixed(2) + "s/" + steps + ", score:" + score.toFixed(2) + "/" + threshold + ".");
             flash(1000, function() {return replay(function() {
                     var cur = doc.getElementById(current);
                     cur.className = cur.className.replace(className, "").trim();
                     cur = null;
-                    return docongratulation({"elapsed": elapsed, "steps": steps});
+                    return docongratulation({"elapsed": elapsed, "steps": steps, "score": score});
             });});
             return true;
         }
@@ -413,11 +431,9 @@
             return true;
         }
         // }}}
-        // {{{ auto
-        function auto() {
-            var tds = table.querySelectorAll("td"), src = [], dest = [], path = null, cur = -1,
-                callee = null;
-            playing = false;
+		// {{{ snapshoot
+		function snapshoot() {
+            var tds = table.querySelectorAll("td"), src = [], dest = [], cur = -1;
             for (var i = 0; i < tds.length; i++) {
                 var row = Math.abs(Math.round(parseInt(tds[i].style.backgroundPositionY) / height)),
                     col = Math.abs(Math.round(parseInt(tds[i].style.backgroundPositionX) / width));
@@ -427,8 +443,15 @@
                     cur = row * cols + col;
                 }
             }
-            tds = null;
-            path = astar(rows, cols, src, dest, cur);
+			tds = null;
+			return {"src": src, "dest": dest, "cur": cur}
+		}
+		// }}}
+        // {{{ auto
+        function auto() {
+            var path = null, callee = null, currentSnapshoot = snapshoot();
+            playing = false;
+            path = astar(rows, cols, currentSnapshoot.src, currentSnapshoot.dest, currentSnapshoot.cur);
             if (path) {
                 callee = function() {
                     var target = path.pop();
@@ -594,7 +617,8 @@
                 auto: auto,
                 onCongratulation: onCongratulation,
                 onTip: onTip,
-                onMove: onMove}
+                onMove: onMove,
+				setBackgroundImage: setBackgroundImage}
     }
     // }}}
     // {{{ app
@@ -602,56 +626,98 @@
         var imgs = ["cat.jpg", "husky.jpg", "cat.jpg", "husky.jpg", "cat.jpg", "smile.jpg", "husky.jpg", "cat.jpg", "smile.jpg", "cat.jpg"], img = imgs[Math.floor(Math.random() * imgs.length)],
             container = doc.getElementById("container"), sections = container.querySelectorAll("section"),
             launcher = sections[0], playing = sections[1], congratulation = sections[2], gamebox = container.querySelectorAll("table")[0],
-            radios = launcher.querySelectorAll("input[type=radio][name=mode]"), start = launcher.querySelectorAll("input[type=button]")[0],
+            modes = launcher.querySelectorAll("input[type=button]"),
             restart = congratulation.querySelectorAll("input[type=button][name=restart]")[0],
             reset = playing.querySelectorAll("input[type=button][name=reset]")[0], auto = playing.querySelectorAll("input[type=button][name=auto]")[0],
-            game = null;
+            game = null,
+			dictionary = {
+				"en.*": {
+					"简单": "SIMPLE",
+					"普通": "NORMAL",
+					"困难": "HARD",
+					"恭喜": "CONGRATULATION",
+					"你在 {time} 秒内，花 {steps} 步还原了拼图。": "Solved the puzzle in {time} seconds after {steps} steps.",
+					"重新开始": "RESTART",
+					"自动还原": "AUTO-SOLVE",
+					"{score}": "{score}",
+				}
+			},
+			i18n = I18N(navigator.languages && navigator.languages[0] || navigator.language || navigator.userLanguage, dictionary), nospaceReg = /\S/, skip = {"NOSCRIPT": true, "SCRIPT": true},
+			width = container.clientWidth, height = container.clientHeight;
         // {{{ docongratulation
         function docongratulation(cost) {
-            var ems = congratulation.querySelectorAll("em"),
-                ctx = {
+            var ctx = {
                     "time": (cost.elapsed / 1000).toFixed(1),
                     "steps": cost.steps.toLocaleString(),
+					"score": cost.score.toFixed(1),
                 };
-            for (var i = 0; i < ems.length; i++) {
-                var tpl = ems[i].getAttribute("tpl");
-                if (!tpl) {
-                    tpl = ems[i].innerHTML;
-                    ems[i].setAttribute("tpl", tpl);
-                }
-                ems[i].innerHTML = template(tpl, ctx);
-            }
+			var walker = doc.createTreeWalker(congratulation, NodeFilter.SHOW_TEXT, {acceptNode: acceptNode}, false);
+			while (walker.nextNode()) {
+				var parent = walker.currentNode.parentElement,
+					tpl = parent.getAttribute("tpl");
+				if (!tpl) {
+					tpl = walker.currentNode.nodeValue;
+					parent.setAttribute("tpl", tpl);
+				}
+				walker.currentNode.nodeValue = template(tpl, ctx);
+				parent = null;
+			}
             congratulation.style.display = "block";
-            ems = null;
+			walker = null;
             return true;
         }
         // }}}
         // {{{ dotip
         function dotip(e) {
-            playing.style.left = e.pageX + "px";
-            playing.style.top = e.pageY + "px";
             playing.style.display = "block";
+			playing.style.left = Math.min.apply(null, [e.pageX, container.clientWidth - playing.clientWidth]) + "px";
+			playing.style.top = Math.min.apply(null, [e.pageY, container.clientHeight - playing.clientHeight]) + "px";
             return true;
         }
         // }}}
+		// {{{ playingResizer
+		function playingResizer(e) {
+			var newwidth = container.clientWidth, newheight = container.clientHeight;
+			if (playing.style.display != "none") {
+				playing.style.left = Math.min.apply(null, [parseInt(parseFloat(playing.style.left) * newwidth / width), newwidth - playing.clientWidth]) + "px";
+				playing.style.top = Math.min.apply(null, [parseInt(parseFloat(playing.style.top) * newheight / height), newheight - playing.clientHeight]) + "px";
+			}
+			width = newwidth;
+			height = newheight;
+			return true;
+		}
+		// }}}
         // {{{ onmove
         function onmove(e) {
             playing.style.display = "none";
             return true;
         }
         // }}}
-        launcher.style.display = "block";
+
+		function acceptNode(node) {
+			return nospaceReg.test(node.nodeValue) && !(node.parentNode.nodeName.toUpperCase() in skip) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+		}
+		var walker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT, {acceptNode: acceptNode}, false);
+		while (walker.nextNode()) {
+			walker.currentNode.nodeValue = i18n.localize(walker.currentNode.nodeValue);
+		}
+		walker = null;
+		var buttons = doc.querySelectorAll("input[type=button]");
+		for (var i = 0; i < buttons.length; i++) {
+			buttons[i].value = i18n.localize(buttons[i].value);
+		}
+		buttons = null;
+
         game = puzzle(win, doc, container, gamebox, docongratulation);
         game.onCongratulation(docongratulation).onTip(dotip).onMove(onmove);
-        game.update({mode:launcher.querySelectorAll("input[type=radio][name=mode]:checked")[0].value, img: img});
 
-        for (var i = 0; i < radios.length; i++) {
-            radios[i].addEventListener("change", function(e) { return game.update({mode: e.target.value}); }, false);
+        for (var i = 0; i < modes.length; i++) {
+            modes[i].addEventListener("click", function(e) {
+				container.style.backgroundImage = "";
+				launcher.style.display = "none";
+				return game.update({mode: e.target.name, img: img}).start();
+			}, false);
         }
-        start.addEventListener("click", function(e) {
-            launcher.style.display = "none";
-            return game.start();
-        }, false);
         restart.addEventListener("click", function(e) {
             congratulation.style.display = "none";
             launcher.style.display = "block";
@@ -667,6 +733,10 @@
             playing.style.display = "none";
             return game.auto();
         }, false);
+        win.addEventListener("resize", playingResizer, false);
+
+        container.style.backgroundImage = "url(" + img + ")";
+        launcher.style.display = "block";
 
         return true;
     }

@@ -2,7 +2,7 @@ UUID: ECB9A11E-CF8D-41B4-995E-91759848B70D
 Title: 写了一个简单的拼图游戏
 Summary: 用 HTML/JavaScript/CSS 写了一个简单的拼图游戏。
 Date: 2018-04-14
-Modified: 2018-04-24
+Modified: 2018-05-05
 
 游戏地址： [拼图/Puzzle](./html/puzzle/)
 
@@ -59,6 +59,12 @@ digraph BinaryHeap {
 [二叉堆实现](https://gist.github.com/whiler/67668f14c0466eca081a203d5655f779)
 
 ### 变更历史 ###
+
+#### 2018-05-05 ####
+- 增加评分功能
+- 根据浏览器自动适配中文版和英文版
+- 美化样式
+- 难度调整
 
 #### 2018-04-24 ####
 - 完善用户体验

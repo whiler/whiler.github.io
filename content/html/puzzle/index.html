@@ -6,9 +6,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <title>拼图/Puzzle</title>
 		<link rel="icon" href="../../favicon.svg"/>
-		<link rel=stylesheet href="./puzzle.css" />
+		<link rel=stylesheet href="./puzzle.min.css" />
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-74531835-1"></script>
-		<script async src="./puzzle.js"></script>
+		<script async src="./puzzle.min.js"></script>
     </head>
     <body>
         <article id="container">
@@ -19,27 +19,16 @@
 					<input type="button" name="hard" value="困难"/>
 				</form>
 			</section>
-			<table id="puzzle">
-				<tr>
-					<td>1</td>
-					<td>2</td>
-					<td>3</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>2</td>
-					<td>3</td>
-				</tr>
-			</table>
+			<table id="puzzle"></table>
 			<section class="playing">
 				<form>
-					<label><input type="button" name="reset" value="重新开始"/></label>
-					<label><input type="button" name="auto" value="自动还原"/></label>
+					<input type="button" name="reset" value="重新开始"/>
+					<input type="button" name="auto" value="自动还原"/>
 				</form>
 			</section>
 			<section class="congratulation">
 				<div>
-					<h3>恭喜！</h3>
+					<h3>恭喜</h3>
 					<em><i>{score}</i></em><br/>
 					<span>你在 {time} 秒内，花 {steps} 步还原了拼图。</span>
 				</div>

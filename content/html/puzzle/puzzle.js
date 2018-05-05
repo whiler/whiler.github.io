@@ -16,14 +16,9 @@
 			}
 		}
 		function localize(origin) {
-			if (dict.hasOwnProperty(origin)) {
-				return dict[origin];
-			} else {
-				console.debug(origin);
-				return origin;
-			}
+			return dict.hasOwnProperty(origin) ? dict[origin] : origin;
 		}
-		return {'localize': localize};
+		return {"localize": localize};
 	}
 	// }}}
     // {{{ BinaryHeap
@@ -129,7 +124,7 @@
     // {{{ puzzle
     function puzzle(win, doc, container, table) {
         var mode = null, img = null,
-            grids = {"simple": "2x3", "normal": "3x5", "hard": "5x5"},
+            grids = {"simple": "2x3", "normal": "3x3", "hard": "3x5"},
             width = 0, height = 0, cols = 0, rows = 0, reg = /(\d+)x(\d+)/,
             current = -1, startat = null, resolved = null, playing = false,
             className = "empty", gopath = [], comepath = [], threshold = 0,
@@ -226,6 +221,7 @@
             var tds = table.querySelectorAll("td"),
                 cur = doc.getElementById(current);
             start();
+			playing = false;
             cur.className = cur.className.replace(className, "").trim();
             for (var i = 0; i < rows; i++) {
                 for (var j = 0; j < cols; j++) {
@@ -448,7 +444,7 @@
                 }
             }
 			tds = null;
-			return {'src': src, 'dest': dest, 'cur': cur}
+			return {"src": src, "dest": dest, "cur": cur}
 		}
 		// }}}
         // {{{ auto
@@ -630,23 +626,24 @@
         var imgs = ["cat.jpg", "husky.jpg", "cat.jpg", "husky.jpg", "cat.jpg", "smile.jpg", "husky.jpg", "cat.jpg", "smile.jpg", "cat.jpg"], img = imgs[Math.floor(Math.random() * imgs.length)],
             container = doc.getElementById("container"), sections = container.querySelectorAll("section"),
             launcher = sections[0], playing = sections[1], congratulation = sections[2], gamebox = container.querySelectorAll("table")[0],
-            radios = launcher.querySelectorAll("input[type=radio][name=mode]"),
+            modes = launcher.querySelectorAll("input[type=button]"),
             restart = congratulation.querySelectorAll("input[type=button][name=restart]")[0],
             reset = playing.querySelectorAll("input[type=button][name=reset]")[0], auto = playing.querySelectorAll("input[type=button][name=auto]")[0],
             game = null,
 			dictionary = {
-				'en.*': {
-					'简单': 'SIMPLE',
-					'普通': 'NORMAL',
-					'困难': 'HARD',
-					'恭喜！': 'CONGRATULATION!',
-					'你在 {time} 秒内，花 {steps} 步还原了拼图。': 'Solved the puzzle in {time} seconds after {steps} steps.',
-					'重新开始': 'RESTART',
-					'自动还原': 'AUTO-SOLVE',
-					'{score}': '{score}',
+				"en.*": {
+					"简单": "SIMPLE",
+					"普通": "NORMAL",
+					"困难": "HARD",
+					"恭喜": "CONGRATULATION",
+					"你在 {time} 秒内，花 {steps} 步还原了拼图。": "Solved the puzzle in {time} seconds after {steps} steps.",
+					"重新开始": "RESTART",
+					"自动还原": "AUTO-SOLVE",
+					"{score}": "{score}",
 				}
 			},
-			i18n = I18N(navigator.languages && navigator.languages[0] || navigator.language || navigator.userLanguage, dictionary), nospaceReg = /\S/, skip = {"NOSCRIPT": true, "SCRIPT": true};
+			i18n = I18N(navigator.languages && navigator.languages[0] || navigator.language || navigator.userLanguage, dictionary), nospaceReg = /\S/, skip = {"NOSCRIPT": true, "SCRIPT": true},
+			width = container.clientWidth, height = container.clientHeight;
         // {{{ docongratulation
         function docongratulation(cost) {
             var ctx = {
@@ -657,10 +654,10 @@
 			var walker = doc.createTreeWalker(congratulation, NodeFilter.SHOW_TEXT, {acceptNode: acceptNode}, false);
 			while (walker.nextNode()) {
 				var parent = walker.currentNode.parentElement,
-					tpl = parent.getAttribute('tpl');
+					tpl = parent.getAttribute("tpl");
 				if (!tpl) {
 					tpl = walker.currentNode.nodeValue;
-					parent.getAttribute('tpl', tpl);
+					parent.setAttribute("tpl", tpl);
 				}
 				walker.currentNode.nodeValue = template(tpl, ctx);
 				parent = null;
@@ -672,12 +669,24 @@
         // }}}
         // {{{ dotip
         function dotip(e) {
-            playing.style.left = e.pageX + "px";
-            playing.style.top = e.pageY + "px";
             playing.style.display = "block";
+			playing.style.left = Math.min.apply(null, [e.pageX, container.clientWidth - playing.clientWidth]) + "px";
+			playing.style.top = Math.min.apply(null, [e.pageY, container.clientHeight - playing.clientHeight]) + "px";
             return true;
         }
         // }}}
+		// {{{ playingResizer
+		function playingResizer(e) {
+			var newwidth = container.clientWidth, newheight = container.clientHeight;
+			if (playing.style.display != "none") {
+				playing.style.left = Math.min.apply(null, [parseInt(parseFloat(playing.style.left) * newwidth / width), newwidth - playing.clientWidth]) + "px";
+				playing.style.top = Math.min.apply(null, [parseInt(parseFloat(playing.style.top) * newheight / height), newheight - playing.clientHeight]) + "px";
+			}
+			width = newwidth;
+			height = newheight;
+			return true;
+		}
+		// }}}
         // {{{ onmove
         function onmove(e) {
             playing.style.display = "none";
@@ -702,12 +711,11 @@
         game = puzzle(win, doc, container, gamebox, docongratulation);
         game.onCongratulation(docongratulation).onTip(dotip).onMove(onmove);
 
-        for (var i = 0; i < radios.length; i++) {
-			radios[i].checked = false;
-            radios[i].addEventListener("change", function(e) {
+        for (var i = 0; i < modes.length; i++) {
+            modes[i].addEventListener("click", function(e) {
 				container.style.backgroundImage = "";
 				launcher.style.display = "none";
-				return game.update({mode: e.target.value, img: img}).start();
+				return game.update({mode: e.target.name, img: img}).start();
 			}, false);
         }
         restart.addEventListener("click", function(e) {
@@ -725,6 +733,7 @@
             playing.style.display = "none";
             return game.auto();
         }, false);
+        win.addEventListener("resize", playingResizer, false);
 
         container.style.backgroundImage = "url(" + img + ")";
         launcher.style.display = "block";

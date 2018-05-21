@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>轨迹/trace</title><link href="https://whiler.github.io/" rel="alternate"></link><link href="https://whiler.github.io/feed.xml" rel="self"></link><id>https://whiler.github.io/</id><updated>2018-05-05T00:00:00+08:00</updated><entry><title>「虚构」村里出了命案</title><link href="https://whiler.github.io/fictional-homicide.html" rel="alternate"></link><published>2018-04-27T00:00:00+08:00</published><updated>2018-04-27T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2018-04-27:/fictional-homicide.html</id><summary type="html">&lt;p&gt;「虚构」村里出了命案，张三杀了李四。&lt;/p&gt;</summary><content type="html">&lt;p&gt;这是一个虚构的故事。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>轨迹/trace</title><link href="https://whiler.github.io/" rel="alternate"></link><link href="https://whiler.github.io/feed.xml" rel="self"></link><id>https://whiler.github.io/</id><updated>2018-05-21T00:00:00+08:00</updated><entry><title>把一张纸撕成一个纸圈</title><link href="https://whiler.github.io/paper-circle.html" rel="alternate"></link><published>2018-05-21T00:00:00+08:00</published><updated>2018-05-21T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2018-05-21:/paper-circle.html</id><summary type="html">&lt;p&gt;不用任何粘接工具，把一张纸撕成一个纸圈&lt;/p&gt;</summary><content type="html">&lt;p&gt;一次培训的放松环节，导师让我们在 5 分钟内，把一张纸撕成一个纸圈，围住我们所有人。&lt;/p&gt;
+&lt;p&gt;我做到了。&lt;/p&gt;
+&lt;p&gt;一张纸从中间开始撕，能撕成一个闭合的圈。如图：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="纸圈" src="https://whiler.github.io/assets/images/circle.jpg" title="一张纸从中间开始撕，能撕成一个闭合的圈"&gt;&lt;/p&gt;
+&lt;p&gt;从边上撕能得到纸条，而不是闭合的圈。如图：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="纸条" src="https://whiler.github.io/assets/images/strip.jpg" title="从边上撕能得到纸条，而不是闭合的圈"&gt;&lt;/p&gt;
+&lt;p&gt;从中间撕能得到一个圈，周长最大也只能是纸的周长，不能围住所有人。
+从边上撕能得到一个纸条，只要撕得足够细，纸条可以就可以足够的长，首尾相连形成圈就能围住所有人了。
+但是，怎么连呢？&lt;/p&gt;
+&lt;p&gt;对折！&lt;/p&gt;
+&lt;p&gt;对折后从中间撕一个口子，展开就是一个圈了。如图：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="对折" src="https://whiler.github.io/assets/images/fold-1.jpg" title="对折"&gt;
+&lt;img alt="撕一个口子" src="https://whiler.github.io/assets/images/fold-2.jpg" title="撕一个口子"&gt;
+&lt;img alt="圈" src="https://whiler.github.io/assets/images/fold-3.jpg" title="得到一个圈"&gt;&lt;/p&gt;
+&lt;p&gt;能不能把这个圈的周长变得更大一些呢？&lt;/p&gt;
+&lt;p&gt;能，对折后从折线一边开始，左右交替撕奇数个口子；把折线上除第一个和最后一个折痕撕开，展开就能得到周长更长的圈了。如图：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="左右交替撕奇数个口子" src="https://whiler.github.io/assets/images/tear.jpg" title="左右交替撕奇数个口子，把折线上除第一个和最后一个折痕撕开"&gt;
+&lt;img alt="展开" src="https://whiler.github.io/assets/images/unfold.jpg" title="展开，得到一个圈"&gt;&lt;/p&gt;
+&lt;p&gt;假设纸的周长是 d ，圈的周长是 D ，对折一次，左右交替撕奇数 &lt;span&gt;&lt;span class="MathJax_Preview"&gt;N = 2 * n - 1&lt;/span&gt;&lt;script type="math/tex"&gt;N = 2 * n - 1&lt;/script&gt;&lt;/span&gt; 个口子，那么纸圈的周长可以表示为：&lt;/p&gt;
+&lt;div&gt;
+&lt;div class="MathJax_Preview"&gt;D = (N + 1) / 2 *d&lt;/div&gt;
+&lt;script type="math/tex; mode=display"&gt;D = (N + 1) / 2 *d&lt;/script&gt;
+&lt;/div&gt;
+&lt;p&gt;为什么我能这么快想到？小时候玩剪纸玩多了 :_)&lt;/p&gt;</content></entry><entry><title>「虚构」村里出了命案</title><link href="https://whiler.github.io/fictional-homicide.html" rel="alternate"></link><published>2018-04-27T00:00:00+08:00</published><updated>2018-04-27T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2018-04-27:/fictional-homicide.html</id><summary type="html">&lt;p&gt;「虚构」村里出了命案，张三杀了李四。&lt;/p&gt;</summary><content type="html">&lt;p&gt;这是一个虚构的故事。&lt;/p&gt;
 &lt;p&gt;村长！出命案了！&lt;br&gt;
 张三杀了李四！该拉出去枪毙！&lt;br&gt;
 等等，是李四先杀了张三的老婆！&lt;br&gt;

@@ -71,6 +71,45 @@ input + input {
 	position: relative;
 }
 
+#container section.preload {
+	position: absolute;
+	top: 50%;
+	transform: translate(0, -50%);
+	left: 0;
+	width: 100vw;
+}
+
+#container section.preload div.spinner {
+	width: 20em;
+	height: 20em;
+	margin-right: auto;
+	margin-left: auto;
+	background-color: greenyellow;
+	border-radius: 100%;  
+	-webkit-animation: scaleout 1.0s infinite ease-in-out;
+	animation: scaleout 1.0s infinite ease-in-out;
+}
+
+@-webkit-keyframes scaleout {
+	0% { -webkit-transform: scale(0) }
+	100% {
+		-webkit-transform: scale(1.0);
+		opacity: 0;
+	}
+}
+
+@keyframes scaleout {
+	0% { 
+		-webkit-transform: scale(0);
+		transform: scale(0);
+	}
+	100% {
+		-webkit-transform: scale(1.0);
+		transform: scale(1.0);
+		opacity: 0;
+	}
+}
+
 #container section.launcher {
 	display: none;
 	position: absolute;

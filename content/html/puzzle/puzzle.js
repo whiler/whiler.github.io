@@ -625,7 +625,7 @@
     function app(win, doc) {
         var imgs = ["cat.jpg", "husky.jpg", "cat.jpg", "husky.jpg", "cat.jpg", "smile.jpg", "husky.jpg", "cat.jpg", "smile.jpg", "cat.jpg"], img = imgs[Math.floor(Math.random() * imgs.length)],
             container = doc.getElementById("container"), sections = container.querySelectorAll("section"),
-            launcher = sections[0], playing = sections[1], congratulation = sections[2], gamebox = container.querySelectorAll("table")[0],
+            preload = sections[0], launcher = sections[1], playing = sections[2], congratulation = sections[3], gamebox = container.querySelectorAll("table")[0],
             modes = launcher.querySelectorAll("input[type=button]"),
             restart = congratulation.querySelectorAll("input[type=button][name=restart]")[0],
             reset = playing.querySelectorAll("input[type=button][name=reset]")[0], auto = playing.querySelectorAll("input[type=button][name=auto]")[0],
@@ -643,7 +643,8 @@
 				}
 			},
 			i18n = I18N(navigator.languages && navigator.languages[0] || navigator.language || navigator.userLanguage, dictionary), nospaceReg = /\S/, skip = {"NOSCRIPT": true, "SCRIPT": true},
-			width = container.clientWidth, height = container.clientHeight;
+			width = container.clientWidth, height = container.clientHeight,
+			pic = new Image();
         // {{{ docongratulation
         function docongratulation(cost) {
             var ctx = {
@@ -735,8 +736,15 @@
         }, false);
         win.addEventListener("resize", playingResizer, false);
 
-        container.style.backgroundImage = "url(" + img + ")";
-        launcher.style.display = "block";
+		pic.addEventListener("load", function(e) {
+			container.style.backgroundImage = "url(" + img + ")";
+			preload.style.display = "none";
+        	launcher.style.display = "block";
+			pic = null;
+			return true;
+		});
+
+		pic.src = img;
 
         return true;
     }

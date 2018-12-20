@@ -1,7 +1,7 @@
 CACHE MANIFEST
 # manifest for /paper-circle.html
-# rev: c01715831113df0d4040efedee5fd22a
-# date: 2018-06-20T14:45:57.430952
+# rev: 382423c07e1f01209d7379221e2d5f8e
+# date: 2018-12-20T23:52:10.262324
 
 CACHE:
 https://whiler.github.io/assets/images/circle.jpg
@@ -13,7 +13,7 @@ https://whiler.github.io/assets/images/tear.jpg
 https://whiler.github.io/assets/images/unfold.jpg
 https://whiler.github.io/favicon.svg
 https://whiler.github.io/theme/css/styles.min.89a9d23f.css
-https://whiler.github.io/theme/scripts/bootstrap.min.a5e60ff0.js
+https://whiler.github.io/theme/scripts/bootstrap.min.0b19c1bf.js
 
 NETWORK:
 *

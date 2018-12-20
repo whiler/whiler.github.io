@@ -1,12 +1,12 @@
 CACHE MANIFEST
 # manifest for /archives.html
-# rev: 4a0b717692cab47d83b4234c56ad2fde
-# date: 2018-06-20T14:45:57.401161
+# rev: f4170b0ba385aaa64761951f7cf9811c
+# date: 2018-12-20T23:52:10.272131
 
 CACHE:
 https://whiler.github.io/favicon.svg
 https://whiler.github.io/theme/css/styles.min.89a9d23f.css
-https://whiler.github.io/theme/scripts/bootstrap.min.a5e60ff0.js
+https://whiler.github.io/theme/scripts/bootstrap.min.0b19c1bf.js
 
 NETWORK:
 *

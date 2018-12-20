@@ -1,12 +1,12 @@
 CACHE MANIFEST
 # manifest for /fictional-homicide.html
-# rev: c8e84938c2230f333c1cb6538d23e211
-# date: 2018-06-20T14:45:57.416177
+# rev: fd30b66b9ad3cea931b6edca761a680c
+# date: 2018-12-20T23:52:10.268537
 
 CACHE:
 https://whiler.github.io/favicon.svg
 https://whiler.github.io/theme/css/styles.min.89a9d23f.css
-https://whiler.github.io/theme/scripts/bootstrap.min.a5e60ff0.js
+https://whiler.github.io/theme/scripts/bootstrap.min.0b19c1bf.js
 
 NETWORK:
 *

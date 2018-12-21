@@ -7,3 +7,4 @@ slimit==0.8.1
 webassets==0.12.1
 Markdown==2.6.11
 pelican==3.7.1
+ghp-import

@@ -3,7 +3,7 @@ Title: 用虚拟私用网络访问敏感网络
 Summary: 利用 域名列表 、dnsmasq 、 iptables 和 ipset 配合 虚拟私用网络 精确到域名解决网络封锁。
 Date: 2016-10-18
 
-相对于 [绕开网络封锁访问敏感域名]({filename}/bypass.md) ：
+相对于 [绕开网络封锁访问敏感域名]({static}/bypass.md) ：
 
 - 依赖 虚拟私用网络 ；
 - 不再依赖 pdnsd ；
@@ -51,8 +51,8 @@ echo "conf-dir=/etc/dnsmasq.d/,*.conf" >> /etc/dnsmasq.conf
 
 mkdir -p /etc/dnsmasq.d
 
-echo "server=/google.com/8.8.8.8"   >> "/etc/dnsmasq.d/${filename}.conf"
-echo "ipset=/google.com/${SETNAME}" >> "/etc/dnsmasq.d/${filename}.conf"
+echo "server=/google.com/8.8.8.8"   >> "/etc/dnsmasq.d/${static}.conf"
+echo "ipset=/google.com/${SETNAME}" >> "/etc/dnsmasq.d/${static}.conf"
 ```
 
 ### 创建路由表 ###

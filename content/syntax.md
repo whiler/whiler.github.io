@@ -28,7 +28,7 @@ The quick brown fox jumped over the lazy dog's back.
 
 link to [bing.com](https://www.bing.com/).
 
-![image]({filename}/assets/images/500.png "VIA")
+![image]({static}/assets/images/500.png "VIA")
 
 inline `code` ?
 

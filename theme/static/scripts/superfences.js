@@ -39,11 +39,11 @@
     }
 
     if (0 < doc.querySelectorAll(flowchartSelector).length) {
-        win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js'});
+        win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js'});
         win.taskQueue.enqueue('wait',
                               function() { return typeof(Raphael) != 'undefined'; },
                               function() {
-                                  return win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js'});
+                                  return win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/flowchart/1.13.0/flowchart.min.js'});
                               });
         win.taskQueue.enqueue('wait',
                               function() { return typeof(flowchart) != 'undefined'; },

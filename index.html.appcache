@@ -1,7 +1,7 @@
 CACHE MANIFEST
 # manifest for /index.html
-# rev: 05150d49ebd0563c657c4f44d87f81bd
-# date: 2018-12-22T00:56:25.047399
+# rev: 9b9dda39419e192b2af2d6a8580a9dd6
+# date: 2020-03-04T03:33:35.612499
 
 CACHE:
 https://whiler.github.io/assets/images/circle.jpg
@@ -13,7 +13,7 @@ https://whiler.github.io/assets/images/tear.jpg
 https://whiler.github.io/assets/images/unfold.jpg
 https://whiler.github.io/favicon.svg
 https://whiler.github.io/theme/css/styles.min.89a9d23f.css
-https://whiler.github.io/theme/scripts/bootstrap.min.0b19c1bf.js
+https://whiler.github.io/theme/scripts/bootstrap.min.f1d411a2.js
 
 NETWORK:
 *

@@ -1,8 +1,9 @@
 (function(win, doc) {
-    var highlightReady = true, selector = 'pre:not([class^=uml-]) code';
+    var highlightReady = true, selector = 'pre:not([class^=uml-]) code',
+		ver = '9.18.1';
     if (0 < doc.querySelectorAll(selector).length) {
-        win.taskQueue.enqueue('create', 'link', {rel: 'stylesheet', href: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css'});
-        win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js'});
+        win.taskQueue.enqueue('create', 'link', {rel: 'stylesheet', href: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/' + ver + '/styles/default.min.css'});
+        win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/' + ver + '/highlight.min.js'});
         win.taskQueue.enqueue('wait',
                               function() { return 'undefined' != typeof(hljs); },
                               function() {

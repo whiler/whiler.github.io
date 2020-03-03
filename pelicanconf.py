@@ -92,7 +92,9 @@ MARKDOWN = {
         'markdown.extensions.extra': {},
         'markdown.extensions.meta': {},
 
-        'pymdownx.arithmatex': {},
+        'pymdownx.arithmatex': {
+            'generic': True,
+        },
         'pymdownx.superfences': {
             'highlight_code': False,
             'custom_fences': [

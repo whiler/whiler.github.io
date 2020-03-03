@@ -56,6 +56,7 @@ github: publish
 	git push origin $(GITHUB_PAGES_BRANCH)
 
 bootstrap: venv
+	echo 'please graphviz for graphing'
 	git submodule update --init --recursive
 
 venv: .venv/bin/pelican

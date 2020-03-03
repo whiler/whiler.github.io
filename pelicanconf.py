@@ -67,7 +67,7 @@ import subprocess
 import logging
 import base64
 
-def graph(raw, engine='dot', clazz='dot'):
+def graph(raw, engine='dot', clazz='dot', options=None, md=None):
     proc = subprocess.Popen([engine, '-Tsvg'],
                             stdin=subprocess.PIPE,
                             stdout=subprocess.PIPE,

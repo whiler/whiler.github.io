@@ -1,4 +1,5 @@
 PELICAN?=.venv/bin/pelican
+GHP?=.venv/bin/ghp-import
 PELICANOPTS=
 
 BASEDIR=$(CURDIR)
@@ -52,7 +53,7 @@ else
 endif
 
 github: publish
-	ghp-import -m "Generate Pelican site" -b $(GITHUB_PAGES_BRANCH) $(OUTPUTDIR)
+	$(GHP) -m "Generate Pelican site" -b $(GITHUB_PAGES_BRANCH) $(OUTPUTDIR)
 	git push origin $(GITHUB_PAGES_BRANCH)
 
 bootstrap: venv

@@ -54,7 +54,7 @@
 
     if (0 < doc.querySelectorAll(sequenceSelector).length) {
         win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js'});
-        win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'});
+        win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js'});
         win.taskQueue.enqueue('wait',
                               function() { return typeof(_) != 'undefined'; },
                               function() {

@@ -253,7 +253,7 @@ def heart(radius):
 &lt;p&gt;&lt;a href="https://github.com/shadowsocks/shadowsocks-libev"&gt;shadowsocks/shadowsocks-libev&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;创建 ipset&lt;/h3&gt;
 &lt;p&gt;创建一个名为 bypass 的 ipset 。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;ipset create bypass hash:ip
+&lt;pre&gt;&lt;code class="language-shell"&gt;ipset create bypass hash:ip
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;创建 iptables 规则&lt;/h3&gt;
 &lt;ol&gt;
@@ -263,7 +263,7 @@ def heart(radius):
 &lt;li&gt;所有目标地址匹配 ipset 的 TCP 连接都重定向到 1080 端口（本地开启的 shadowsocks 透明代理端口）；&lt;/li&gt;
 &lt;li&gt;将 BYPASS 链添加到 PREROUTING 链；&lt;/li&gt;
 &lt;/ol&gt;
-&lt;pre&gt;&lt;code&gt;iptables --table nat --new BYPASS
+&lt;pre&gt;&lt;code class="language-bash"&gt;iptables --table nat --new BYPASS
 
 iptables --table nat --append BYPASS --destination X.X.X.X --jump RETURN
 
@@ -294,7 +294,7 @@ iptables --table nat --append PREROUTING --protocol tcp --jump BYPASS
 &lt;li&gt;修改 global 中的 server_port 为其他非 53 端口，如5353（53 端口为 dnsmasq 留着）；&lt;/li&gt;
 &lt;li&gt;添加一个可信的支持 TCP 查询的 DNS 上游服务器，如 Google 公共 DNS 服务器。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;pre&gt;&lt;code&gt;global {
+&lt;pre&gt;&lt;code class="language-text"&gt;global {
     perm_cache = 2048;
     cache_dir = &amp;quot;/var/cache/pdnsd&amp;quot;;
     run_as = &amp;quot;nobody&amp;quot;;
@@ -316,13 +316,13 @@ server {
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;将可信的 DNS 服务器地址添加到 ipset&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;ipset add bypass 8.8.8.8
+&lt;pre&gt;&lt;code class="language-shell"&gt;ipset add bypass 8.8.8.8
 ipset add bypass 8.8.4.4
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;安装并配置 dnsmasq&lt;/h3&gt;
 &lt;p&gt;修改 /etc/dnsmasq.conf 在最后加入 conf-dir=/etc/dnsmasq.d/,*.conf ，新建并进入 /etc/dnsmasq.d 目录；
 创建一个名为 bypass.conf  文件，为每一个敏感的域名指定可信的 DNS 解析服务器，并将解析得到的地址添加到 ipset 中。内容如下&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;server=/thinkwithgoogle.com/127.0.0.1#5353
+&lt;pre&gt;&lt;code class="language-text"&gt;server=/thinkwithgoogle.com/127.0.0.1#5353
 ipset=/thinkwithgoogle.com/bypass
 server=/withgoogle.com/127.0.0.1#5353
 ipset=/withgoogle.com/bypass

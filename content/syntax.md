@@ -2,6 +2,8 @@ UUID: 547ADD2C-32DB-4979-9B28-DA124B999E45
 Title: Markdown 语法/Markdown Syntax
 Summary: Markdown 语法/Markdown Syntax.
 Date: 2018-04-01
+Modified: 2023-03-06
+Status: hidden
 
 ### Markdown 1.0.1 ###
 
@@ -14,23 +16,17 @@ The quick **strong** fox jumped over the *emphasized* dog's back.
 
 - the
 - quick
-- brown
-- fox
-- jumped
 
 The quick brown fox jumped over the lazy dog's back.
 
 1. over
 2. the
-3. lazy
-4. dog's
-5. back
 
 link to [bing.com](https://www.bing.com/).
 
 ![image]({static}/assets/images/500.png "VIA")
 
-inline `code` ?
+inline code: `export PATH=/usr/local/bin:/usr/bin:/bin` ?
 
 To specify an entire block of pre-formatted code, indent every line of the block by 4 spaces or 1 tab.
 
@@ -69,7 +65,7 @@ strikethrough (extension)
 
 ~~del~~ Hello, world!
 
-autolink https://whiler.github.io
+magiclink https://whiler.github.io
 
 Hard line breaks
 
@@ -133,30 +129,18 @@ C->>D: Open arrow
 D-->>A: Dashed open arrow
 ```
 
-#### blockdiag ####
-
-blockdiag {
-    A -> B -> C -> D;
-    A -> E -> F -> G;
-}
-
 #### Graphviz dot ####
 
 ```dot
-digraph R {
+digraph AStar {
 	bgcolor="transparent";
 
-	node [shape=record];
-
-	{ rank=same rA sA tA }
-	{ rank=same uB vB wB }
-
-	rA -> sA;
-	sA -> vB;
-	t  -> rA;
-	uB -> vB;
-	wB -> u;
-	wB -> tA;
-
+	S -> A[label=10]
+	S -> B[label=10]
+	S -> C[label=10]
+	S -> D[label=10]
+	A -> E[label=10,style=dashed]
+	B -> E[label=20,style=dashed]
+	C -> E[label=30,style=dashed]
 }
 ```

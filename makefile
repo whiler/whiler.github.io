@@ -16,8 +16,8 @@ fetch:
 	git checkout -b $(shell date "+building-%Y%m%dT%H%M%S")
 	git pull origin --depth=1 --allow-unrelated-histories --no-edit $(SRCBRANCH)
 
-publish: build
-	.venv/bin/ghp-import --message=$(shell date "+Generated at %Y-%m-%d %H:%M:%S %Z") --push --branch=$(DSTBRANCH) $(OUTPUT)
+publish: $(OUTPUT)/index.html
+	.venv/bin/ghp-import --message="$(shell date "+Generated at %Y-%m-%d %H:%M:%S %Z")" --push --branch=$(DSTBRANCH) $(OUTPUT)
 
 bootstrap: .venv/bin/pip3
 	.venv/bin/pip3 install -U -r requirements.txt

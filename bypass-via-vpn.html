@@ -1,25 +1,30 @@
-<!DOCTYPE html><html lang=cmn manifest=https://whiler.github.io/bypass-via-vpn.html.appcache><head><meta charset=utf-8><meta name=viewport content="width=device-width, initial-scale=1"><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=description content="利用 域名列表 、dnsmasq 、 iptables 和 ipset 配合 虚拟私用网络 精确到域名解决网络封锁。"><title>用虚拟私用网络访问敏感网络</title><link rel=stylesheet href=https://whiler.github.io/theme/css/styles.min.89a9d23f.css><link rel=icon href=https://whiler.github.io/favicon.svg><link href=https://whiler.github.io/feed.xml type=application/atom+xml rel=alternate title="轨迹/trace Atom Feed"><script async id=entry src=https://whiler.github.io/theme/scripts/bootstrap.min.f1d411a2.js data-disqus=traced data-config='{"uuid":"add3a6b7-97d3-4856-b986-8f373d2b8c28"}'></script></head><body><header><h1><a href=https://whiler.github.io title="I leave no trace of wings in the air, but I am glad I have had my flight.">轨迹/trace</a></h1></header><hr><article class=main><header><h2 class=center>用虚拟私用网络访问敏感网络</h2></header><hr><div class=meta><span>发布于/Published: <a href=https://whiler.github.io/archives.html title=归档/Archives><time datetime=2016-10-18T00:00:00+08:00>二 18 十月 2016</time></a></span></div><div class=content><p>相对于 <a href=https://whiler.github.io/bypass.md>绕开网络封锁访问敏感域名</a> ：</p><ul><li>依赖 虚拟私用网络 ；</li><li>不再依赖 pdnsd ；</li><li>通过协议不再仅限于 TCP 和 UDP ；</li><li>客户端本机也可以访问敏感网络。</li></ul><p>利用 域名列表 配合 dnsmasq 和 ipset 收集需要通过 虚拟私用网络 的流量，利用 iptables 和 ipset 识别并标记流量，配置 路由表 让被标记的流量通过 虚拟私用网络 访问。</p><p>大致的步骤：</p><ol><li>安装并配置 虚拟私用网络 服务端；</li><li>安装 虚拟私用网络 客户端；</li><li>创建 ipset ；</li><li>将可信的 DNS 服务器地址添加到 ipset ；</li><li>安装并配置 dnsmasq ；</li><li>创建路由表；</li><li>调整内核 rp filter ；</li><li>自定义 vpnc script 。</li></ol><h3>安装并配置 虚拟私用网络 服务端</h3><p>感激 schemacs 赠送的 AnyConnect 虚拟私用网络，让我免去了安装和配置的繁琐。</p><h3>安装 虚拟私用网络 客户端</h3><p>连接 AnyConnect 可以用 OpenConnect 的客户端。</p><h3>创建 ipset</h3><pre><code>ipset create "${SETNAME}" hash:ip</code></pre><h3>将可信的 DNS 服务器地址添加到 ipset</h3><pre><code>ipset add "${SETNAME}" 8.8.8.8
-ipset add "${SETNAME}" 8.8.4.4</code></pre><h3>安装并配置 dnsmasq</h3><p>修改 /etc/dnsmasq.conf 在最后加入 conf-dir=/etc/dnsmasq.d/,*.conf ，新建并进入 /etc/dnsmasq.d 目录； 创建一个后缀为 .conf 的配置文件，为每一个敏感的域名指定可信的 DNS 解析服务器，并将解析得到的地址添加到 ipset 中。</p><pre><code>echo "conf-dir=/etc/dnsmasq.d/,*.conf" &gt;&gt; /etc/dnsmasq.conf
+<!DOCTYPE html><html lang=zh><head><meta charset=utf-8><meta name=viewport content="width=device-width, initial-scale=1"><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=description content="利用 域名列表 、dnsmasq 、 iptables 和 ipset 配合 虚拟私用网络 精确到域名解决网络封锁。"><title>用虚拟私用网络访问敏感网络</title><link rel=stylesheet href=./theme/css/styles.min.89a9d23f.css><link rel=icon href=./favicon.svg><link href=https://whiler.github.io/feed.xml type=application/atom+xml rel=alternate title="轨迹/trace Atom Feed"><script defer id=entry src=./theme/scripts/bootstrap.min.95642b73.js data-disqus=traced data-config='{"uuid":"add3a6b7-97d3-4856-b986-8f373d2b8c28"}'></script></head><body><header><h1><a href=.>轨迹/trace</a></h1></header><hr><article class=main><header><h2 class=center>用虚拟私用网络访问敏感网络</h2></header><hr><div class=meta><span>发布于/Published: <a href=./archives.html title=归档/Archives><time datetime=2016-10-18T00:00:00+08:00>二 18 十月 2016</time></a></span></div><div class=content><p>相对于 <a href=./bypass.html>绕开网络封锁访问敏感域名</a> ：</p><ul><li>依赖 虚拟私用网络 ；</li><li>不再依赖 pdnsd ；</li><li>通过协议不再仅限于 TCP 和 UDP ；</li><li>客户端本机也可以访问敏感网络。</li></ul><p>利用 域名列表 配合 dnsmasq 和 ipset 收集需要通过 虚拟私用网络 的流量，利用 iptables 和 ipset 识别并标记流量，配置 路由表 让被标记的流量通过 虚拟私用网络 访问。</p><p>大致的步骤：</p><ol><li>安装并配置 虚拟私用网络 服务端；</li><li>安装 虚拟私用网络 客户端；</li><li>创建 ipset ；</li><li>将可信的 DNS 服务器地址添加到 ipset ；</li><li>安装并配置 dnsmasq ；</li><li>创建路由表；</li><li>调整内核 rp filter ；</li><li>自定义 vpnc script 。</li></ol><h3>安装并配置 虚拟私用网络 服务端</h3><p>感激 schemacs 赠送的 AnyConnect 虚拟私用网络，让我免去了安装和配置的繁琐。</p><h3>安装 虚拟私用网络 客户端</h3><p>连接 AnyConnect 可以用 OpenConnect 的客户端。</p><h3>创建 ipset</h3><pre><code>ipset create &quot;${SETNAME}&quot; hash:ip
+</code></pre><h3>将可信的 DNS 服务器地址添加到 ipset</h3><pre><code>ipset add &quot;${SETNAME}&quot; 8.8.8.8
+ipset add &quot;${SETNAME}&quot; 8.8.4.4
+</code></pre><h3>安装并配置 dnsmasq</h3><p>修改 /etc/dnsmasq.conf 在最后加入 conf-dir=/etc/dnsmasq.d/,*.conf ，新建并进入 /etc/dnsmasq.d 目录； 创建一个后缀为 .conf 的配置文件，为每一个敏感的域名指定可信的 DNS 解析服务器，并将解析得到的地址添加到 ipset 中。</p><pre><code>echo &quot;conf-dir=/etc/dnsmasq.d/,*.conf&quot; &gt;&gt; /etc/dnsmasq.conf
 
 mkdir -p /etc/dnsmasq.d
 
-echo "server=/google.com/8.8.8.8"   &gt;&gt; "/etc/dnsmasq.d/${static}.conf"
-echo "ipset=/google.com/${SETNAME}" &gt;&gt; "/etc/dnsmasq.d/${static}.conf"</code></pre><h3>创建路由表</h3><p>/etc/iproute2/rt_tables 保存了系统的路由表。 向文件中写入一行即可创建一个路由表。</p><pre><code>echo -e "${TABLEID}\t${TABLENAME}" &gt;&gt; /etc/iproute2/rt_tables</code></pre><h3>调整内核 rp filter</h3><p>由于用到部分 策略路由 ，需要将内核反向过滤策略关闭或者放宽松。</p><pre><code>echo "net.ipv4.conf.default.rp_filter=2" &gt;&gt; /etc/sysctl.conf
-echo "net.ipv4.conf.all.rp_filter=2"     &gt;&gt; /etc/sysctl.conf
-sysctl -p</code></pre><h3>自定义 vpnc script</h3><p>若使用 OpenConnect 默认的 <a href=http://git.infradead.org/users/dwmw2/vpnc-scripts.git/blob_plain/HEAD:/vpnc-script>vpnc script</a> ，它会替换系统默认路由，让所有流量都通过 虚拟私用网络 ，显然这样不合理。</p><p>默认的 vpnc script 主要实现了两个函数 do_connect 和 do_disconnect 。</p><p>do_connect 在开始连接 虚拟私用网络 时，依次调用 set_vpngateway_route 、 do_ifconfig 和 set_default_route 三个函数，其中 set_default_route 将系统默认的路由替换成了 虚拟私用网络 分配的路由。</p><p>do_disconnect 在退出 虚拟私用网络 时，依次调用 reset_default_route 、 del_vpngateway_route 和 destroy_tun_device ，其中 reset_default_route 函数恢复系统原来的路由。</p><p>我们需要实现 start_split_tunneling 和 stop_split_tunneling 来替换 set_vpngateway_route 和 reset_default_route 完成分流。</p><pre><code>start_split_tunneling() {
+echo &quot;server=/google.com/8.8.8.8&quot;   &gt;&gt; &quot;/etc/dnsmasq.d/${static}.conf&quot;
+echo &quot;ipset=/google.com/${SETNAME}&quot; &gt;&gt; &quot;/etc/dnsmasq.d/${static}.conf&quot;
+</code></pre><h3>创建路由表</h3><p>/etc/iproute2/rt_tables 保存了系统的路由表。 向文件中写入一行即可创建一个路由表。</p><pre><code>echo -e &quot;${TABLEID}\t${TABLENAME}&quot; &gt;&gt; /etc/iproute2/rt_tables
+</code></pre><h3>调整内核 rp filter</h3><p>由于用到部分 策略路由 ，需要将内核反向过滤策略关闭或者放宽松。</p><pre><code>echo &quot;net.ipv4.conf.default.rp_filter=2&quot; &gt;&gt; /etc/sysctl.conf
+echo &quot;net.ipv4.conf.all.rp_filter=2&quot;     &gt;&gt; /etc/sysctl.conf
+sysctl -p
+</code></pre><h3>自定义 vpnc script</h3><p>若使用 OpenConnect 默认的 <a href=http://git.infradead.org/users/dwmw2/vpnc-scripts.git/blob_plain/HEAD:/vpnc-script>vpnc script</a> ，它会替换系统默认路由，让所有流量都通过 虚拟私用网络 ，显然这样不合理。</p><p>默认的 vpnc script 主要实现了两个函数 do_connect 和 do_disconnect 。</p><p>do_connect 在开始连接 虚拟私用网络 时，依次调用 set_vpngateway_route 、 do_ifconfig 和 set_default_route 三个函数，其中 set_default_route 将系统默认的路由替换成了 虚拟私用网络 分配的路由。</p><p>do_disconnect 在退出 虚拟私用网络 时，依次调用 reset_default_route 、 del_vpngateway_route 和 destroy_tun_device ，其中 reset_default_route 函数恢复系统原来的路由。</p><p>我们需要实现 start_split_tunneling 和 stop_split_tunneling 来替换 set_vpngateway_route 和 reset_default_route 完成分流。</p><pre><code>start_split_tunneling() {
     # mark
     # 目的地址匹配 ipset 则打上标记
-    iptables --table mangle --insert PREROUTING --match set --match-set "${SETNAME}" dst --jump MARK --set-mark "${MARK}"
-    iptables --table mangle --insert OUTPUT     --match set --match-set "${SETNAME}" dst --jump MARK --set-mark "${MARK}"
+    iptables --table mangle --insert PREROUTING --match set --match-set &quot;${SETNAME}&quot; dst --jump MARK --set-mark &quot;${MARK}&quot;
+    iptables --table mangle --insert OUTPUT     --match set --match-set &quot;${SETNAME}&quot; dst --jump MARK --set-mark &quot;${MARK}&quot;
 
     # forwarding
     # 允许流量进出 TUNDEV
-    iptables --table filter --insert FORWARD --out-interface "${TUNDEV}" --jump ACCEPT
-    iptables --table filter --insert FORWARD --in-interface  "${TUNDEV}" --jump ACCEPT
+    iptables --table filter --insert FORWARD --out-interface &quot;${TUNDEV}&quot; --jump ACCEPT
+    iptables --table filter --insert FORWARD --in-interface  &quot;${TUNDEV}&quot; --jump ACCEPT
 
     # nat
     # 地址伪装
-    iptables --table nat --insert POSTROUTING --out-interface "${TUNDEV}" --jump MASQUERADE
+    iptables --table nat --insert POSTROUTING --out-interface &quot;${TUNDEV}&quot; --jump MASQUERADE
 
     # rule
     # 所有带标记的流量都通过指定的路由表
@@ -27,24 +32,25 @@ sysctl -p</code></pre><h3>自定义 vpnc script</h3><p>若使用 OpenConnect 默
 
     # gateway
     # 为路由表指定默认的路由设备
-    ip route add default dev "${TUNDEV}" src "${INTERNAL_IP4_ADDRESS}" table "${TABLENAME}"
+    ip route add default dev &quot;${TUNDEV}&quot; src &quot;${INTERNAL_IP4_ADDRESS}&quot; table &quot;${TABLENAME}&quot;
 }
 
 stop_split_tunneling() {
     # gateway
-    ip route del default dev "${TUNDEV}" src "${INTERNAL_IP4_ADDRESS}" table "${TABLENAME}"
+    ip route del default dev &quot;${TUNDEV}&quot; src &quot;${INTERNAL_IP4_ADDRESS}&quot; table &quot;${TABLENAME}&quot;
 
     # rule
     ip rule del fwmark ${MARK} table ${TABLENAME}
 
     # nat
-    iptables --table nat --delete POSTROUTING --out-interface "${TUNDEV}" --jump MASQUERADE
+    iptables --table nat --delete POSTROUTING --out-interface &quot;${TUNDEV}&quot; --jump MASQUERADE
 
     # forwarding
-    iptables --table filter --delete FORWARD --out-interface "${TUNDEV}" --jump ACCEPT
-    iptables --table filter --delete FORWARD --in-interface  "${TUNDEV}" --jump ACCEPT
+    iptables --table filter --delete FORWARD --out-interface &quot;${TUNDEV}&quot; --jump ACCEPT
+    iptables --table filter --delete FORWARD --in-interface  &quot;${TUNDEV}&quot; --jump ACCEPT
 
     # mark
-    iptables --table mangle --delete PREROUTING --match set --match-set "${SETNAME}" dst --jump MARK --set-mark "${MARK}"
-    iptables --table mangle --delete OUTPUT     --match set --match-set "${SETNAME}" dst --jump MARK --set-mark "${MARK}"
-}</code></pre><p>参考： <a href=https://github.com/clowwindy/ShadowVPN/wiki/ShadowVPN----ipset>ShadowVPN ipset</a></p></div><aside class=comments><h3>评论/Comments</h3><div id=disqus_thread></div><noscript>请启用 JavaScript 脚本以查看评论/Please enable JavaScript to view the comments.</noscript></aside></article><hr><footer class=center>始于 2016 | SINCE 2016</footer></body></html>
+    iptables --table mangle --delete PREROUTING --match set --match-set &quot;${SETNAME}&quot; dst --jump MARK --set-mark &quot;${MARK}&quot;
+    iptables --table mangle --delete OUTPUT     --match set --match-set &quot;${SETNAME}&quot; dst --jump MARK --set-mark &quot;${MARK}&quot;
+}
+</code></pre><p>参考： <a href=https://github.com/clowwindy/ShadowVPN/wiki/ShadowVPN----ipset>ShadowVPN ipset</a></p></div><aside class=comments><h3>评论/Comments</h3><div id=disqus_thread></div><noscript>请启用 JavaScript 脚本以查看评论/Please enable JavaScript to view the comments.</noscript></aside></article><hr><footer class=center>始于 2016 | SINCE 2016</footer></body></html>

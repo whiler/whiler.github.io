@@ -37,7 +37,11 @@ jobs:
       run: |
         pushd render
           python3 -m pip install -U -r requirements.txt
-          export PATH="${PATH}:$(dirname "$(which pelican)")"
+          which slimit || true
+          PATH="${PATH}:$(dirname "$(which pelican)")"
+          export PATH="${PATH}"
+          echo ${PATH}
+          which slimit || true
           mkdir -p output
           pelican -s pelican/settings.py -o output content
         popd

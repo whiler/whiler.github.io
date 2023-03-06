@@ -24,7 +24,7 @@ jobs:
       run: |
         ls -lh content
         ls -lh render
-        rsync -a content render
+        rsync -a --exclude=.git content/ render
         ls -lh render
         ls -lh render/content
     - name: Set up Python 3.10

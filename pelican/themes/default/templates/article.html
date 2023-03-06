@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block desc %}
+	<meta name="description" content="{{ article.summary|striptags }}"/>
+{% endblock%}
+
+{% block title %}{{ article.title|striptags }}{% endblock %}
+
+{% block config %}{% if DISQUS_SITENAME and SITEURL and article.status != "draft" %}{"uuid":"{{ article.uuid }}"}{% else %}{}{% endif %}{% endblock %}
+
+{% block content %}
+<article class="main">
+    <header><h2 class="center">{{ article.title }}</h2></header>
+	<hr/>
+    {% include 'article_infos.html' %}
+    <div class="content">{{ article.content }}</div>
+    <aside class="comments">
+		<h3>评论/Comments</h3>
+    {% if DISQUS_SITENAME and SITEURL and article.status != "draft" %}
+		<div id="disqus_thread"></div>
+		<noscript>请启用 JavaScript 脚本以查看评论/Please enable JavaScript to view the comments.</noscript>
+    {% endif %}
+    </aside>
+</article>
+{% endblock %}

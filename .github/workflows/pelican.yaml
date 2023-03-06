@@ -6,11 +6,18 @@ on:
   pull_request:
     branches: [ "content" ]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+defaults:
+  run:
+    shell: bash
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
       with:
@@ -34,7 +41,20 @@ jobs:
       run: |
         pushd render
           python3 -m pip install -U -r requirements.txt
-          slimit -h
           mkdir -p output
           pelican -s pelican/settings.py -o output content
         popd
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: render/output
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1

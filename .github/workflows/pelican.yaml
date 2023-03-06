@@ -6,15 +6,6 @@ on:
   pull_request:
     branches: [ "content" ]
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-defaults:
-  run:
-    shell: bash
-
 jobs:
   build:
     runs-on: ubuntu-latest

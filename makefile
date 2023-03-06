@@ -7,13 +7,13 @@ SRCBRANCH := content
 DSTBRANCH := view
 
 build: $(INPUT) $(SETTINGS)
+	mkdir -p $(OUTPUT)
 	find $(OUTPUT) -type f -delete
 	find $(OUTPUT) -mindepth 1 -type d -delete
-	$(PELICAN) -s $(SETTINGS) $(INPUT) $(OUTPUT)
+	$(PELICAN) -s $(SETTINGS) -o $(OUTPUT) $(INPUT)
 
 fetch:
-	git fetch origin $(SRCBRANCH)
-	git merge $(SRCBRANCH)
+	git pull origin $(SRCBRANCH)
 
 publish: build
 	.venv/bin/ghp-import --message=$(shell date "+Generated at %Y-%m-%d %H:%M:%S %Z") --push --branch=$(DSTBRANCH) $(OUTPUT)

@@ -24,8 +24,9 @@ jobs:
       run: |
         ls -lh content
         ls -lh render
-        rsync -av content render
+        rsync -a content render
         ls -lh render
+        ls -lh render/content
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
@@ -36,6 +37,6 @@ jobs:
       run: |
         pushd render
           python3 -m pip install -U -r requirements.txt
-          PELICAN=pelican make build
-          make publish
+          mkdir -p output
+          pelican -s pelican/settings.py -o output content
         popd

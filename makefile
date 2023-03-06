@@ -14,7 +14,6 @@ build: $(INPUT) $(SETTINGS)
 
 fetch:
 	git checkout -b $(shell date "+building-%Y%m%dT%H%M%S")
-	git config pull.rebase false
 	git pull origin --depth=1 --allow-unrelated-histories --no-edit $(SRCBRANCH)
 
 publish: $(OUTPUT)/index.html

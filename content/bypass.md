@@ -26,7 +26,7 @@ Date: 2016-04-11
 ### 创建 ipset ###
 创建一个名为 bypass 的 ipset 。
 
-```
+```shell
 ipset create bypass hash:ip
 ```
 
@@ -37,7 +37,7 @@ ipset create bypass hash:ip
 4. 所有目标地址匹配 ipset 的 TCP 连接都重定向到 1080 端口（本地开启的 shadowsocks 透明代理端口）；
 5. 将 BYPASS 链添加到 PREROUTING 链；
 
-```
+```bash
 iptables --table nat --new BYPASS
 
 iptables --table nat --append BYPASS --destination X.X.X.X --jump RETURN
@@ -69,7 +69,7 @@ iptables --table nat --append PREROUTING --protocol tcp --jump BYPASS
 2. 修改 global 中的 server_port 为其他非 53 端口，如5353（53 端口为 dnsmasq 留着）；
 3. 添加一个可信的支持 TCP 查询的 DNS 上游服务器，如 Google 公共 DNS 服务器。
 
-```
+```text
 global {
 	perm_cache = 2048;
 	cache_dir = "/var/cache/pdnsd";
@@ -93,7 +93,8 @@ server {
 ```
 
 ### 将可信的 DNS 服务器地址添加到 ipset ###
-```
+
+```shell
 ipset add bypass 8.8.8.8
 ipset add bypass 8.8.4.4
 ```
@@ -102,7 +103,7 @@ ipset add bypass 8.8.4.4
 修改 /etc/dnsmasq.conf 在最后加入 conf-dir=/etc/dnsmasq.d/,*.conf ，新建并进入 /etc/dnsmasq.d 目录；
 创建一个名为 bypass.conf  文件，为每一个敏感的域名指定可信的 DNS 解析服务器，并将解析得到的地址添加到 ipset 中。内容如下
 
-```
+```text
 server=/thinkwithgoogle.com/127.0.0.1#5353
 ipset=/thinkwithgoogle.com/bypass
 server=/withgoogle.com/127.0.0.1#5353

@@ -21,18 +21,18 @@ jobs:
         ref: content
         path: content
     - name: Sync content
-      run: |
-        ls -lh content
-        ls -lh render
-        rsync -a --exclude=.git content/ render
-        ls -lh render
-        ls -lh render/content
+      run: rsync -a --exclude=.git content/ render
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
         python-version: "3.10"
     - name: Install dependencies
-      run: python3 -m pip install --upgrade pip wheel
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo -E apt -qq -y update
+        sudo -E apt -qq -y install slimit
+        python3 -m pip install --upgrade pip wheel
     - name: Build and Publish
       run: |
         pushd render

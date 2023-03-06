@@ -31,13 +31,13 @@ Date: 2016-10-18
 
 ### 创建 ipset ###
 
-```
+```shell
 ipset create "${SETNAME}" hash:ip
 ```
 
 ### 将可信的 DNS 服务器地址添加到 ipset ###
 
-```
+```shell
 ipset add "${SETNAME}" 8.8.8.8
 ipset add "${SETNAME}" 8.8.4.4
 ```
@@ -46,7 +46,7 @@ ipset add "${SETNAME}" 8.8.4.4
 修改 /etc/dnsmasq.conf 在最后加入 conf-dir=/etc/dnsmasq.d/,*.conf ，新建并进入 /etc/dnsmasq.d 目录；
 创建一个后缀为 .conf 的配置文件，为每一个敏感的域名指定可信的 DNS 解析服务器，并将解析得到的地址添加到 ipset 中。
 
-```
+```shell
 echo "conf-dir=/etc/dnsmasq.d/,*.conf" >> /etc/dnsmasq.conf
 
 mkdir -p /etc/dnsmasq.d
@@ -59,14 +59,14 @@ echo "ipset=/google.com/${SETNAME}" >> "/etc/dnsmasq.d/${static}.conf"
 /etc/iproute2/rt_tables 保存了系统的路由表。
 向文件中写入一行即可创建一个路由表。
 
-```
+```shell
 echo -e "${TABLEID}\t${TABLENAME}" >> /etc/iproute2/rt_tables
 ```
 
 ### 调整内核 rp filter ###
 由于用到部分 策略路由 ，需要将内核反向过滤策略关闭或者放宽松。
 
-```
+```shell
 echo "net.ipv4.conf.default.rp_filter=2" >> /etc/sysctl.conf
 echo "net.ipv4.conf.all.rp_filter=2"     >> /etc/sysctl.conf
 sysctl -p
@@ -83,7 +83,7 @@ do_disconnect 在退出 虚拟私用网络 时，依次调用 reset_default_rout
 
 我们需要实现 start_split_tunneling 和 stop_split_tunneling 来替换 set_vpngateway_route 和 reset_default_route 完成分流。
 
-```
+```bash
 start_split_tunneling() {
     # mark
     # 目的地址匹配 ipset 则打上标记

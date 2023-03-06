@@ -2,7 +2,7 @@ UUID: ac4b183f-c0a4-4047-a1a3-1ab85cbd4225
 Title: 关于/about
 Summary: 一只嘴巴，两个鼻孔，四只眼睛，六块腹肌，拥有22对全球唯一的常染色体以及1对xy性染色体。
 Date: 2016-02-28
-Modified: 2018-05-04
+Modified: 2023-03-06
 
 ![me]({static}/assets/images/500.png)
 
@@ -14,7 +14,7 @@ Modified: 2018-05-04
 One guy from the earth, with one mouth, two legs, four eyes and six pack abs, it's me, a software engineer, likes eating, sleeping, walking, swimming, running, playing badminton and snowboarding.
 
 ### find me ###
-- [知乎](https://www.zhihu.com/people/whiler "whiler @ Zhihu")
+- ~~[知乎](https://www.zhihu.com/people/whiler "whiler @ Zhihu")~~
 - ~~[Facebook](https://www.facebook.com/wenwu.lv.5 "Wenwu Lv @ Facebook")~~
 - [Email](mailto:wenwu500@qq.com "mail to me")
 - [GitHub](https://github.com/whiler "whiler @ GitHub")

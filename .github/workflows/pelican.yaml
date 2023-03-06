@@ -37,7 +37,7 @@ jobs:
       run: |
         pushd render
           python3 -m pip install -U -r requirements.txt
-          ls -lh "$(dirname "$(which pelican)")"
+          export PATH="${PATH}:$(dirname "$(which pelican)")"
           mkdir -p output
           pelican -s pelican/settings.py -o output content
         popd

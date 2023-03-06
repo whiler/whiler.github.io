@@ -29,19 +29,12 @@ jobs:
     - name: Install dependencies
       env:
         DEBIAN_FRONTEND: noninteractive
-      run: |
-        sudo -E apt -qq -y update
-        sudo -E apt -qq -y install slimit
-        python3 -m pip install --upgrade pip wheel
+      run: python3 -m pip install --upgrade pip wheel
     - name: Build and Publish
       run: |
         pushd render
           python3 -m pip install -U -r requirements.txt
-          which slimit || true
-          PATH="${PATH}:$(dirname "$(which pelican)")"
-          export PATH="${PATH}"
-          echo ${PATH}
-          which slimit || true
+          slimit -h
           mkdir -p output
           pelican -s pelican/settings.py -o output content
         popd

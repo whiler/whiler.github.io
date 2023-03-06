@@ -21,16 +21,21 @@ jobs:
         ref: content
         path: content
     - name: Sync content
-      run: rsync -a content render
+      run: |
+        ls -lh content
+        ls -lh render
+        rsync -av content render
+        ls -lh render
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
         python-version: "3.10"
     - name: Install dependencies
       run: python3 -m pip install --upgrade pip wheel
-    - name: Bootstrap
-      run: cd render && make bootstrap
-    - name: Build
-      run: cd render && make
-    - name: Publish
-      run: cd render && make publish
+    - name: Build and Publish
+      run: |
+        pushd render
+          python3 -m pip install -U -r requirements.txt
+          PELICAN=pelican make build
+          make publish
+        popd

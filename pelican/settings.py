@@ -29,7 +29,7 @@ EXTRA_PATH_METADATA = {
 
 DEFAULT_PAGINATION = 7
 
-RELATIVE_URLS = True
+RELATIVE_URLS = False
 
 MARKDOWN = {
     'extension_configs': {

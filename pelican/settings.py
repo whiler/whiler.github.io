@@ -15,6 +15,7 @@ SITEURL = 'https://whiler.github.io'
 
 DEFAULT_LANG = 'zh'
 TIMEZONE = 'Asia/Shanghai'
+DEFAULT_DATE_FORMAT = '%Y年%m月%d日'
 
 FILENAME_METADATA = '(?P<slug>.*)'
 SUMMARY_MAX_LENGTH = 70

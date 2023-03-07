@@ -67,13 +67,14 @@
     }
 
     if (0 < doc.querySelectorAll(sequenceSelector).length) {
+        win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js'});
         win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js'});
-        win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js'});
         win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.6/underscore-min.js'});
+        win.taskQueue.enqueue('create', 'link', {rel: 'stylesheet', href: '//cdn.jsdelivr.net/npm/js-sequence-diagram@2.0.1/dist/sequence-diagram-min.min.css'});
         win.taskQueue.enqueue('wait',
-                              function() { return typeof(_) != 'undefined' && typeof(Raphael) != 'undefined' && typeof(Snap) != 'undefined'; },
+                              function() { return typeof(_) != 'undefined' && typeof(Snap) != 'undefined' && typeof(WebFont) != 'undefined'; },
                               function() {
-                                  return win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js'});
+                                  return win.taskQueue.enqueue('create', 'script', {src: '//cdn.jsdelivr.net/npm/js-sequence-diagram@2.0.1/dist/sequence-diagram.min.js'});
                               });
         win.taskQueue.enqueue('wait',
                               function() { return typeof(Diagram) != 'undefined'; },

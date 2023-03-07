@@ -3,7 +3,7 @@
 &lt;h2&gt;咋来的？&lt;/h2&gt;
 &lt;p&gt;替表姐远程维护电脑的时候，被各种远程桌面应用折腾得不行不行的，索性自己搓一个。这就有了 &lt;strong&gt;NoScreen&lt;/strong&gt; ，一个打开浏览器就能控制远程电脑的应用。&lt;/p&gt;
 &lt;h2&gt;啥是远程桌面应用？&lt;/h2&gt;
-&lt;p&gt;所谓的远程桌面应用，就是字面意思： &lt;code&gt;远程桌面 = 控制 + 远程 + 电脑桌面&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;所谓的远程桌面应用，就是字面意思： &lt;span class="arithmatex"&gt;&lt;span class="MathJax_Preview"&gt;远程桌面 = 控制 + 远程 + 电脑桌面&lt;/span&gt;&lt;script type="math/tex"&gt;远程桌面 = 控制 + 远程 + 电脑桌面&lt;/script&gt;&lt;/span&gt; 。&lt;/p&gt;
 &lt;p&gt;按下开关，灯就亮了，这是控制；按下遥控器的「静音」按钮，电视机就没声了，是遥控，是远程控制；点击自己的鼠标，远方电脑屏幕上的窗口就关闭了，这是远程控制电脑。&lt;/p&gt;
 &lt;p&gt;被控制的东西从灯、电视机到电脑，控制器从开关、遥控器到鼠标和键盘，控制距离从一间屋子到一个城市，这一切都没有本质的区别，都是操作控制器传递命令，让被控物体执行命并给出反馈。&lt;/p&gt;
 &lt;pre&gt;&lt;code class="language-sequence"&gt;人-&amp;gt;遥控器: 按下静音按钮

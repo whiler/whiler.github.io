@@ -1,5 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>轨迹/trace</title><link href="https://whiler.github.io/" rel="alternate"></link><link href="https://whiler.github.io/feed.xml" rel="self"></link><id>https://whiler.github.io/</id><updated>2023-03-06T00:00:00+08:00</updated><entry><title>把一张纸撕成一个纸圈</title><link href="https://whiler.github.io/paper-circle.html" rel="alternate"></link><published>2018-05-21T00:00:00+08:00</published><updated>2018-05-21T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2018-05-21:/paper-circle.html</id><summary type="html">&lt;p&gt;不用任何粘接工具，把一张纸撕成一个纸圈&lt;/p&gt;</summary><content type="html">&lt;p&gt;一次培训的放松环节，导师让我们在 5 分钟内，把一张纸撕成一个纸圈，围住我们所有人。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>轨迹/trace</title><link href="https://whiler.github.io/" rel="alternate"></link><link href="https://whiler.github.io/feed.xml" rel="self"></link><id>https://whiler.github.io/</id><updated>2023-03-07T00:00:00+08:00</updated><entry><title>NoScreen 简介</title><link href="https://whiler.github.io/noscreen.html" rel="alternate"></link><published>2023-03-07T00:00:00+08:00</published><updated>2023-03-07T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2023-03-07:/noscreen.html</id><summary type="html">&lt;p&gt;NoScreen 一个打开浏览器就能控制远程电脑的远程桌面应用。&lt;/p&gt;</summary><content type="html">&lt;p&gt;先上成品 &lt;a href="https://noscr.v6.navy"&gt;https://noscr.v6.navy&lt;/a&gt; 。&lt;/p&gt;
+&lt;h2&gt;咋来的？&lt;/h2&gt;
+&lt;p&gt;替表姐远程维护电脑的时候，被各种远程桌面应用折腾得不行不行的，索性自己搓一个。这就有了 &lt;strong&gt;NoScreen&lt;/strong&gt; ，一个打开浏览器就能控制远程电脑的应用。&lt;/p&gt;
+&lt;h2&gt;啥是远程桌面应用？&lt;/h2&gt;
+&lt;p&gt;所谓的远程桌面应用，就是字面意思： &lt;code&gt;远程桌面 = 控制 + 远程 + 电脑桌面&lt;/code&gt; 。
+按下开关，灯就亮了，这是控制；按下遥控器的「静音」按钮，电视机就没声了，是遥控，是远程控制；点击自己的鼠标，远方电脑屏幕上的窗口就关闭了，这是远程控制电脑。
+被控制的东西从灯、电视机到电脑，控制器从开关、遥控器到鼠标和键盘，控制距离从一间屋子到一个城市，这一切都没有本质的区别，都是操作控制器传递命令，让被控物体执行命并给出反馈。&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-sequence"&gt;人-&amp;gt;遥控器: 按下静音按钮
+遥控器-&amp;gt;电视机: 静音
+电视机--&amp;gt;人: 没声了
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;怎么搓？&lt;/h2&gt;
+&lt;p&gt;远程桌面的控制器是鼠标和键盘，命令是键盘按键、鼠标位置和鼠标点击，反馈显示在远程电脑屏幕上，可以通过截图把反馈传回去。
+搞一个程序，监听键盘按键、鼠标移动和点击事件，这种基本操作就搞定了控制器。把监听到的命令编码后通过网络传递到另一台电脑的程序，调用多种自动化控制软件执行这些命令，这就搞定了执行命令。致于反馈，搞一个程序定时截图，通过网络把截图传给另一个程序并显示，就搞定了。&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-sequence"&gt;participant 人
+participant 控制器
+participant 执行程序
+participant 屏幕
+
+Note over 控制器,执行程序: 网络
+
+人-&amp;gt;控制器: 按下空格键
+控制器-&amp;gt;执行程序: 按下空格键
+执行程序 --&amp;gt; 执行程序: 截图
+执行程序-&amp;gt;控制器: 显示截图
+控制器--&amp;gt;人: 按下空格键成功了
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;「控制」和「执行」实现起来都没什么大问题，「反馈」实现起来问题很大，主要有：家庭宽带的上传很低，图像传输需要占用大量带宽；截图接口耗时较高，每秒截图 20 次都难。&lt;/p&gt;
+&lt;p&gt;把一张截图看作视频的一帧，那么把连续多张截图编码成视频就可以节省大量带宽。
+按照「被控程序」把截图编码成视频，「控制程序」远程实时播放视频这个思路，我在流媒体传输和播放上走了不少弯路…… RTMP、RTSP、HLS 和 ffmpeg 几乎让我放弃把截图编码成视频这条路。
+偶然看到 WebRTC 的 getDisplayMedia 接口，它简直就是为远程桌面量身定制的！不用操心视频编码和传输了，也不用担心截图耗时，一步到位。WebRTC 的 RTCPeerConnection 还解决了网络连接的问题，直连或者中转都能搞定。还不用考虑多操作系统多架构兼容的问题，浏览器都搞定了，真香！就它了。
+选定 WebRTC 后，就需要重新实现控制器和执行程序了。在网页中捕获键盘按键、鼠标移动和点击非常方便，控制器的原型很快就搞定了。被控端的执行程序有两种实现方式：要么作为客户端从服务器上拉取命令，然后执行；要么作为服务端，等控制端把命令推过来，再执行。单独为传递命令搞一个服务太麻烦，延长了数据链，还提高了安全风险，不行只能做服务端。控制端通过 RTCPeerConnection 直接把命令传给被控端，被控端将命令转发给本地执行程序，没有第三方服务的介入，靠谱，我看行。做服务端也带来了一个问题：因为只能在 HTTPS 环境下才能调用 getDisplayMedia 接口，执行程序必须提供 HTTPS 环境。搞一个服务器，定期更新 HTTPS 证书，把执行程序和证书一起打包，提供下载链接，证书过期了就重新下载。而且 WebRTC 本来就需要一个服务器托管网页和信令服务，可以把更新证书和打包的活也交给它。
+就这么愉快地把所有的问题都搞定了，所有涉及到的程序和服务都开源了 &lt;a href="https://github.com/whiler/noscreen"&gt;https://github.com/whiler/noscreen&lt;/a&gt; 。&lt;/p&gt;
+&lt;h2&gt;怎么用？&lt;/h2&gt;
+&lt;p&gt;如果是使用远程桌面这个功能。
+被控端打开 &lt;a href="https://noscr.v6.navy/"&gt;https://noscr.v6.navy/&lt;/a&gt; ，选择对应的被控端程序包下载，解压并执行，然后点击页面上的「共享」按钮，最后告诉控制端你的编号就可以了。
+控制端打开 &lt;a href="https://noscr.v6.navy/"&gt;https://noscr.v6.navy/&lt;/a&gt; ，输入被控端的编号，点击「控制」即可。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="效果图" src="https://search.pstatic.net/common?src=https://i.imgur.com/tlR6bX2.png" title="效果图"&gt;&lt;/p&gt;
+&lt;p&gt;如果你想自己部署这样的远程控制系统，可以参考 &lt;a href="https://github.com/whiler/noscreen/blob/master/deploy.md"&gt;deploy.md&lt;/a&gt; ，里面有为 Ubuntu 和 Debian 实现的一键部署脚本。&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>把一张纸撕成一个纸圈</title><link href="https://whiler.github.io/paper-circle.html" rel="alternate"></link><published>2018-05-21T00:00:00+08:00</published><updated>2018-05-21T00:00:00+08:00</updated><author><name></name></author><id>tag:whiler.github.io,2018-05-21:/paper-circle.html</id><summary type="html">&lt;p&gt;不用任何粘接工具，把一张纸撕成一个纸圈&lt;/p&gt;</summary><content type="html">&lt;p&gt;一次培训的放松环节，导师让我们在 5 分钟内，把一张纸撕成一个纸圈，围住我们所有人。&lt;/p&gt;
 &lt;p&gt;我做到了。&lt;/p&gt;
 &lt;p&gt;一张纸从中间开始撕，能撕成一个闭合的圈。如图：&lt;/p&gt;
 &lt;p&gt;&lt;img alt="纸圈" src="https://whiler.github.io/assets/images/circle.jpg" title="一张纸从中间开始撕，能撕成一个闭合的圈"&gt;&lt;/p&gt;

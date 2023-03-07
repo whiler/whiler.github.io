@@ -68,9 +68,10 @@
 
     if (0 < doc.querySelectorAll(sequenceSelector).length) {
         win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js'});
+        win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js'});
         win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.6/underscore-min.js'});
         win.taskQueue.enqueue('wait',
-                              function() { return typeof(_) != 'undefined'; },
+                              function() { return typeof(_) != 'undefined' && typeof(Raphael) != 'undefined' && typeof(Snap) != 'undefined'; },
                               function() {
                                   return win.taskQueue.enqueue('create', 'script', {src: '//cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js'});
                               });

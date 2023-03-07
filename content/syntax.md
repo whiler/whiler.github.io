@@ -9,76 +9,56 @@ Status: hidden
 
 The quick brown fox jumped over the lazy dog's back.
 
-> This is a blockquote.
-> > The quick brown fox jumped over the lazy dog's back.
+> 一层引用
+> > 二层引用
 
-The quick **strong** fox jumped over the *emphasized* dog's back.
+- 我是无序列表项
+- 我也是无序列表项
 
-- the
-- quick
+![这是插入的图片]({static}/assets/images/500.png "图片描述")
 
-The quick brown fox jumped over the lazy dog's back.
+1. 有序列表项 甲
+2. 有序列表项 乙
 
-1. over
-2. the
+**粗体** *细体* 插入超链接 [bing.com](https://www.bing.com/) `行内代码` 自动链接 <https://whiler.github.io>
 
-link to [bing.com](https://www.bing.com/).
-
-![image]({static}/assets/images/500.png "VIA")
-
-inline code: `export PATH=/usr/local/bin:/usr/bin:/bin` ?
-
-To specify an entire block of pre-formatted code, indent every line of the block by 4 spaces or 1 tab.
+4 个空格缩进或者一个 tab 缩进定义的代码块
 
     create entire block code by indent 4 spaces
-    (function(){return true;})();
+    (function(){return true;})(); // 这是代码块
 
-autolink <https://whiler.github.io>
-
-horizontal
+水平线
 - - -
 
 ### GitHub Flavored Markdown Spec (0.28-gfm) ###
 
-fenced code blocks
-
 ```
 int main (int argc, char *argv[]) {
 	fprintf(stdout, "Hello World.\n");
-	return EXIT_SUCCESS;
+	return EXIT_SUCCESS; /* 这是代码块 */
 }
 ```
 
-tables (extension)
+| 表头 | bar          |
+| ---- | ------------ |
+| baz  | bim          |
+|      | 第二行第二列 |
 
-| foo | bar |
-| --- | --- |
-| baz | bim |
+- [ ] 未完成任务列表项
+- [x] 已完成任务列表项
 
+~~删除线~~ 魔法链接 https://whiler.github.io
 
-task list items (extension)
-
-- [ ] foo
-- [x] bar
-
-strikethrough (extension)
-
-~~del~~ Hello, world!
-
-magiclink https://whiler.github.io
-
-Hard line breaks
-
-A line break (not in a code span or HTML tag) that is preceded by two or more spaces  
-and does not occur at the end of a block is parsed as a hard line break.
+以 2 个或者 2 个以上空格结尾换行。这是第一行  。  
+这应该是第二行。
 
 ### Extensions ###
 
 #### LaTeX math equations ####
 
-inline LaTeX equation: $p(x|y) = \frac{p(y|x)p(x)}{p(y)}$ .
+行内 LaTeX 表达式: $p(x|y) = \frac{p(y|x)p(x)}{p(y)}$ .
 
-block LaTeX equation:
+块级 LaTeX 表达式:
 
 $$E(\mathbf{v}, \mathbf{h}) = -\sum_{i,j}w_{ij}v_i h_j - \sum_i b_i v_i - \sum_j c_j h_j$$
 
@@ -91,9 +71,9 @@ $$
 
 #### LaTex chemical equations ####
 
-inline LaTex chemical equation: $\ce{Na2SO4 ->[H2O] Na+ + SO4^2-}$ .
+行内 LaTex 化学表达式: $\ce{Na2SO4 ->[H2O] Na+ + SO4^2-}$ .
 
-block LaTex chemical equation:
+块级 LaTex 化学表达式:
 
 $$\ce{Na2SO4 ->[H2O] Na+ + SO4^2-}$$
 
@@ -103,28 +83,24 @@ $$
 
 #### flow charts and sequence diagrams from SuperFences ####
 
-flow charts
-
 ```flow
 st=>start: Start:>http://www.google.com[blank]
 e=>end:>http://www.google.com
-op1=>operation: My Operation
+操作=>operation: 蜜汁操作
 sub1=>subroutine: My Subroutine
 cond=>condition: Yes
 or No?:>http://www.google.com
 io=>inputoutput: catch something...
 
-st->op1->cond
+st->操作->cond
 cond(yes)->io->e
-cond(no)->sub1(right)->op1
+cond(no)->sub1(right)->操作
 ```
 
-sequence diagrams
-
 ```sequence
-Title: Here is a title
+Title: 示例时序图
 A->B: Normal line
-B-->C: Dashed line
+B-->C: 这是一条虚线
 C->>D: Open arrow
 D-->>A: Dashed open arrow
 ```

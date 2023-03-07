@@ -10,7 +10,7 @@ sys.path.append(os.path.dirname(__file__))
 from plugin import *
 from theme import *
 
-SITENAME = '轨迹/trace'
+SITENAME = '轨迹'
 SITEURL = 'https://whiler.github.io'
 
 DEFAULT_LANG = 'zh'

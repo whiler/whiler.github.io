@@ -1,34 +1,17 @@
-body {
-    color: #404040;
-    background-color: #f7f7f7;
+a {
+  color: #009BDF;
+}
+
+/* 覆盖 .typo a */
+.typo a {
+  border-bottom: 1px solid #009BDF;
 }
 
 body > header > h1 > a {
-    color: #404040;
+  color: #404040;
 }
 
-a {
-    color: #009BDF;
-}
-
-hr {
-    color: #d3d3d3;
-}
-
-.meta a {
-    color: #404040;
-}
-
-.content pre {
-    background-color: #f0f0f0;
-}
-
-.content blockquote {
-    border-left-color: #cccccc;
-    background-color: #f0f0f0;
-}
-
-.content p > code {
-    border-color: #cccccc;
-    color: #880000;
+.main blockquote {
+  border-left: 1px solid #cccccc;
+  background-color: #f0f0f0;
 }

@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}{{ page.title }}{% endblock %}
+{% block title %}{{ page.title|striptags }}{% endblock %}
 
 {% block content %}
-<article class="main">
-    <header><h2 class="center">{{ page.title }}</h2></header>
-	<hr/>
+  <article class="typo main">
+    <header><h2>{{ page.title }}</h2></header>
+    <hr/>
     {% import 'translations.html' as translations with context %}
     {{ translations.translations_for(page) }}
-    <div class="content">{{ page.content }}</div>
-</article>
+    <section>{{ page.content }}</section>
+  </article>
 {% endblock %}

@@ -1,42 +1,49 @@
 {% extends "base.html" %}
 
 {% block content %}
-<article>
-{% if articles %}
-    {% for article in articles_page.object_list %}
-        {% if loop.first and not articles_page.has_previous() %}
-            <aside class="main">
-                <h2 class="center"><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h2>
-				<hr/>
-                {% include 'article_infos.html' %}
-				<div class="content">{{ article.content }}</div>
-            </aside>
-            {% if loop.length > 1 %}
-				<hr/>
-                <aside class="others">
-                    <h3>其他文章</h3>
-                    <ol class="list">
-            {% endif %}
-        {% else %}
-            {% if loop.first %}
-                <aside>
-                    <ol class="list">
-            {% endif %}
-            <li>
-                <a href="{{ SITEURL }}/{{ article.url }}" title="{{ article.title|striptags }}">{{ article.title }}</a>
-                {% include 'article_infos.html' %}
-            </li>
-        {% endif %}
-        {% if loop.last %}
-            {% if loop.length > 1 or articles_page.has_other_pages() %}
-                </ol>
-                {% if articles_page.has_other_pages() %}
-                    {% include 'pagination.html' %}
-                {% endif %}
-                </aside>
-            {% endif %}
-        {% endif %}
-    {% endfor %}
-{% endif %}
-</article>
+  <article class="typo main">
+  {% for article in articles_page.object_list %}
+    {% if loop.first %}
+    <section>
+      <header><h2><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h2></header>
+      <hr/>
+      <div class="meta">
+        {{ metadate(article) }}
+      </div>
+      <article>{{ article.content }}</article>
+    </section>
+    <hr/>
+      {% if loop.length > 1 %}
+    <section>
+      <h3>更多文章</h3>
+      <ol>
+      {% endif %}
+    {% endif %}
+    {% if not loop.first %}
+        <li>
+          <a href="{{ SITEURL }}/{{ article.url }}" title="{{ article.summary|striptags }}">{{ article.title }}</a>
+          {{ metadate(article) }}
+        </li>
+    {% endif %}
+    {% if loop.last and loop.length > 1 %}
+      </ol>
+    </section>
+    {% endif %}
+  {% endfor %}
+  {% if articles_page.has_other_pages() %}
+    <nav>
+    	{% if articles_page.has_previous() %}
+      <a href="{{ SITEURL }}/{{ articles_previous_page.url }}">上一页</a>
+    	{% else %}
+    	<span>上一页</span>
+    	{% endif %}
+    	{{ articles_page.number }} / {{ articles_paginator.num_pages }}
+    	{% if articles_page.has_next() %}
+    	<a href="{{ SITEURL }}/{{ articles_next_page.url }}">下一页</a>
+    	{% else %}
+    	<span>下一页</span>
+    	{% endif %}
+    </nav>
+  {% endif %}
+  </article>
 {% endblock content %}

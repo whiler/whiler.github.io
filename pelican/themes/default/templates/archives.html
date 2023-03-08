@@ -1,14 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-<article class="main">
-	<header><h2 class="center">归档</h2></header>
-	<hr/>
-	<dl>
-	{% for article in dates %}
-	    <dt>{{ article.locale_date }}</dt>
-	    <dd><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></dd>
-	{% endfor %}
-	</dl>
-</article>
+  <article class="typo main">
+    <header><h2>归档</h2></header>
+    <hr/>
+    <table>
+      <tr>
+        <th>发布时间</th>
+        <th>标题</th>
+        <th>更新时间</th>
+      </tr>
+    {% for article in dates %}
+      <tr>
+        <td><time datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time></td>
+        <td><a href="{{ SITEURL }}/{{ article.url }}" title="{{ article.summary|striptags }}">{{ article.title }}</a></td>
+        <td>{% if article.modified %}<time datetime="{{ article.modified.isoformat() }}">{{ article.locale_modified }}</time>{% endif %}</td>
+      </tr>
+    {% endfor %}
+    </table>
+  </article>
 {% endblock %}

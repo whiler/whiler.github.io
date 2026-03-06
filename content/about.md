@@ -11,8 +11,6 @@ Modified: 2026-03-06
 典型的程序员，无节操、无下限、闷骚。
 想要把代码写成一首诗，但目前只能写成一坨翔，很是苦恼。 
 
-One guy from the earth, with one mouth, two legs, four eyes and six pack abs, it's me, a software engineer, likes eating, sleeping, walking, swimming, running, playing badminton and snowboarding.
-
 ### find me ###
 - [Email](mailto:wenwu500@qq.com "mail to me")
 - [GitHub](https://github.com/whiler "whiler @ GitHub")
